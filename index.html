@@ -764,13 +764,21 @@
   }
 
   $('presetBust').addEventListener('click', () => {
-    // bust-up: top 50% of image, centered horizontally with mild margin
+    // bust-up: 正方形 (1:1) を上端寄り中央に配置
     const ref = state.images.find(i => i.id === state.refId);
-    if (state.mode === 'ratio' || !ref) {
-      state.roi = { x: 0.15, y: 0.03, w: 0.7, h: 0.5 };
+    if (!ref) {
+      state.roi = { x: 0.2, y: 0.03, w: 0.6, h: 0.6 };
     } else {
-      state.roi = { x: Math.round(ref.w * 0.15), y: Math.round(ref.h * 0.03), w: Math.round(ref.w * 0.7), h: Math.round(ref.h * 0.5) };
+      const sidePx = Math.min(ref.w * 0.7, ref.h * 0.5);
+      const xPx = (ref.w - sidePx) / 2;
+      const yPx = ref.h * 0.03;
+      if (state.mode === 'ratio') {
+        state.roi = { x: xPx / ref.w, y: yPx / ref.h, w: sidePx / ref.w, h: sidePx / ref.h };
+      } else {
+        state.roi = { x: Math.round(xPx), y: Math.round(yPx), w: Math.round(sidePx), h: Math.round(sidePx) };
+      }
     }
+    setAspect('1', true);   // ロック ON + 1:1 に整形
     layoutRoi(); writeRoiInputs();
   });
   $('presetReset').addEventListener('click', () => {
