@@ -7,9 +7,23 @@
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%234f7dff'/%3E%3Ctext x='50%25' y='56%25' font-family='system-ui,sans-serif' font-size='38' font-weight='700' text-anchor='middle' dominant-baseline='middle' fill='white'%3Et%3C/text%3E%3C/svg%3E">
-<title>tachieasy — TRPG 立ち絵 一括トリミング & タイリング</title>
+<title>tachieasy / たちいーじー — TRPG 立ち絵 一括トリミング & タイリング</title>
+<meta name="description" content="TRPG 立ち絵を一括トリミング & タイリング。すべてブラウザ内で完結、外部送信ゼロ。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="tachieasy / たちいーじー — TRPG 立ち絵 一括加工">
+<meta property="og:description" content="同一 ROI で複数立ち絵をバストアップ一括トリミング → 任意グリッドでタイリング。すべてブラウザ内、外部送信ゼロ。">
+<meta property="og:url" content="https://yyyyyyy0.github.io/tachieasy/">
+<meta property="og:image" content="https://yyyyyyy0.github.io/tachieasy/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:site_name" content="tachieasy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="tachieasy / たちいーじー">
+<meta name="twitter:description" content="TRPG 立ち絵 一括加工。100% ブラウザ内、外部送信ゼロ。">
+<meta name="twitter:image" content="https://yyyyyyy0.github.io/tachieasy/og.png">
 <style>
-  :root {
+  :root, [data-theme="dark"] {
     --bg: #14151a;
     --panel: #1d1f27;
     --panel-2: #262934;
@@ -20,20 +34,46 @@
     --accent-strong: #4f7dff;
     --danger: #ff6b6b;
     --ok: #4ade80;
-    /* surfaces */
     --canvas-bg: #0a0a0a;
     --checker-a: #222;
     --checker-b: #1a1a1a;
     --thumb-bg: rgba(0,0,0,.5);
-    /* success banner */
     --ok-bg: #0f2417;
     --ok-border: #1f5a36;
     --ok-text: #b8f0c8;
-    /* control sizes */
-    --tap: 44px;
-    --tap-md: 40px;
-    --tap-sm: 36px;
-    --tap-xs: 28px;
+    --modal-backdrop: rgba(0,0,0,.6);
+    --tap: 44px; --tap-md: 40px; --tap-sm: 36px; --tap-xs: 28px;
+  }
+  [data-theme="light"] {
+    --bg: #f7f8fa;
+    --panel: #ffffff;
+    --panel-2: #eef1f6;
+    --border: #d6dbe4;
+    --text: #1a1d24;
+    --text-dim: #5b6270;
+    --accent: #4f7dff;
+    --accent-strong: #3a66e8;
+    --danger: #d23838;
+    --ok: #1f8a4a;
+    --canvas-bg: #e9ecf2;
+    --checker-a: #d3d8e0;
+    --checker-b: #e3e7ee;
+    --thumb-bg: rgba(0,0,0,.08);
+    --ok-bg: #e8f5ec;
+    --ok-border: #99cdb0;
+    --ok-text: #155c2e;
+    --modal-backdrop: rgba(20,21,26,.45);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) { color-scheme: light; }
+    :root:not([data-theme]) {
+      --bg: #f7f8fa; --panel: #ffffff; --panel-2: #eef1f6; --border: #d6dbe4;
+      --text: #1a1d24; --text-dim: #5b6270; --accent: #4f7dff; --accent-strong: #3a66e8;
+      --danger: #d23838; --ok: #1f8a4a;
+      --canvas-bg: #e9ecf2; --checker-a: #d3d8e0; --checker-b: #e3e7ee; --thumb-bg: rgba(0,0,0,.08);
+      --ok-bg: #e8f5ec; --ok-border: #99cdb0; --ok-text: #155c2e;
+      --modal-backdrop: rgba(20,21,26,.45);
+    }
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
@@ -113,13 +153,46 @@
   summary { cursor: pointer; font-size: 12px; color: var(--text-dim); }
   footer { padding: 16px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--border); margin-top: 12px; }
   footer a { color: var(--text-dim); }
+  header .ctrl { margin-left: auto; display: flex; gap: 6px; }
+  header .ctrl button { min-height: var(--tap-xs); padding: 4px 10px; font-size: 12px; border-radius: 999px; }
+  /* tooltip via [data-tip] */
+  [data-tip] { position: relative; }
+  [data-tip]:hover::after, [data-tip]:focus-visible::after {
+    content: attr(data-tip); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+    background: var(--panel-2); color: var(--text); border: 1px solid var(--border); border-radius: 6px;
+    padding: 4px 8px; font-size: 11px; white-space: nowrap; pointer-events: none; z-index: 50;
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  }
+  /* modal */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: var(--modal-backdrop); display: none;
+    align-items: center; justify-content: center; z-index: 100; padding: 16px;
+  }
+  .modal-backdrop[open] { display: flex; }
+  .modal {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    max-width: 640px; width: 100%; max-height: 90vh; overflow: auto;
+    padding: 20px 22px; box-shadow: 0 12px 40px rgba(0,0,0,.4);
+  }
+  .modal h2 { margin: 0 0 12px; font-size: 18px; color: var(--text); text-transform: none; letter-spacing: 0; }
+  .modal h3 { font-size: 14px; margin: 16px 0 6px; color: var(--text); }
+  .modal ol, .modal ul { margin: 6px 0 12px; padding-left: 22px; }
+  .modal li { margin: 4px 0; font-size: 13px; line-height: 1.6; }
+  .modal .close-row { display: flex; justify-content: flex-end; margin-top: 14px; gap: 8px; }
+  .modal kbd { background: var(--panel-2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-size: 11px; font-family: ui-monospace, monospace; }
+  /* aspect seg buttons icon-style */
+  #aspectSeg button { font-family: ui-monospace, Menlo, monospace; font-size: 12px; padding: 6px 10px; }
 </style>
 </head>
 <body>
 <header>
-  <h1>tachieasy</h1>
+  <h1>tachieasy <span style="font-weight:400; color:var(--text-dim); font-size:12px">/ たちいーじー</span></h1>
   <span class="tag">TRPG 立ち絵 一括加工</span>
   <span class="tag">100% ブラウザ内処理</span>
+  <div class="ctrl">
+    <button id="themeBtn" type="button" data-tip="表示テーマ (auto / light / dark)">テーマ: auto</button>
+    <button id="helpBtn" type="button" data-tip="使い方を表示">使い方</button>
+  </div>
 </header>
 
 <div class="privacy-banner">
@@ -130,8 +203,8 @@
   <section class="panel">
     <h2>1. 画像を選ぶ</h2>
     <div class="row">
-      <input type="file" id="file" accept="image/*" multiple>
-      <button id="clearAll" class="icon">全クリア</button>
+      <input type="file" id="file" accept="image/*" multiple data-tip="複数画像を選択 (再選択で追加読込)">
+      <button id="clearAll" class="icon" data-tip="読み込み済み画像とトリミング結果を全消去">全クリア</button>
     </div>
     <p class="hint">複数選択可。同じサイズの立ち絵を選ぶと「絶対座標モード」が便利です。サムネをクリックすると参照画像（ROI 設定対象）になります。</p>
     <div id="imgList" class="img-list" aria-label="入力画像一覧"></div>
@@ -143,9 +216,21 @@
     <div class="row">
       <span class="hint">座標モード：</span>
       <div class="seg" role="group">
-        <button id="modeRatio" class="on" type="button">比率 (異サイズ可)</button>
-        <button id="modeAbs" type="button">絶対px (同寸前提)</button>
+        <button id="modeRatio" class="on" type="button" data-tip="各画像の幅・高さに対する比率で ROI を保持。異サイズ画像でも一括適用可">比率 (異サイズ可)</button>
+        <button id="modeAbs" type="button" data-tip="参照画像の絶対 px 座標を全画像にそのまま適用。同寸前提">絶対px (同寸前提)</button>
       </div>
+    </div>
+    <div class="row">
+      <span class="hint">アス比：</span>
+      <div class="seg" role="group" id="aspectSeg" data-tip="クロップ範囲の縦横比">
+        <button data-aspect="" class="on" type="button">自由</button>
+        <button data-aspect="1" type="button">1:1</button>
+        <button data-aspect="0.75" type="button">3:4</button>
+        <button data-aspect="0.8" type="button">4:5</button>
+        <button data-aspect="0.6667" type="button">2:3</button>
+        <button data-aspect="1.7778" type="button">16:9</button>
+      </div>
+      <label style="min-width:auto" data-tip="ドラッグ・数値編集中も縦横比を保つ"><input type="checkbox" id="aspectLock"> ロック</label>
     </div>
     <div id="roiStage" class="roi-stage empty">先に画像を読み込んでください</div>
     <div class="roi-grid">
@@ -155,11 +240,11 @@
       <div class="field"><label for="roiH">H</label><input type="number" id="roiH" step="0.001" min="0"></div>
     </div>
     <div class="row">
-      <button id="presetBust" type="button">バストアップ プリセット</button>
-      <button id="presetReset" type="button">全範囲</button>
+      <button id="presetBust" type="button" data-tip="頭部〜胸元を中心とした標準的な範囲を設定">バストアップ プリセット</button>
+      <button id="presetReset" type="button" data-tip="ROI を画像全体にリセット">全範囲</button>
     </div>
     <div class="row">
-      <button id="applyCrop" class="primary" type="button">この範囲で全画像をトリミング</button>
+      <button id="applyCrop" class="primary" type="button" data-tip="現在の ROI を全画像に適用">この範囲で全画像をトリミング</button>
     </div>
     <p id="cropMsg" class="hint"></p>
   </section>
@@ -168,9 +253,10 @@
     <h2>3. トリミング結果（ドラッグで並び替え）</h2>
     <div id="cropList" class="crop-list" aria-label="トリミング後画像"></div>
     <div class="row">
-      <button id="dlEach" type="button">1 枚ずつ DL</button>
+      <button id="dlEach" type="button" data-tip="トリミング結果を 1 枚ずつ PNG で連続 DL">1 枚ずつ DL</button>
       <span id="cropCount" class="hint"></span>
     </div>
+    <p class="hint">モバイルで保存できない場合: サムネを <strong>長押し</strong> (iOS) または <strong>右クリック</strong> (PC) で「画像を保存」してください。</p>
   </section>
 
   <section class="panel">
@@ -214,18 +300,63 @@
   <section class="panel">
     <h2>5. プレビュー & ダウンロード</h2>
     <div class="row">
-      <button id="renderTile" class="primary" type="button">プレビュー生成</button>
-      <button id="dlTile" type="button" disabled>タイル画像を DL</button>
+      <button id="renderTile" class="primary" type="button" data-tip="現在の設定でタイル画像を生成 & プレビュー">プレビュー生成</button>
+      <button id="dlTile" type="button" disabled data-tip="生成済みのタイル画像をダウンロード">タイル画像を DL</button>
     </div>
     <p id="tileInfo" class="hint"></p>
+    <p class="hint">DL できない場合は下のプレビューを <strong>長押し</strong> / <strong>右クリック</strong> → 「画像を保存」でも可。</p>
     <div class="preview-wrap"><canvas id="preview"></canvas></div>
   </section>
 </main>
 
 <footer>
-  tachieasy — 単一 HTML / GitHub Pages / 外部送信ゼロ ·
+  tachieasy / たちいーじー — 単一 HTML / GitHub Pages / 外部送信ゼロ ·
   <a href="https://github.com/yyyyyyy0/tachieasy" rel="noopener">GitHub</a>
 </footer>
+
+<div id="helpModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+  <div class="modal">
+    <h2 id="helpTitle">tachieasy / たちいーじー の使い方</h2>
+    <p style="font-size:13px; color:var(--text-dim); margin:0 0 8px">TRPG セッション用の立ち絵を一括バストアップトリミング → タイル合成する単一 HTML ツール。すべての処理はブラウザ内で完結し、画像は外部に送信されません。</p>
+
+    <h3>5 ステップで完了</h3>
+    <ol>
+      <li><strong>画像を選ぶ</strong>: 「ファイル選択」で複数枚を選択。サムネをクリックで参照画像に切替。</li>
+      <li><strong>ROI を決める</strong>: 「アス比」プリセット (1:1 / 3:4 / 4:5 / 2:3 / 16:9) を選び、必要なら「ロック」をオン。矩形をドラッグ・隅をリサイズ。「バストアップ プリセット」で目安。</li>
+      <li><strong>一括トリミング</strong>: 「この範囲で全画像をトリミング」でまとめて切り抜き。比率モードなら異サイズ OK。</li>
+      <li><strong>並び替え</strong>: トリミング結果のサムネをドラッグで並び替え。</li>
+      <li><strong>タイリング & DL</strong>: 列数・背景・形式を設定 → 「プレビュー生成」 → 「タイル画像を DL」。</li>
+    </ol>
+
+    <h3>背景色</h3>
+    <ul>
+      <li><strong>透過</strong>: PNG のみ。チェックを外すと色を指定可。</li>
+      <li><strong>ColorPicker / hex 入力</strong>: 双方向同期。<code>#RRGGBB</code> で入力。</li>
+      <li><strong>JPEG モード</strong>: 透過不可。自動で透過が OFF になります。</li>
+    </ul>
+
+    <h3>アス比ロックの挙動</h3>
+    <ul>
+      <li>プリセットを押すと自動でロック ON。中心を保ったまま指定比率に整形。</li>
+      <li>ロック中はドラッグ・数値入力どちらも比率を維持。「自由」を選ぶとロック解除。</li>
+    </ul>
+
+    <h3>テーマ</h3>
+    <ul>
+      <li>右上「テーマ」ボタンで <kbd>auto</kbd> → <kbd>light</kbd> → <kbd>dark</kbd> を循環。設定はブラウザに保存。</li>
+    </ul>
+
+    <h3>プライバシー</h3>
+    <ul>
+      <li>CSP <code>connect-src 'none'</code> により <code>fetch / XHR / WebSocket</code> はすべてブロック。</li>
+      <li>DevTools Network をオフラインにしても全機能が動作します。</li>
+    </ul>
+
+    <div class="close-row">
+      <button id="helpClose" class="primary" type="button">閉じる (<kbd>Esc</kbd>)</button>
+    </div>
+  </div>
+</div>
 
 <script>
 (() => {
@@ -237,11 +368,17 @@
     refId: null,
     roi: { x: 0.1, y: 0.05, w: 0.8, h: 0.6 }, // ratio (0-1) when mode==='ratio'; px when mode==='abs'
     mode: 'ratio',
+    aspect: null,   // null = free, otherwise w/h target ratio (in image pixel space)
+    aspectLock: false,
     crops: [],      // {id, canvas, url, srcId}
     fmt: 'png',
     fit: 'fit',
     quality: 0.92,
     nextId: 1,
+  };
+  const LS = {
+    THEME: 'tachieasy.theme',
+    HELP_SEEN: 'tachieasy.helpSeen',
   };
 
   const $ = (id) => document.getElementById(id);
@@ -402,6 +539,61 @@
     roiEl.style.height = rh + 'px';
   }
 
+  // returns {a, imgRatio} for current state. effective constraint: roi.w/roi.h (image-px) = a
+  // imgRatio is the conversion factor from "ratio-mode roi.w/roi.h" to "image-px ratio".
+  function getAspect() {
+    if (!state.aspect || !state.aspectLock) return null;
+    const ref = state.images.find(i => i.id === state.refId);
+    let imgRatio = 1; // ratio-mode roi.w / roi.h to image-px w/h
+    if (state.mode === 'ratio' && ref) imgRatio = ref.w / ref.h; // since w_px = roi.w * ref.w
+    return { a: state.aspect, imgRatio };
+  }
+
+  // In disp space, dispW/dispH preserves image aspect, so a (image-px) is also w/h in disp space.
+  function applyAspectToDisp(handle, x, y, w, h, r0, meta) {
+    const ag = getAspect();
+    if (!ag) return { x, y, w, h };
+    const a = ag.a;
+    // anchor based on handle (uses r0 = original rect at drag start, in disp space)
+    let fx, fy;
+    switch (handle) {
+      case 'nw': fx = r0.x + r0.w; fy = r0.y + r0.h; break;
+      case 'ne': fx = r0.x;        fy = r0.y + r0.h; break;
+      case 'sw': fx = r0.x + r0.w; fy = r0.y;        break;
+      case 'se': fx = r0.x;        fy = r0.y;        break;
+      case 'n':  fx = r0.x + r0.w / 2; fy = r0.y + r0.h; break;
+      case 's':  fx = r0.x + r0.w / 2; fy = r0.y;        break;
+      case 'w':  fx = r0.x + r0.w; fy = r0.y + r0.h / 2; break;
+      case 'e':  fx = r0.x;        fy = r0.y + r0.h / 2; break;
+      default: return { x, y, w, h };
+    }
+    if (handle === 'n' || handle === 's') w = h * a;
+    else if (handle === 'w' || handle === 'e') h = w / a;
+    else { // corners — pick larger (more responsive)
+      const wFromH = h * a, hFromW = w / a;
+      if (wFromH >= w) w = wFromH; else h = hFromW;
+    }
+    // reposition
+    switch (handle) {
+      case 'nw': x = fx - w; y = fy - h; break;
+      case 'ne': x = fx;     y = fy - h; break;
+      case 'sw': x = fx - w; y = fy;     break;
+      case 'se': x = fx;     y = fy;     break;
+      case 'n':  x = fx - w / 2; y = fy - h; break;
+      case 's':  x = fx - w / 2; y = fy;     break;
+      case 'w':  x = fx - w; y = fy - h / 2; break;
+      case 'e':  x = fx;     y = fy - h / 2; break;
+    }
+    // bound: shrink keeping ratio if overflow
+    if (w > meta.dispW) { w = meta.dispW; h = w / a; }
+    if (h > meta.dispH) { h = meta.dispH; w = h * a; }
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (x + w > meta.dispW) x = meta.dispW - w;
+    if (y + h > meta.dispH) y = meta.dispH - h;
+    return { x, y, w, h };
+  }
+
   function pointerToImageCoord(e) {
     const rect = stageEl.getBoundingClientRect();
     const meta = stageEl._dispMeta;
@@ -450,6 +642,9 @@
         case 'w':  { const nx = clamp(x + dx, 0, x + w - minSize); w += x - nx; x = nx; break; }
         case 'e':  { w = clamp(w + dx, minSize, meta.dispW - x); break; }
       }
+      // apply aspect lock if active
+      const adj = applyAspectToDisp(drag.handle, x, y, w, h, drag.r0, meta);
+      x = adj.x; y = adj.y; w = adj.w; h = adj.h;
       // write back to state
       writeRoiFromDisp(x, y, w, h);
       layoutRoi();
@@ -491,17 +686,27 @@
     writeRoiInputs();
   }
 
-  function readRoiInputs() {
+  function readRoiInputs(changedKey) {
     const r = {
       x: parseFloat($('roiX').value) || 0,
       y: parseFloat($('roiY').value) || 0,
       w: parseFloat($('roiW').value) || 0,
       h: parseFloat($('roiH').value) || 0,
     };
+    const ag = getAspect();
+    if (ag) {
+      // effective ratio in roi units: roiW/roiH = a / imgRatio_inv ... compute target
+      // image-px ratio = (r.w * imgW) / (r.h * imgH) = a
+      // -> r.w / r.h = a * imgH / imgW = a / imgRatio
+      const target = ag.a / ag.imgRatio;
+      if (changedKey === 'h') r.w = r.h * target;
+      else r.h = r.w / target;
+    }
     state.roi = r;
     layoutRoi();
+    if (ag) writeRoiInputs();
   }
-  ['roiX','roiY','roiW','roiH'].forEach(id => $(id).addEventListener('input', readRoiInputs));
+  ['roiX','roiY','roiW','roiH'].forEach(id => $(id).addEventListener('input', () => readRoiInputs(id.slice(3).toLowerCase())));
 
   // mode toggle
   $('modeRatio').addEventListener('click', () => switchMode('ratio'));
@@ -758,6 +963,86 @@
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
+
+  // ====== Aspect presets ======
+  function reshapeRoiToAspect() {
+    const ag = getAspect();
+    if (!ag) return;
+    const ref = state.images.find(i => i.id === state.refId);
+    // operate in image-px space, then convert back if needed
+    let wPx, hPx, xPx, yPx, imgW, imgH;
+    if (state.mode === 'ratio') {
+      if (!ref) return;
+      imgW = ref.w; imgH = ref.h;
+      xPx = state.roi.x * imgW; yPx = state.roi.y * imgH;
+      wPx = state.roi.w * imgW; hPx = state.roi.h * imgH;
+    } else {
+      if (!ref) return;
+      imgW = ref.w; imgH = ref.h;
+      xPx = state.roi.x; yPx = state.roi.y; wPx = state.roi.w; hPx = state.roi.h;
+    }
+    // keep center, set h from w (or shrink whichever exceeds bounds)
+    const cx = xPx + wPx / 2, cy = yPx + hPx / 2;
+    let nw = wPx, nh = wPx / ag.a;
+    if (nh > hPx) { nh = hPx; nw = nh * ag.a; }
+    nw = Math.min(nw, imgW); nh = Math.min(nh, imgH);
+    if (nw / nh > ag.a) nw = nh * ag.a; else nh = nw / ag.a;
+    let nx = cx - nw / 2, ny = cy - nh / 2;
+    nx = Math.max(0, Math.min(imgW - nw, nx));
+    ny = Math.max(0, Math.min(imgH - nh, ny));
+    if (state.mode === 'ratio') {
+      state.roi = { x: nx / imgW, y: ny / imgH, w: nw / imgW, h: nh / imgH };
+    } else {
+      state.roi = { x: Math.round(nx), y: Math.round(ny), w: Math.round(nw), h: Math.round(nh) };
+    }
+    layoutRoi(); writeRoiInputs();
+  }
+
+  function setAspect(value, fromButton) {
+    if (value === '' || value == null) {
+      state.aspect = null;
+      if (fromButton) state.aspectLock = false;
+    } else {
+      state.aspect = parseFloat(value);
+      if (fromButton) state.aspectLock = true;
+    }
+    document.querySelectorAll('#aspectSeg button').forEach(b => {
+      b.classList.toggle('on', (b.dataset.aspect || '') === (value ?? ''));
+    });
+    $('aspectLock').checked = state.aspectLock;
+    if (state.aspect && state.aspectLock) reshapeRoiToAspect();
+  }
+  document.querySelectorAll('#aspectSeg button').forEach(b => {
+    b.addEventListener('click', () => setAspect(b.dataset.aspect || '', true));
+  });
+  $('aspectLock').addEventListener('change', () => {
+    state.aspectLock = $('aspectLock').checked;
+    if (state.aspect && state.aspectLock) reshapeRoiToAspect();
+  });
+
+  // ====== Theme ======
+  function applyTheme(t) {
+    if (t === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', t);
+    $('themeBtn').textContent = 'テーマ: ' + t;
+    try { localStorage.setItem(LS.THEME, t); } catch {}
+  }
+  function nextTheme(cur) { return ({ auto: 'light', light: 'dark', dark: 'auto' })[cur] || 'auto'; }
+  let curTheme = 'auto';
+  try { curTheme = localStorage.getItem(LS.THEME) || 'auto'; } catch {}
+  applyTheme(curTheme);
+  $('themeBtn').addEventListener('click', () => { curTheme = nextTheme(curTheme); applyTheme(curTheme); });
+
+  // ====== Help modal ======
+  const helpModal = $('helpModal');
+  function openHelp() { helpModal.setAttribute('open', ''); }
+  function closeHelp() { helpModal.removeAttribute('open'); try { localStorage.setItem(LS.HELP_SEEN, '1'); } catch {} }
+  $('helpBtn').addEventListener('click', openHelp);
+  $('helpClose').addEventListener('click', closeHelp);
+  helpModal.addEventListener('click', (e) => { if (e.target === helpModal) closeHelp(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && helpModal.hasAttribute('open')) closeHelp(); });
+  // first-visit auto-open
+  try { if (!localStorage.getItem(LS.HELP_SEEN)) openHelp(); } catch {}
 
   // ====== init ======
   updateRoiUI();
