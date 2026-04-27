@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark light">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%234f7dff'/%3E%3Ctext x='50%25' y='56%25' font-family='system-ui,sans-serif' font-size='38' font-weight='700' text-anchor='middle' dominant-baseline='middle' fill='white'%3Et%3C/text%3E%3C/svg%3E">
 <title>tachieasy / たちいーじー — TRPG 立ち絵 一括トリミング & タイリング</title>
 <meta name="description" content="TRPG 立ち絵を一括トリミング & タイリング。すべてブラウザ内で完結、外部送信ゼロ。">
 <meta property="og:type" content="website">
@@ -22,312 +21,820 @@
 <meta name="twitter:title" content="tachieasy / たちいーじー">
 <meta name="twitter:description" content="TRPG 立ち絵 一括加工。100% ブラウザ内、外部送信ゼロ。">
 <meta name="twitter:image" content="https://yyyyyyy0.github.io/tachieasy/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234f7dff'/%3E%3Ctext x='50%25' y='58%25' font-family='system-ui,sans-serif' font-size='38' font-weight='700' text-anchor='middle' dominant-baseline='middle' fill='white'%3Et%3C/text%3E%3C/svg%3E">
 <style>
   :root, [data-theme="dark"] {
-    --bg: #14151a;
-    --panel: #1d1f27;
-    --panel-2: #262934;
-    --border: #2f3340;
-    --text: #e6e8ee;
-    --text-dim: #9aa0ad;
+    --bg: #0e1014;
+    --bg-soft: #14171f;
+    --panel: #181b25;
+    --panel-2: #1f2330;
+    --panel-3: #262b3b;
+    --border: #2a2f3e;
+    --border-strong: #353b4d;
+    --text: #ecedf3;
+    --text-dim: #8d93a4;
+    --text-faint: #5b6173;
     --accent: #7aa2ff;
     --accent-strong: #4f7dff;
-    --danger: #ff6b6b;
+    --accent-soft: rgba(79,125,255,.14);
+    --accent-glow: rgba(79,125,255,.32);
+    --danger: #ff6f6f;
     --ok: #4ade80;
+    --warn: #ffb454;
     --canvas-bg: #0a0a0a;
-    --checker-a: #222;
-    --checker-b: #1a1a1a;
+    --checker-a: #1a1d24;
+    --checker-b: #14171f;
     --thumb-bg: rgba(0,0,0,.5);
-    --ok-bg: #0f2417;
-    --ok-border: #1f5a36;
-    --ok-text: #b8f0c8;
-    --modal-backdrop: rgba(0,0,0,.6);
-    --tap: 44px; --tap-md: 40px; --tap-sm: 36px; --tap-xs: 28px;
+    --ok-bg: rgba(74,222,128,.08);
+    --ok-border: rgba(74,222,128,.25);
+    --ok-text: #86efac;
+    --modal-backdrop: rgba(6,8,12,.72);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.4);
+    --shadow-lg: 0 16px 48px rgba(0,0,0,.55);
+    --tap: 44px; --tap-md: 38px; --tap-sm: 32px; --tap-xs: 26px;
+    --r-xs: 4px; --r-sm: 8px; --r-md: 10px; --r-lg: 14px; --r-xl: 18px; --r-pill: 999px;
+    color-scheme: dark;
   }
   [data-theme="light"] {
-    --bg: #f7f8fa;
+    --bg: #f4f6fb;
+    --bg-soft: #eaeef5;
     --panel: #ffffff;
-    --panel-2: #eef1f6;
-    --border: #d6dbe4;
-    --text: #1a1d24;
-    --text-dim: #5b6270;
+    --panel-2: #f4f6fb;
+    --panel-3: #e7ecf4;
+    --border: #dde2ec;
+    --border-strong: #c4cbda;
+    --text: #1a1d28;
+    --text-dim: #5a6172;
+    --text-faint: #8b91a3;
     --accent: #4f7dff;
     --accent-strong: #3a66e8;
+    --accent-soft: rgba(79,125,255,.10);
+    --accent-glow: rgba(79,125,255,.18);
     --danger: #d23838;
     --ok: #1f8a4a;
-    --canvas-bg: #e9ecf2;
-    --checker-a: #d3d8e0;
-    --checker-b: #e3e7ee;
-    --thumb-bg: rgba(0,0,0,.08);
-    --ok-bg: #e8f5ec;
-    --ok-border: #99cdb0;
+    --warn: #c97a14;
+    --canvas-bg: #e6eaf2;
+    --checker-a: #d3d8e4;
+    --checker-b: #e3e7f0;
+    --thumb-bg: rgba(0,0,0,.06);
+    --ok-bg: rgba(31,138,74,.08);
+    --ok-border: rgba(31,138,74,.25);
     --ok-text: #155c2e;
-    --modal-backdrop: rgba(20,21,26,.45);
+    --modal-backdrop: rgba(20,28,48,.45);
+    --shadow-sm: 0 1px 2px rgba(20,30,50,.06);
+    --shadow-md: 0 4px 16px rgba(20,30,50,.08);
+    --shadow-lg: 0 24px 56px rgba(20,30,50,.18);
+    color-scheme: light;
   }
   @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) { color-scheme: light; }
     :root:not([data-theme]) {
-      --bg: #f7f8fa; --panel: #ffffff; --panel-2: #eef1f6; --border: #d6dbe4;
-      --text: #1a1d24; --text-dim: #5b6270; --accent: #4f7dff; --accent-strong: #3a66e8;
-      --danger: #d23838; --ok: #1f8a4a;
-      --canvas-bg: #e9ecf2; --checker-a: #d3d8e0; --checker-b: #e3e7ee; --thumb-bg: rgba(0,0,0,.08);
-      --ok-bg: #e8f5ec; --ok-border: #99cdb0; --ok-text: #155c2e;
-      --modal-backdrop: rgba(20,21,26,.45);
+      --bg: #f4f6fb; --bg-soft: #eaeef5; --panel: #ffffff; --panel-2: #f4f6fb; --panel-3: #e7ecf4;
+      --border: #dde2ec; --border-strong: #c4cbda;
+      --text: #1a1d28; --text-dim: #5a6172; --text-faint: #8b91a3;
+      --accent: #4f7dff; --accent-strong: #3a66e8;
+      --accent-soft: rgba(79,125,255,.10); --accent-glow: rgba(79,125,255,.18);
+      --danger: #d23838; --ok: #1f8a4a; --warn: #c97a14;
+      --canvas-bg: #e6eaf2; --checker-a: #d3d8e4; --checker-b: #e3e7f0;
+      --thumb-bg: rgba(0,0,0,.06);
+      --ok-bg: rgba(31,138,74,.08); --ok-border: rgba(31,138,74,.25); --ok-text: #155c2e;
+      --modal-backdrop: rgba(20,28,48,.45);
+      color-scheme: light;
     }
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
     font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
-    font-size: 14px; line-height: 1.5; }
-  body { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
-  header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  header h1 { font-size: 16px; margin: 0; font-weight: 600; }
-  header .tag { font-size: 11px; color: var(--text-dim); border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; }
-  .privacy-banner { background: var(--ok-bg); border: 1px solid var(--ok-border); color: var(--ok-text); padding: 8px 12px; font-size: 12px; border-radius: 6px; margin: 8px 16px; }
-  main { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 12px; max-width: 1400px; margin: 0 auto; }
-  @media (min-width: 980px) { main { grid-template-columns: 1fr 1fr; } .full { grid-column: 1 / -1; } }
-  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
-  .panel h2 { font-size: 13px; margin: 0 0 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
-  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 6px 0; }
-  .row label { font-size: 12px; color: var(--text-dim); min-width: 64px; }
-  .field { display: inline-flex; align-items: center; gap: 6px; }
-  .field label { min-width: 0; }
-  .field input { width: 90px; min-width: 60px; }
-  .roi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin: 6px 0; }
-  .roi-grid .field { width: 100%; }
-  .roi-grid .field input { flex: 1; width: auto; }
-  button, input[type=file]::file-selector-button {
-    background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
-    border-radius: 6px; padding: 8px 12px; font-size: 13px; cursor: pointer; min-height: var(--tap-md);
+    font-size: 14px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
   }
-  button.primary { background: var(--accent-strong); border-color: var(--accent-strong); color: white; font-weight: 600; }
-  button.primary:hover { background: var(--accent); }
-  button:disabled { opacity: .4; cursor: not-allowed; }
-  button.icon { padding: 4px 8px; min-height: var(--tap-xs); font-size: 12px; }
-  input[type=number], input[type=text] {
-    background: var(--bg); color: var(--text); border: 1px solid var(--border);
-    border-radius: 6px; padding: 6px 8px; font-size: 13px; min-height: var(--tap-sm); min-width: 60px;
+  body {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse 1200px 600px at 0% -10%, var(--accent-soft), transparent 60%),
+      radial-gradient(ellipse 800px 400px at 100% 0%, var(--accent-soft), transparent 60%);
+    background-attachment: fixed;
   }
-  input[type=color] { width: var(--tap); height: var(--tap-sm); border: 1px solid var(--border); border-radius: 6px; background: var(--bg); padding: 2px; cursor: pointer; }
-  input[type=checkbox] { width: 18px; height: 18px; }
-  input[type=range] { flex: 1; min-width: 100px; }
-  .img-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; max-height: 180px; overflow-y: auto; padding: 4px; background: var(--bg); border-radius: 6px; }
-  .img-list .item { position: relative; width: 64px; height: 64px; border: 2px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; flex-shrink: 0; background: var(--thumb-bg); }
-  .img-list .item.ref { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(122,162,255,.3); }
-  .img-list .item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .img-list .item .x { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,.7); color: white; border: none; width: 20px; height: 20px; min-height: 0; border-radius: 50%; font-size: 13px; line-height: 1; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .img-list .item .x:hover { background: var(--danger); }
-  .img-list .item .name { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,.7); color: white; font-size: 11px; padding: 2px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
-  .roi-stage {
-    position: relative; width: 100%; background: var(--canvas-bg) repeating-conic-gradient(var(--checker-a) 0 25%, var(--checker-b) 0 50%) 0 0 / 16px 16px;
-    border-radius: 6px; overflow: hidden; touch-action: none; user-select: none;
-    aspect-ratio: 4/3;
+  ::selection { background: var(--accent-strong); color: white; }
+
+  /* HEADER */
+  header.app-header {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
   }
-  .roi-stage.empty { display: flex; align-items: center; justify-content: center; color: var(--text); font-size: 13px;
-    background: var(--canvas-bg); }
-  .roi-stage img { position: absolute; pointer-events: none; }
-  .roi-rect { position: absolute; border: 2px solid var(--accent); background: rgba(122,162,255,.15); box-sizing: border-box; cursor: move; }
-  .roi-rect .h { position: absolute; width: 16px; height: 16px; background: white; border: 2px solid var(--accent-strong); border-radius: 50%; }
-  .roi-rect .h.nw { top: -10px; left: -10px; cursor: nwse-resize; }
-  .roi-rect .h.ne { top: -10px; right: -10px; cursor: nesw-resize; }
-  .roi-rect .h.sw { bottom: -10px; left: -10px; cursor: nesw-resize; }
-  .roi-rect .h.se { bottom: -10px; right: -10px; cursor: nwse-resize; }
-  .roi-rect .h.n  { top: -10px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
-  .roi-rect .h.s  { bottom: -10px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
-  .roi-rect .h.w  { left: -10px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
-  .roi-rect .h.e  { right: -10px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
-  .crop-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; min-height: 80px; padding: 4px; background: var(--bg); border-radius: 6px; }
-  .crop-list .citem { width: 80px; height: 80px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; cursor: grab; position: relative; flex-shrink: 0; background: var(--thumb-bg); }
-  .crop-list .citem.dragging { opacity: .4; }
-  .crop-list .citem.over { box-shadow: inset 0 0 0 3px var(--accent); }
-  .crop-list .citem img { width: 100%; height: 100%; object-fit: contain; display: block; }
-  .crop-list .citem .idx { position: absolute; top: 1px; left: 2px; color: white; font-size: 10px; background: rgba(0,0,0,.6); padding: 0 4px; border-radius: 3px; }
-  .preview-wrap { background: var(--canvas-bg) repeating-conic-gradient(var(--checker-a) 0 25%, var(--checker-b) 0 50%) 0 0 / 16px 16px; border-radius: 6px; padding: 8px; overflow: auto; max-height: 60vh; text-align: center; }
-  .preview-wrap canvas { max-width: 100%; height: auto; display: inline-block; vertical-align: top; background: transparent; }
-  .hint { font-size: 11px; color: var(--text-dim); }
-  .err { color: var(--danger); font-size: 12px; }
-  .ok { color: var(--ok); font-size: 12px; }
-  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
-  .seg button { border: none; border-radius: 0; background: var(--panel-2); padding: 6px 10px; min-height: 36px; }
-  .seg button.on { background: var(--accent-strong); color: white; }
-  details { margin-top: 6px; }
-  summary { cursor: pointer; font-size: 12px; color: var(--text-dim); }
-  footer { padding: 16px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--border); margin-top: 12px; }
-  footer a { color: var(--text-dim); }
-  header .ctrl { margin-left: auto; display: flex; gap: 6px; }
-  header .ctrl button { min-height: var(--tap-xs); padding: 4px 10px; font-size: 12px; border-radius: 999px; }
-  /* tooltip — single floating element, positioned via JS */
-  .tip {
-    position: fixed; display: none; z-index: 1000;
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand .logo {
+    width: 32px; height: 32px; border-radius: var(--r-md);
+    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    display: grid; place-items: center;
+    color: white; font-weight: 700; font-size: 16px;
+    box-shadow: 0 4px 14px var(--accent-glow);
+    position: relative; overflow: hidden;
+  }
+  .brand .logo::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,.25), transparent 50%);
+  }
+  .brand .name { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+  .brand .name span { font-weight: 400; color: var(--text-dim); margin-left: 6px; font-size: 12px; }
+
+  .privacy-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 11px 5px 9px;
+    background: var(--ok-bg); border: 1px solid var(--ok-border);
+    color: var(--ok-text); border-radius: var(--r-pill);
+    font-size: 11.5px; font-weight: 500;
+  }
+  .privacy-pill svg { width: 12px; height: 12px; }
+  .privacy-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+  .ctrl { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .ctrl button {
     background: var(--panel-2); color: var(--text);
-    border: 1px solid var(--border); border-radius: 6px;
-    padding: 5px 9px; font-size: 11px; line-height: 1.35;
-    max-width: 260px; white-space: normal; word-break: break-word;
-    pointer-events: none; box-shadow: 0 6px 18px rgba(0,0,0,.3);
+    border: 1px solid var(--border); border-radius: var(--r-pill);
+    padding: 6px 12px; font-size: 12px; font-weight: 500;
+    min-height: var(--tap-sm); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: all .15s ease; font-family: inherit;
   }
-  .tip[data-show] { display: block; }
-  /* modal */
+  .ctrl button:hover { background: var(--panel-3); border-color: var(--border-strong); }
+  .ctrl button svg { width: 14px; height: 14px; }
+  .ctrl .theme-btn .swatch {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: linear-gradient(135deg, #fff 50%, #2b2f3a 50%);
+    border: 1px solid var(--border-strong);
+  }
+
+  /* HERO STRIP */
+  .hero-strip {
+    max-width: 1320px; margin: 18px auto 0; padding: 0 20px;
+    display: flex; gap: 14px; align-items: stretch; flex-wrap: wrap;
+  }
+  .hero-card {
+    flex: 1; min-width: 240px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-lg);
+    padding: 14px 16px;
+    display: flex; gap: 12px; align-items: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .hero-card .ico {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: var(--r-md);
+    background: var(--accent-soft); color: var(--accent-strong);
+    display: grid; place-items: center;
+  }
+  .hero-card .ico svg { width: 18px; height: 18px; }
+  .hero-card h4 { font-size: 13px; font-weight: 600; margin: 0 0 1px; }
+  .hero-card p { margin: 0; font-size: 12px; color: var(--text-dim); }
+
+  /* MAIN */
+  main {
+    max-width: 1320px; margin: 0 auto; padding: 14px 20px 40px;
+    display: grid; gap: 14px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 1080px) {
+    main { grid-template-columns: 1fr 1fr; }
+    .full { grid-column: 1 / -1; }
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 16px 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .panel-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .step-badge {
+    width: 26px; height: 26px; flex-shrink: 0;
+    border-radius: var(--r-sm);
+    background: var(--accent-soft); color: var(--accent-strong);
+    display: grid; place-items: center;
+    font-weight: 700; font-size: 12px;
+    border: 1px solid color-mix(in srgb, var(--accent-strong) 20%, transparent);
+  }
+  .panel h2 { font-size: 14px; font-weight: 600; margin: 0; letter-spacing: -0.005em; }
+  .panel-sub { font-size: 11.5px; color: var(--text-dim); margin-left: auto; }
+
+  /* FORM */
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+  .row > .label { font-size: 12px; color: var(--text-dim); min-width: 64px; }
+  .field { display: inline-flex; align-items: center; gap: 6px; }
+
+  button, .btn {
+    background: var(--panel-2); color: var(--text);
+    border: 1px solid var(--border); border-radius: var(--r-md);
+    padding: 8px 14px; font-size: 13px; font-weight: 500;
+    cursor: pointer; min-height: var(--tap-md);
+    transition: all .15s ease;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: inherit;
+  }
+  button:hover { background: var(--panel-3); border-color: var(--border-strong); }
+  button.primary {
+    background: var(--accent-strong); border-color: var(--accent-strong); color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 8px var(--accent-glow);
+  }
+  button.primary:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 4px 14px var(--accent-glow); }
+  button.ghost { background: transparent; }
+  button:disabled { opacity: .35; cursor: not-allowed; box-shadow: none; }
+  button.icon-only { padding: 6px 8px; min-height: var(--tap-xs); font-size: 11px; }
+
+  input[type=number], input[type=text] {
+    background: var(--bg-soft); color: var(--text);
+    border: 1px solid var(--border); border-radius: var(--r-sm);
+    padding: 6px 10px; font-size: 13px; min-height: var(--tap-sm); min-width: 60px;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace;
+    font-feature-settings: "tnum";
+  }
+  input[type=text].mono { font-family: ui-monospace, "JetBrains Mono", monospace; }
+  input:focus { outline: none; border-color: var(--accent-strong); box-shadow: 0 0 0 3px var(--accent-soft); }
+  input[type=color] {
+    width: 38px; height: var(--tap-sm); padding: 2px;
+    border: 1px solid var(--border); border-radius: var(--r-sm);
+    background: var(--bg-soft); cursor: pointer;
+  }
+  input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--accent-strong); }
+  input[type=range] { flex: 1; min-width: 100px; accent-color: var(--accent-strong); }
+  input[type=file] {
+    background: var(--bg-soft); border: 1px dashed var(--border-strong);
+    padding: 6px; border-radius: var(--r-sm); font-size: 12px; color: var(--text-dim);
+    cursor: pointer;
+  }
+  input[type=file]::file-selector-button {
+    background: var(--panel-3); color: var(--text); border: 1px solid var(--border);
+    border-radius: var(--r-sm); padding: 6px 12px; margin-right: 10px;
+    font-size: 12px; font-weight: 500; cursor: pointer;
+  }
+  input[type=file]::file-selector-button:hover { background: var(--accent-strong); color: white; border-color: var(--accent-strong); }
+
+  /* segmented */
+  .seg {
+    display: inline-flex; padding: 3px;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: var(--r-md); gap: 2px;
+  }
+  .seg button {
+    border: none; background: transparent;
+    padding: 5px 10px; min-height: 28px;
+    border-radius: 6px;
+    font-size: 12px; font-weight: 500; color: var(--text-dim);
+    box-shadow: none;
+  }
+  .seg button:hover { background: var(--panel-2); color: var(--text); }
+  .seg button.on {
+    background: var(--accent-strong); color: white;
+    box-shadow: 0 1px 3px var(--accent-glow);
+  }
+  .seg button.on:hover { background: var(--accent); }
+
+  /* aspect seg with icons */
+  #aspectSeg button {
+    padding: 4px 8px; min-height: 36px;
+    display: inline-flex; flex-direction: column; align-items: center; gap: 2px;
+    font-family: ui-monospace, monospace; font-size: 10px;
+  }
+  #aspectSeg button svg { width: 18px; height: 18px; }
+  #aspectSeg button .lab { font-size: 10px; line-height: 1; opacity: .85; }
+
+  /* IMG LIST */
+  .img-list {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 10px; padding: 8px;
+    background: var(--bg-soft); border-radius: var(--r-md);
+    border: 1px solid var(--border);
+    max-height: 200px; overflow-y: auto;
+    min-height: 88px;
+  }
+  .img-list:empty::after {
+    content: "ファイルを選択するとサムネがここに並びます";
+    color: var(--text-faint); font-size: 12px; margin: auto;
+  }
+  .img-list .item {
+    position: relative; width: 72px; height: 72px;
+    border: 2px solid transparent; border-radius: var(--r-sm);
+    overflow: hidden; cursor: pointer; flex-shrink: 0;
+    background: var(--thumb-bg);
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .img-list .item:hover { transform: translateY(-2px); }
+  .img-list .item.ref {
+    border-color: var(--accent-strong);
+    box-shadow: 0 0 0 3px var(--accent-soft), 0 4px 12px var(--accent-glow);
+  }
+  .img-list .item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .img-list .item .x {
+    position: absolute; top: 4px; right: 4px;
+    background: rgba(0,0,0,.7); color: white;
+    border: none; width: 20px; height: 20px; min-height: 0;
+    border-radius: 50%; font-size: 13px; line-height: 1; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .15s ease;
+  }
+  .img-list .item:hover .x { opacity: 1; }
+  .img-list .item .x:hover { background: var(--danger); }
+  .img-list .item .name {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,.85));
+    color: white; font-size: 10px; padding: 8px 4px 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    line-height: 1.2;
+  }
+
+  /* ROI STAGE */
+  .roi-stage {
+    position: relative; width: 100%;
+    aspect-ratio: 4/3;
+    background: var(--canvas-bg) repeating-conic-gradient(var(--checker-a) 0 25%, var(--checker-b) 0 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    overflow: hidden; touch-action: none; user-select: none;
+    margin: 12px 0;
+  }
+  .roi-stage.empty {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-faint); font-size: 13px;
+    background: var(--bg-soft);
+    flex-direction: column; gap: 12px;
+  }
+  .roi-stage.empty svg { width: 56px; height: 56px; opacity: .35; }
+  .roi-stage img { position: absolute; pointer-events: none; }
+  .roi-rect {
+    position: absolute;
+    border: 2px solid var(--accent-strong);
+    background: var(--accent-soft);
+    box-sizing: border-box; cursor: move;
+    box-shadow: 0 0 0 9999px rgba(0,0,0,.32);
+  }
+  .roi-rect::before, .roi-rect::after {
+    content: ""; position: absolute; left: 0; right: 0;
+    border-top: 1px dashed rgba(255,255,255,.4);
+    pointer-events: none;
+  }
+  .roi-rect::before { top: 33.33%; }
+  .roi-rect::after { top: 66.66%; }
+  .roi-rect .v1, .roi-rect .v2 {
+    position: absolute; top: 0; bottom: 0;
+    border-left: 1px dashed rgba(255,255,255,.4);
+    pointer-events: none;
+  }
+  .roi-rect .v1 { left: 33.33%; }
+  .roi-rect .v2 { left: 66.66%; }
+  .roi-rect .h {
+    position: absolute; width: 14px; height: 14px;
+    background: white; border: 2px solid var(--accent-strong);
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,.35);
+  }
+  .roi-rect .h.nw { top: -8px; left: -8px; cursor: nwse-resize; }
+  .roi-rect .h.ne { top: -8px; right: -8px; cursor: nesw-resize; }
+  .roi-rect .h.sw { bottom: -8px; left: -8px; cursor: nesw-resize; }
+  .roi-rect .h.se { bottom: -8px; right: -8px; cursor: nwse-resize; }
+  .roi-rect .h.n  { top: -8px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+  .roi-rect .h.s  { bottom: -8px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+  .roi-rect .h.w  { left: -8px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+  .roi-rect .h.e  { right: -8px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+
+  .roi-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin: 6px 0;
+  }
+  .roi-grid .field { width: 100%; }
+  .roi-grid .field input { flex: 1; width: auto; min-width: 0; }
+  .roi-grid .field > .label {
+    width: 24px; height: 24px;
+    background: var(--panel-3); color: var(--text-dim);
+    border-radius: var(--r-xs);
+    display: grid; place-items: center;
+    font-family: ui-monospace, monospace; font-size: 11px; font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* CROP LIST */
+  .crop-list {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 10px; min-height: 92px;
+    padding: 10px; background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+  }
+  .crop-list:empty::after {
+    content: "「この範囲で全画像をトリミング」を押すとここに並びます";
+    color: var(--text-faint); font-size: 12px; margin: auto;
+  }
+  .crop-list .citem {
+    width: 88px; height: 88px;
+    border: 1px solid var(--border); border-radius: var(--r-sm);
+    overflow: hidden; cursor: grab; position: relative;
+    flex-shrink: 0; background: var(--thumb-bg);
+    transition: transform .15s ease;
+  }
+  .crop-list .citem:hover { transform: translateY(-2px); }
+  .crop-list .citem.dragging { opacity: .4; }
+  .crop-list .citem.over { box-shadow: inset 0 0 0 3px var(--accent-strong); }
+  .crop-list .citem img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .crop-list .citem .idx {
+    position: absolute; top: 4px; left: 4px;
+    color: white; font-size: 10px; font-weight: 600;
+    background: rgba(0,0,0,.7); padding: 1px 6px;
+    border-radius: var(--r-xs);
+    font-family: ui-monospace, monospace;
+  }
+
+  /* PREVIEW */
+  .preview-wrap {
+    background: var(--canvas-bg) repeating-conic-gradient(var(--checker-a) 0 25%, var(--checker-b) 0 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 10px; overflow: auto;
+    max-height: 60vh; text-align: center;
+    margin-top: 10px;
+  }
+  .preview-wrap canvas {
+    max-width: 100%; height: auto;
+    display: inline-block; vertical-align: top;
+    background: transparent;
+  }
+
+  .hint { font-size: 11.5px; color: var(--text-dim); line-height: 1.55; }
+  .hint code, code.kbd, kbd {
+    background: var(--panel-2); border: 1px solid var(--border);
+    padding: 1px 5px; border-radius: var(--r-xs);
+    font-family: ui-monospace, monospace; font-size: 11px;
+  }
+  .err { color: var(--danger); font-size: 12px; font-weight: 500; }
+  .ok-msg { color: var(--ok); font-size: 12px; font-weight: 500; }
+
+  footer {
+    text-align: center; color: var(--text-faint); font-size: 11px;
+    padding: 24px 16px; border-top: 1px solid var(--border);
+    margin-top: 32px;
+  }
+  footer a { color: var(--text-dim); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* MODAL */
   .modal-backdrop {
-    position: fixed; inset: 0; background: var(--modal-backdrop); display: none;
-    align-items: center; justify-content: center; z-index: 100; padding: 16px;
+    position: fixed; inset: 0; background: var(--modal-backdrop);
+    display: none; align-items: flex-start; justify-content: center;
+    z-index: 100; padding: 32px 16px;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    overflow-y: auto;
   }
   .modal-backdrop[open] { display: flex; }
   .modal {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
-    max-width: 640px; width: 100%; max-height: 90vh; overflow: auto;
-    padding: 20px 22px; box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    background: var(--panel);
+    border: 1px solid var(--border); border-radius: var(--r-xl);
+    max-width: 880px; width: 100%;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: modalIn .3s cubic-bezier(.2,.7,.3,1);
   }
-  .modal h2 { margin: 0 0 12px; font-size: 18px; color: var(--text); text-transform: none; letter-spacing: 0; }
-  .modal h3 { font-size: 14px; margin: 16px 0 6px; color: var(--text); }
-  .modal ol, .modal ul { margin: 6px 0 12px; padding-left: 22px; }
-  .modal li { margin: 4px 0; font-size: 13px; line-height: 1.6; }
-  .modal .close-row { display: flex; justify-content: flex-end; margin-top: 14px; gap: 8px; }
-  .modal kbd { background: var(--panel-2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-size: 11px; font-family: ui-monospace, monospace; }
-  /* aspect seg buttons icon-style */
-  #aspectSeg button { padding: 4px 8px; min-height: var(--tap-md); display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-family: ui-monospace, Menlo, monospace; color: var(--text-dim); }
-  #aspectSeg button.on { color: white; }
-  #aspectSeg button svg { width: 22px; height: 22px; flex-shrink: 0; display: block; }
-  #aspectSeg button .lab { font-size: 11px; line-height: 1; }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(12px) scale(.98); }
+    to { opacity: 1; transform: none; }
+  }
+  .modal-hero {
+    background:
+      radial-gradient(ellipse 80% 100% at 0% 0%, var(--accent-soft), transparent 60%),
+      radial-gradient(ellipse 60% 100% at 100% 0%, color-mix(in srgb, var(--accent-strong) 18%, transparent), transparent 60%),
+      var(--panel);
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .modal-hero .logo {
+    width: 48px; height: 48px; border-radius: var(--r-md);
+    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    display: grid; place-items: center;
+    color: white; font-weight: 700; font-size: 22px;
+    box-shadow: 0 6px 20px var(--accent-glow);
+    flex-shrink: 0;
+  }
+  .modal-hero h2 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.015em; }
+  .modal-hero p { margin: 4px 0 0; font-size: 13px; color: var(--text-dim); max-width: 56ch; }
+  .modal-body { padding: 24px 28px; }
+  .modal-section { margin-bottom: 28px; }
+  .modal-section:last-child { margin-bottom: 0; }
+  .modal-section .section-head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .modal-section .section-head h3 { margin: 0; font-size: 15px; font-weight: 600; }
+  .modal-section .section-head .badge {
+    padding: 2px 8px; border-radius: var(--r-pill);
+    background: var(--accent-soft); color: var(--accent-strong);
+    font-size: 10px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+  }
+
+  /* steps grid */
+  .steps {
+    display: grid; gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  .step {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: var(--r-md); padding: 14px; position: relative;
+    overflow: hidden;
+  }
+  .step .step-num {
+    position: absolute; top: 6px; right: 12px;
+    font-size: 36px; font-weight: 800; line-height: 1;
+    color: var(--accent-strong); opacity: .12;
+  }
+  .step .illus {
+    width: 100%; aspect-ratio: 16/9;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--r-sm); margin-bottom: 12px; overflow: hidden;
+  }
+  .step .illus svg { width: 100%; height: 100%; display: block; }
+  .step h4 { margin: 0 0 4px; font-size: 13px; font-weight: 600; }
+  .step p { margin: 0; font-size: 12px; color: var(--text-dim); line-height: 1.55; }
+
+  /* feature row */
+  .feat-row {
+    display: grid; gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .feat {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: var(--r-md); padding: 14px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .feat .feat-ico {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: var(--r-sm);
+    background: var(--accent-soft); color: var(--accent-strong);
+    display: grid; place-items: center;
+  }
+  .feat .feat-ico svg { width: 18px; height: 18px; }
+  .feat h4 { margin: 0 0 3px; font-size: 13px; font-weight: 600; }
+  .feat p { margin: 0; font-size: 12px; color: var(--text-dim); }
+
+  /* privacy callout */
+  .privacy-callout {
+    background:
+      linear-gradient(135deg, rgba(74,222,128,.08), rgba(74,222,128,.02)),
+      var(--bg-soft);
+    border: 1px solid var(--ok-border);
+    border-radius: var(--r-md);
+    padding: 18px 20px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .privacy-callout .pc-ico {
+    width: 48px; height: 48px; flex-shrink: 0;
+    border-radius: var(--r-sm);
+    background: rgba(74,222,128,.12); color: var(--ok);
+    display: grid; place-items: center;
+  }
+  .privacy-callout .pc-ico svg { width: 26px; height: 26px; }
+  .privacy-callout h4 { margin: 0 0 8px; font-size: 14px; font-weight: 600; color: var(--ok-text); }
+  .privacy-callout ul { margin: 0; padding-left: 18px; }
+  .privacy-callout li { font-size: 12.5px; line-height: 1.7; color: var(--text); }
+  .privacy-callout li strong { color: var(--ok-text); }
+
+  /* diagrams */
+  .diagram-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 640px) { .diagram-row { grid-template-columns: 1fr; } }
+  .diagram { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; }
+  .diagram h5 {
+    margin: 0 0 10px; font-size: 12px; font-weight: 600;
+    color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em;
+  }
+  .diagram svg { width: 100%; height: auto; display: block; }
+
+  .modal-foot {
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    background: var(--bg-soft); flex-wrap: wrap;
+  }
+  .modal-foot .esc-hint { font-size: 11.5px; color: var(--text-dim); }
+  .modal-foot kbd {
+    background: var(--panel); border: 1px solid var(--border);
+    border-bottom-width: 2px; border-radius: var(--r-xs);
+    padding: 1px 6px; font-size: 10px; font-family: ui-monospace, monospace;
+  }
+
+  /* tooltip */
+  .tip {
+    position: fixed; display: none; z-index: 1000;
+    background: var(--panel-3); color: var(--text);
+    border: 1px solid var(--border-strong); border-radius: var(--r-sm);
+    padding: 6px 10px; font-size: 11px; line-height: 1.4;
+    max-width: 260px;
+    pointer-events: none;
+    box-shadow: var(--shadow-md);
+  }
+  .tip[data-show] { display: block; }
+
+  .spacer { flex: 1; }
+
+  @media (max-width: 720px) {
+    .modal-hero { padding: 18px 20px; }
+    .modal-hero h2 { font-size: 18px; }
+    .modal-body { padding: 20px; }
+    main { padding: 12px; }
+    .panel { padding: 14px; }
+  }
 </style>
 </head>
 <body>
-<header>
-  <h1>tachieasy <span style="font-weight:400; color:var(--text-dim); font-size:12px">/ たちいーじー</span></h1>
+
+<header class="app-header">
+  <div class="brand">
+    <div class="logo" aria-hidden="true">t</div>
+    <div class="name">tachieasy <span>/ たちいーじー</span></div>
+  </div>
+  <div class="privacy-pill" title="すべての処理はブラウザ内で完結します">
+    <span class="dot"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z"/><path d="m9 12 2 2 4-4"/></svg>
+    100% ローカル処理
+  </div>
   <div class="ctrl">
-    <button id="themeBtn" type="button" data-tip="表示テーマ (auto / light / dark)">テーマ: auto</button>
-    <button id="helpBtn" type="button" data-tip="使い方を表示">使い方</button>
+    <button id="themeBtn" class="theme-btn" type="button" data-tip="表示テーマ (auto / light / dark)">
+      <span class="swatch" aria-hidden="true"></span>
+      <span id="themeLabel">auto</span>
+    </button>
+    <button id="helpBtn" type="button" data-tip="使い方を表示">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      使い方
+    </button>
   </div>
 </header>
 
-<div class="privacy-banner">
-  このページは画像データを<strong>外部サーバへ一切送信しません</strong>。すべての処理はブラウザ内で完結します（CSP <code>connect-src 'none'</code> により技術的に保証）。
+<div class="hero-strip">
+  <div class="hero-card">
+    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>
+    <div><h4>立ち絵を一括バストアップ</h4><p>同一 ROI で複数の立ち絵をまとめて切り抜き</p></div>
+  </div>
+  <div class="hero-card">
+    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+    <div><h4>タイル合成して 1 枚に</h4><p>列数・余白・背景を指定してグリッド出力</p></div>
+  </div>
+  <div class="hero-card">
+    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/><path d="M3 3l18 18" stroke="var(--danger)"/></svg></div>
+    <div><h4>外部送信ゼロ</h4><p>Wi-Fi を切ってもすべての機能が動きます</p></div>
+  </div>
 </div>
 
 <main>
+  <!-- 1 -->
   <section class="panel">
-    <h2>1. 画像を選ぶ</h2>
+    <div class="panel-head">
+      <div class="step-badge">1</div>
+      <h2>画像を選ぶ</h2>
+      <span class="panel-sub" id="imgInfo"></span>
+    </div>
     <div class="row">
       <input type="file" id="file" accept="image/*" multiple data-tip="複数画像を選択 (再選択で追加読込)">
-      <button id="clearAll" class="icon" data-tip="読み込み済み画像とトリミング結果を全消去">全クリア</button>
+      <button id="clearAll" class="ghost" data-tip="読み込み済み画像とトリミング結果を全消去">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        全クリア
+      </button>
     </div>
-    <p class="hint">複数選択可。同じサイズの立ち絵を選ぶと「絶対座標モード」が便利です。サムネをクリックすると参照画像（ROI 設定対象）になります。</p>
+    <p class="hint">複数選択可。同寸の立ち絵なら「絶対 px モード」が便利。サムネをクリックすると <strong>参照画像</strong>（ROI 設定対象）になります。</p>
     <div id="imgList" class="img-list" aria-label="入力画像一覧"></div>
-    <p id="imgInfo" class="hint"></p>
   </section>
 
+  <!-- 2 -->
   <section class="panel">
-    <h2>2. トリミング範囲（ROI）を決める</h2>
+    <div class="panel-head">
+      <div class="step-badge">2</div>
+      <h2>トリミング範囲（ROI）を決める</h2>
+    </div>
     <div class="row">
-      <span class="hint">座標モード：</span>
+      <span class="label">座標モード</span>
       <div class="seg" role="group">
-        <button id="modeRatio" class="on" type="button" data-tip="各画像の幅・高さに対する比率で ROI を保持。異サイズ画像でも一括適用可">比率 (異サイズ可)</button>
-        <button id="modeAbs" type="button" data-tip="参照画像の絶対 px 座標を全画像にそのまま適用。同寸前提">絶対px (同寸前提)</button>
+        <button id="modeRatio" class="on" type="button" data-tip="比率で ROI を保持。異サイズ画像でも一括適用可">比率（異サイズ可）</button>
+        <button id="modeAbs" type="button" data-tip="参照画像の絶対 px 座標を全画像にそのまま適用。同寸前提">絶対 px（同寸前提）</button>
       </div>
     </div>
     <div class="row">
-      <span class="hint">アス比：</span>
+      <span class="label">アス比</span>
       <div class="seg" role="group" id="aspectSeg">
-        <button data-aspect="" class="on" type="button" data-tip="自由 (縦横比なし)" aria-label="自由">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1.5" stroke-dasharray="3 2.5"/></svg>
-          <span class="lab">自由</span>
-        </button>
-        <button data-aspect="1" type="button" data-tip="1:1 正方形" aria-label="1:1">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/></svg>
-          <span class="lab">1:1</span>
-        </button>
-        <button data-aspect="0.75" type="button" data-tip="3:4 立ち絵向け" aria-label="3:4">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="1.5"/></svg>
-          <span class="lab">3:4</span>
-        </button>
-        <button data-aspect="0.8" type="button" data-tip="4:5 SNS 縦長" aria-label="4:5">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="5.5" y="3" width="13" height="18" rx="1.5"/></svg>
-          <span class="lab">4:5</span>
-        </button>
-        <button data-aspect="0.6667" type="button" data-tip="2:3 ポートレート" aria-label="2:3">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="6.5" y="3" width="11" height="18" rx="1.5"/></svg>
-          <span class="lab">2:3</span>
-        </button>
-        <button data-aspect="1.7778" type="button" data-tip="16:9 横長" aria-label="16:9">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="2" y="6.75" width="20" height="11.25" rx="1.5"/></svg>
-          <span class="lab">16:9</span>
-        </button>
+        <button data-aspect="" class="on" type="button" data-tip="自由"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="1.5" stroke-dasharray="3 2.5"/></svg><span class="lab">自由</span></button>
+        <button data-aspect="1" type="button" data-tip="1:1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="1.5"/></svg><span class="lab">1:1</span></button>
+        <button data-aspect="0.75" type="button" data-tip="3:4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="3" width="12" height="18" rx="1.5"/></svg><span class="lab">3:4</span></button>
+        <button data-aspect="0.8" type="button" data-tip="4:5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5.5" y="3" width="13" height="18" rx="1.5"/></svg><span class="lab">4:5</span></button>
+        <button data-aspect="0.6667" type="button" data-tip="2:3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6.5" y="3" width="11" height="18" rx="1.5"/></svg><span class="lab">2:3</span></button>
+        <button data-aspect="1.7778" type="button" data-tip="16:9"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6.75" width="20" height="11.25" rx="1.5"/></svg><span class="lab">16:9</span></button>
       </div>
-      <label style="min-width:auto" data-tip="ドラッグ・数値編集中も縦横比を保つ"><input type="checkbox" id="aspectLock"> ロック</label>
+      <label style="font-size:12px; display:inline-flex; align-items:center; gap:6px;" data-tip="比率を維持">
+        <input type="checkbox" id="aspectLock"> ロック
+      </label>
     </div>
-    <div id="roiStage" class="roi-stage empty">先に画像を読み込んでください</div>
+    <div id="roiStage" class="roi-stage empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+      <span>先に画像を読み込んでください</span>
+    </div>
     <div class="roi-grid">
-      <div class="field"><label for="roiX">X</label><input type="number" id="roiX" step="0.001" min="0"></div>
-      <div class="field"><label for="roiY">Y</label><input type="number" id="roiY" step="0.001" min="0"></div>
-      <div class="field"><label for="roiW">W</label><input type="number" id="roiW" step="0.001" min="0"></div>
-      <div class="field"><label for="roiH">H</label><input type="number" id="roiH" step="0.001" min="0"></div>
+      <div class="field"><span class="label">X</span><input type="number" id="roiX" step="0.001" min="0" value="0.100"></div>
+      <div class="field"><span class="label">Y</span><input type="number" id="roiY" step="0.001" min="0" value="0.050"></div>
+      <div class="field"><span class="label">W</span><input type="number" id="roiW" step="0.001" min="0" value="0.800"></div>
+      <div class="field"><span class="label">H</span><input type="number" id="roiH" step="0.001" min="0" value="0.600"></div>
     </div>
     <div class="row">
-      <button id="presetBust" type="button" data-tip="頭部〜胸元を中心とした標準的な範囲を設定">バストアップ プリセット</button>
-      <button id="presetReset" type="button" data-tip="ROI を画像全体にリセット">全範囲</button>
+      <button id="presetBust" type="button" data-tip="頭部〜胸元中心の標準範囲">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0 1 16 0"/></svg>
+        バストアップ
+      </button>
+      <button id="presetReset" type="button" data-tip="ROI を画像全体にリセット">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+        全範囲
+      </button>
+      <div class="spacer"></div>
+      <button id="applyCrop" class="primary" type="button">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg>
+        この範囲で全画像をトリミング
+      </button>
     </div>
-    <div class="row">
-      <button id="applyCrop" class="primary" type="button" data-tip="現在の ROI を全画像に適用">この範囲で全画像をトリミング</button>
-    </div>
-    <p id="cropMsg" class="hint"></p>
+    <p id="cropMsg" class="hint" style="margin-top:8px;"></p>
   </section>
 
+  <!-- 3 -->
   <section class="panel full">
-    <h2>3. トリミング結果（ドラッグで並び替え）</h2>
-    <div id="cropList" class="crop-list" aria-label="トリミング後画像"></div>
-    <div class="row">
-      <button id="dlEach" type="button" data-tip="トリミング結果を 1 枚ずつ PNG で連続 DL">1 枚ずつ DL</button>
-      <span id="cropCount" class="hint"></span>
+    <div class="panel-head">
+      <div class="step-badge">3</div>
+      <h2>トリミング結果</h2>
+      <span class="panel-sub" id="cropCount">ドラッグで並び替え</span>
     </div>
-    <p class="hint">モバイルで保存できない場合: サムネを <strong>長押し</strong> (iOS) または <strong>右クリック</strong> (PC) で「画像を保存」してください。</p>
+    <div id="cropList" class="crop-list" aria-label="トリミング後画像"></div>
+    <div class="row" style="margin-top:10px;">
+      <button id="dlEach" type="button">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        1 枚ずつ DL
+      </button>
+      <span class="hint">モバイルで保存できない場合はサムネを長押し / 右クリック → 「画像を保存」でも可。</span>
+    </div>
   </section>
 
+  <!-- 4 -->
   <section class="panel">
-    <h2>4. タイリング設定</h2>
+    <div class="panel-head">
+      <div class="step-badge">4</div>
+      <h2>タイリング設定</h2>
+    </div>
     <div class="row">
-      <div class="field"><label for="cols">列数</label><input type="number" id="cols" min="1" max="20" value="3" step="1"></div>
-      <div class="field"><label for="rows">行数</label><input type="number" id="rows" min="0" max="20" value="0" step="1"></div>
+      <div class="field"><span class="label">列数</span><input type="number" id="cols" min="1" max="20" value="3" step="1"></div>
+      <div class="field"><span class="label">行数</span><input type="number" id="rows" min="0" max="20" value="0" step="1"></div>
       <span class="hint">行数=0 で自動</span>
     </div>
     <div class="row">
-      <div class="field"><label for="gap">セル間隔</label><input type="number" id="gap" min="0" max="200" value="8" step="1"><span class="hint">px</span></div>
-      <div class="field"><label for="pad">外側余白</label><input type="number" id="pad" min="0" max="500" value="8" step="1"><span class="hint">px</span></div>
+      <div class="field"><span class="label">セル間隔</span><input type="number" id="gap" min="0" max="200" value="8" step="1"><span class="hint">px</span></div>
+      <div class="field"><span class="label">外側余白</span><input type="number" id="pad" min="0" max="500" value="8" step="1"><span class="hint">px</span></div>
     </div>
     <div class="row">
-      <label>収め方</label>
+      <span class="label">収め方</span>
       <div class="seg" role="group">
         <button id="fitFit" class="on" type="button">fit</button>
         <button id="fitCover" type="button">cover</button>
       </div>
     </div>
     <div class="row">
-      <label>背景</label>
-      <label style="min-width:auto"><input type="checkbox" id="bgTransparent" checked> 透過</label>
+      <span class="label">背景</span>
+      <label style="font-size:12px; display:inline-flex; align-items:center; gap:6px;"><input type="checkbox" id="bgTransparent" checked> 透過</label>
       <input type="color" id="bgColor" value="#ffffff" disabled>
-      <input type="text" id="bgHex" value="#ffffff" maxlength="7" style="width:90px" disabled>
+      <input type="text" id="bgHex" value="#ffffff" maxlength="7" style="width:90px" class="mono" disabled>
     </div>
     <div class="row">
-      <label>形式</label>
+      <span class="label">形式</span>
       <div class="seg" role="group">
         <button id="fmtPng" class="on" type="button">PNG</button>
         <button id="fmtJpg" type="button">JPEG</button>
       </div>
-      <div class="field"><label for="quality">品質</label>
+      <div class="field"><span class="label">品質</span>
         <input type="range" id="quality" min="50" max="100" value="92" step="1" disabled>
-        <span id="qualityVal" class="hint">92</span>
+        <span id="qualityVal" class="hint" style="font-family:ui-monospace,monospace;">92</span>
       </div>
     </div>
-    <p id="fmtNote" class="hint">PNG モード: 透過対応 / 品質パラメータは無視されます。</p>
+    <p id="fmtNote" class="hint" style="margin-top:6px;">PNG モード: 透過対応 / 品質パラメータは無視されます。</p>
   </section>
 
+  <!-- 5 -->
   <section class="panel">
-    <h2>5. プレビュー & ダウンロード</h2>
-    <div class="row">
-      <button id="renderTile" class="primary" type="button" data-tip="現在の設定でタイル画像を生成 & プレビュー">プレビュー生成</button>
-      <button id="dlTile" type="button" disabled data-tip="生成済みのタイル画像をダウンロード">タイル画像を DL</button>
+    <div class="panel-head">
+      <div class="step-badge">5</div>
+      <h2>プレビュー & ダウンロード</h2>
     </div>
-    <p id="tileInfo" class="hint"></p>
-    <p class="hint">DL できない場合は下のプレビューを <strong>長押し</strong> / <strong>右クリック</strong> → 「画像を保存」でも可。</p>
-    <div class="preview-wrap"><canvas id="preview"></canvas></div>
+    <div class="row">
+      <button id="renderTile" class="primary" type="button">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.5 0 4.8 1 6.5 2.6"/><polyline points="21 3 21 9 15 9"/></svg>
+        プレビュー生成
+      </button>
+      <button id="dlTile" type="button" disabled>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        タイル画像を DL
+      </button>
+      <span id="tileInfo" class="hint" style="margin-left:auto;"></span>
+    </div>
+    <div class="preview-wrap"><canvas id="preview" width="0" height="0"></canvas></div>
   </section>
 </main>
 
@@ -336,48 +843,300 @@
   <a href="https://github.com/yyyyyyy0/tachieasy" rel="noopener">GitHub</a>
 </footer>
 
+<!-- HELP MODAL -->
 <div id="helpModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
   <div class="modal">
-    <h2 id="helpTitle">tachieasy / たちいーじー の使い方</h2>
-    <p style="font-size:13px; color:var(--text-dim); margin:0 0 8px">TRPG セッション用の立ち絵を一括バストアップトリミング → タイル合成する単一 HTML ツール。すべての処理はブラウザ内で完結し、画像は外部に送信されません。</p>
+    <div class="modal-hero">
+      <div class="logo" aria-hidden="true">t</div>
+      <div>
+        <h2 id="helpTitle">tachieasy / たちいーじー の使い方</h2>
+        <p>TRPG セッション用の立ち絵を一括バストアップトリミング → タイル合成する単一 HTML ツール。すべての処理はブラウザ内で完結し、画像は外部に送信されません。</p>
+      </div>
+    </div>
 
-    <h3>5 ステップで完了</h3>
-    <ol>
-      <li><strong>画像を選ぶ</strong>: 「ファイル選択」で複数枚を選択。サムネをクリックで参照画像に切替。</li>
-      <li><strong>ROI を決める</strong>: 「アス比」プリセット (1:1 / 3:4 / 4:5 / 2:3 / 16:9) を選び、必要なら「ロック」をオン。矩形をドラッグ・隅をリサイズ。「バストアップ プリセット」で目安。</li>
-      <li><strong>一括トリミング</strong>: 「この範囲で全画像をトリミング」でまとめて切り抜き。比率モードなら異サイズ OK。</li>
-      <li><strong>並び替え</strong>: トリミング結果のサムネをドラッグで並び替え。</li>
-      <li><strong>タイリング & DL</strong>: 列数・背景・形式を設定 → 「プレビュー生成」 → 「タイル画像を DL」。</li>
-    </ol>
+    <div class="modal-body">
+      <!-- 5 STEPS -->
+      <div class="modal-section">
+        <div class="section-head">
+          <h3>5 ステップで完了</h3>
+          <span class="badge">Quick Start</span>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <span class="step-num">1</span>
+            <div class="illus">
+              <svg viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg">
+                <rect width="200" height="112" fill="var(--bg-soft)"/>
+                <rect x="14" y="20" width="172" height="74" rx="6" fill="var(--panel)" stroke="var(--border)"/>
+                <path d="M14 32 h172" stroke="var(--border)" stroke-dasharray="3 3"/>
+                <text x="22" y="28" font-size="7" fill="var(--text-dim)">images</text>
+                <rect x="22" y="42" width="34" height="42" rx="3" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-width="1.5"/>
+                <circle cx="39" cy="55" r="6" fill="var(--accent-strong)" opacity=".7"/>
+                <path d="M28 78 l8-10 6 5 8-10 v15 z" fill="var(--accent-strong)" opacity=".5"/>
+                <text x="22" y="92" font-size="6" fill="var(--accent-strong)" font-weight="700">REF</text>
+                <g opacity=".7">
+                  <rect x="62" y="42" width="34" height="42" rx="3" fill="var(--panel-2)" stroke="var(--border-strong)"/>
+                  <circle cx="79" cy="55" r="6" fill="var(--text-dim)" opacity=".5"/>
+                  <path d="M68 78 l8-10 6 5 8-10 v15 z" fill="var(--text-dim)" opacity=".4"/>
+                </g>
+                <g opacity=".7">
+                  <rect x="102" y="42" width="34" height="42" rx="3" fill="var(--panel-2)" stroke="var(--border-strong)"/>
+                  <circle cx="119" cy="55" r="6" fill="var(--text-dim)" opacity=".5"/>
+                  <path d="M108 78 l8-10 6 5 8-10 v15 z" fill="var(--text-dim)" opacity=".4"/>
+                </g>
+                <g opacity=".5">
+                  <rect x="142" y="42" width="34" height="42" rx="3" fill="var(--panel-2)" stroke="var(--border-strong)" stroke-dasharray="2 2"/>
+                  <text x="159" y="68" font-size="14" fill="var(--text-faint)" text-anchor="middle">+</text>
+                </g>
+              </svg>
+            </div>
+            <h4>画像を選ぶ</h4>
+            <p>ファイル選択で複数枚を一気に。クリックで <strong>参照画像</strong>（REF）に切替。</p>
+          </div>
 
-    <h3>背景色</h3>
-    <ul>
-      <li><strong>透過</strong>: PNG のみ。チェックを外すと色を指定可。</li>
-      <li><strong>ColorPicker / hex 入力</strong>: 双方向同期。<code>#RRGGBB</code> で入力。</li>
-      <li><strong>JPEG モード</strong>: 透過不可。自動で透過が OFF になります。</li>
-    </ul>
+          <div class="step">
+            <span class="step-num">2</span>
+            <div class="illus">
+              <svg viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg">
+                <rect width="200" height="112" fill="var(--bg-soft)"/>
+                <rect x="60" y="14" width="80" height="84" rx="3" fill="var(--panel)" stroke="var(--border)"/>
+                <g transform="translate(100,68)">
+                  <circle cx="0" cy="-26" r="11" fill="var(--text-dim)" opacity=".55"/>
+                  <path d="M-18 24 q0 -22 18 -22 q18 0 18 22 z" fill="var(--text-dim)" opacity=".55"/>
+                </g>
+                <rect x="74" y="22" width="52" height="52" fill="var(--accent-strong)" fill-opacity=".18" stroke="var(--accent-strong)" stroke-width="1.6"/>
+                <line x1="74" y1="39" x2="126" y2="39" stroke="white" stroke-opacity=".5" stroke-dasharray="2 2"/>
+                <line x1="74" y1="56" x2="126" y2="56" stroke="white" stroke-opacity=".5" stroke-dasharray="2 2"/>
+                <line x1="91" y1="22" x2="91" y2="74" stroke="white" stroke-opacity=".5" stroke-dasharray="2 2"/>
+                <line x1="108" y1="22" x2="108" y2="74" stroke="white" stroke-opacity=".5" stroke-dasharray="2 2"/>
+                <circle cx="74" cy="22" r="3.5" fill="white" stroke="var(--accent-strong)" stroke-width="1.5"/>
+                <circle cx="126" cy="22" r="3.5" fill="white" stroke="var(--accent-strong)" stroke-width="1.5"/>
+                <circle cx="74" cy="74" r="3.5" fill="white" stroke="var(--accent-strong)" stroke-width="1.5"/>
+                <circle cx="126" cy="74" r="3.5" fill="white" stroke="var(--accent-strong)" stroke-width="1.5"/>
+                <rect x="14" y="22" width="32" height="14" rx="3" fill="var(--accent-strong)"/>
+                <text x="30" y="32" font-size="7.5" fill="white" text-anchor="middle" font-weight="700">1:1</text>
+                <rect x="14" y="40" width="32" height="14" rx="3" fill="var(--panel-2)" stroke="var(--border)"/>
+                <text x="30" y="50" font-size="7.5" fill="var(--text-dim)" text-anchor="middle">3:4</text>
+                <rect x="14" y="58" width="32" height="14" rx="3" fill="var(--panel-2)" stroke="var(--border)"/>
+                <text x="30" y="68" font-size="7.5" fill="var(--text-dim)" text-anchor="middle">4:5</text>
+                <rect x="14" y="76" width="32" height="14" rx="3" fill="var(--panel-2)" stroke="var(--border)"/>
+                <text x="30" y="86" font-size="7.5" fill="var(--text-dim)" text-anchor="middle">2:3</text>
+                <g transform="translate(154,22)">
+                  <rect width="32" height="14" rx="3" fill="var(--ok-bg)" stroke="var(--ok-border)"/>
+                  <path d="M14 5.5 v-1 a2 2 0 0 1 4 0 v1 m-5 0 h6 v5 h-6 z" fill="none" stroke="var(--ok)" stroke-width="1.2"/>
+                  <text x="22" y="11" font-size="6" fill="var(--ok-text)" font-weight="600">LOCK</text>
+                </g>
+              </svg>
+            </div>
+            <h4>ROI を決める</h4>
+            <p>アス比プリセット → 矩形をドラッグ。「ロック」で比率維持。</p>
+          </div>
 
-    <h3>アス比ロックの挙動</h3>
-    <ul>
-      <li>プリセットを押すと自動でロック ON。中心を保ったまま指定比率に整形。</li>
-      <li>ロック中はドラッグ・数値入力どちらも比率を維持。「自由」を選ぶとロック解除。</li>
-    </ul>
+          <div class="step">
+            <span class="step-num">3</span>
+            <div class="illus">
+              <svg viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg">
+                <rect width="200" height="112" fill="var(--bg-soft)"/>
+                <rect x="12" y="14" width="44" height="32" rx="3" fill="var(--panel)" stroke="var(--border)"/>
+                <rect x="20" y="20" width="14" height="14" rx="1.5" fill="var(--accent-strong)" fill-opacity=".5" stroke="var(--accent-strong)"/>
+                <rect x="12" y="50" width="44" height="32" rx="3" fill="var(--panel)" stroke="var(--border)"/>
+                <rect x="20" y="56" width="14" height="14" rx="1.5" fill="var(--accent-strong)" fill-opacity=".5" stroke="var(--accent-strong)"/>
+                <rect x="12" y="86" width="44" height="20" rx="3" fill="var(--panel)" stroke="var(--border)"/>
+                <rect x="20" y="91" width="14" height="11" rx="1.5" fill="var(--accent-strong)" fill-opacity=".5" stroke="var(--accent-strong)"/>
+                <g transform="translate(64,52)">
+                  <rect x="-2" y="-10" width="32" height="20" rx="10" fill="var(--accent-strong)"/>
+                  <path d="M6 0 h16 m-4 -4 l4 4 -4 4" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <rect x="106" y="22" width="28" height="28" rx="3" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-width="1.5"/>
+                <circle cx="120" cy="34" r="4" fill="var(--accent-strong)"/>
+                <rect x="106" y="58" width="28" height="28" rx="3" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-width="1.5"/>
+                <circle cx="120" cy="70" r="4" fill="var(--accent-strong)"/>
+                <rect x="146" y="22" width="28" height="28" rx="3" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-width="1.5"/>
+                <circle cx="160" cy="34" r="4" fill="var(--accent-strong)"/>
+                <rect x="146" y="58" width="28" height="28" rx="3" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-width="1.5"/>
+                <circle cx="160" cy="70" r="4" fill="var(--accent-strong)"/>
+                <text x="120" y="100" font-size="7" fill="var(--text-dim)" text-anchor="middle">同一 ROI で一括</text>
+              </svg>
+            </div>
+            <h4>一括トリミング</h4>
+            <p>「この範囲で全画像をトリミング」で全部を切り抜き。比率モードは異サイズ OK。</p>
+          </div>
 
-    <h3>テーマ</h3>
-    <ul>
-      <li>右上「テーマ」ボタンで <kbd>auto</kbd> → <kbd>light</kbd> → <kbd>dark</kbd> を循環。設定はブラウザに保存。</li>
-    </ul>
+          <div class="step">
+            <span class="step-num">4</span>
+            <div class="illus">
+              <svg viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg">
+                <rect width="200" height="112" fill="var(--bg-soft)"/>
+                <rect x="22" y="36" width="32" height="40" rx="3" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-width="1.5"/>
+                <text x="38" y="62" font-size="13" fill="var(--accent-strong)" text-anchor="middle" font-weight="700">2</text>
+                <text x="38" y="86" font-size="6" fill="var(--text-dim)" text-anchor="middle">drag</text>
+                <rect x="62" y="36" width="32" height="40" rx="3" fill="var(--panel)" stroke="var(--border-strong)" stroke-dasharray="3 2"/>
+                <path d="M48 30 q14 -10 30 0" stroke="var(--accent-strong)" stroke-width="1.6" fill="none"/>
+                <path d="M78 30 l-3 -3 m3 3 l-3 3" stroke="var(--accent-strong)" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                <rect x="102" y="36" width="32" height="40" rx="3" fill="var(--panel)" stroke="var(--border)"/>
+                <text x="118" y="62" font-size="13" fill="var(--text-dim)" text-anchor="middle" font-weight="700">1</text>
+                <rect x="142" y="36" width="32" height="40" rx="3" fill="var(--panel)" stroke="var(--border)"/>
+                <text x="158" y="62" font-size="13" fill="var(--text-dim)" text-anchor="middle" font-weight="700">3</text>
+              </svg>
+            </div>
+            <h4>並び替え</h4>
+            <p>結果のサムネをドラッグで自由に順序変更。</p>
+          </div>
 
-    <h3>あなたの絵は外に出ません</h3>
-    <ul>
-      <li>このページに渡した立ち絵は、<strong>あなたのブラウザの中だけ</strong>で処理されます。どこかのサーバに送られたり、保存されたりすることはありません。</li>
-      <li><strong>Wi-Fi を切っても</strong>すべての機能が動きます。試しに機内モードでも使えます。</li>
-      <li>誰かに見られたり、AI 学習に勝手に使われたりすることはありません。安心してオリジナルキャラの立ち絵を入れてください。</li>
-      <li>使ったあとはタブを閉じれば、画像はあなたの端末からも消えます (DL したものは残ります)。</li>
-    </ul>
+          <div class="step">
+            <span class="step-num">5</span>
+            <div class="illus">
+              <svg viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg">
+                <rect width="200" height="112" fill="var(--bg-soft)"/>
+                <rect x="14" y="14" width="120" height="84" rx="4" fill="var(--panel)" stroke="var(--border)"/>
+                <rect x="22" y="22" width="32" height="22" rx="2" fill="var(--accent-soft)" stroke="var(--accent-strong)"/>
+                <rect x="58" y="22" width="32" height="22" rx="2" fill="var(--accent-soft)" stroke="var(--accent-strong)"/>
+                <rect x="94" y="22" width="32" height="22" rx="2" fill="var(--accent-soft)" stroke="var(--accent-strong)"/>
+                <rect x="22" y="48" width="32" height="22" rx="2" fill="var(--accent-soft)" stroke="var(--accent-strong)"/>
+                <rect x="58" y="48" width="32" height="22" rx="2" fill="var(--accent-soft)" stroke="var(--accent-strong)"/>
+                <rect x="94" y="48" width="32" height="22" rx="2" fill="var(--accent-soft)" stroke="var(--accent-strong)"/>
+                <rect x="22" y="74" width="32" height="16" rx="2" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-dasharray="2 2"/>
+                <g transform="translate(146,46)">
+                  <rect width="42" height="22" rx="11" fill="var(--accent-strong)"/>
+                  <path d="M21 6 v8 m-4 -4 l4 4 4 -4" stroke="white" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <text x="21" y="36" font-size="6.5" fill="var(--text-dim)" text-anchor="middle" font-weight="600">DL .png</text>
+                </g>
+                <text x="74" y="106" font-size="7" fill="var(--text-dim)" text-anchor="middle">3 cols × N rows</text>
+              </svg>
+            </div>
+            <h4>タイル化 & DL</h4>
+            <p>列数・余白・背景・形式を設定 → プレビュー → ダウンロード。</p>
+          </div>
+        </div>
+      </div>
 
-    <div class="close-row">
-      <button id="helpClose" class="primary" type="button">閉じる (<kbd>Esc</kbd>)</button>
+      <!-- BG / ASPECT -->
+      <div class="modal-section">
+        <div class="section-head"><h3>細かい設定</h3></div>
+        <div class="diagram-row">
+          <div class="diagram">
+            <h5>背景色</h5>
+            <svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="check" width="8" height="8" patternUnits="userSpaceOnUse">
+                  <rect width="8" height="8" fill="var(--checker-b)"/>
+                  <rect width="4" height="4" fill="var(--checker-a)"/>
+                  <rect x="4" y="4" width="4" height="4" fill="var(--checker-a)"/>
+                </pattern>
+              </defs>
+              <text x="42" y="14" font-size="9" fill="var(--text)" font-weight="600" text-anchor="middle">透過 (PNG)</text>
+              <rect x="10" y="22" width="64" height="64" rx="6" fill="url(#check)" stroke="var(--border)"/>
+              <circle cx="42" cy="46" r="9" fill="var(--accent-strong)" opacity=".75"/>
+              <path d="M28 78 q14 -16 28 0" fill="var(--accent-strong)" opacity=".75"/>
+
+              <text x="120" y="14" font-size="9" fill="var(--text)" font-weight="600" text-anchor="middle">指定色</text>
+              <rect x="88" y="22" width="64" height="64" rx="6" fill="#1a2540" stroke="var(--border)"/>
+              <circle cx="120" cy="46" r="9" fill="white" opacity=".88"/>
+              <path d="M106 78 q14 -16 28 0" fill="white" opacity=".88"/>
+              <rect x="88" y="68" width="64" height="18" fill="rgba(0,0,0,.35)"/>
+              <text x="120" y="80" font-size="7.5" fill="white" font-family="ui-monospace,monospace" text-anchor="middle">#1a2540</text>
+
+              <text x="198" y="14" font-size="9" fill="var(--text)" font-weight="600" text-anchor="middle">JPEG</text>
+              <rect x="166" y="22" width="64" height="64" rx="6" fill="#ffffff" stroke="var(--border)"/>
+              <circle cx="198" cy="46" r="9" fill="var(--accent-strong)" opacity=".75"/>
+              <path d="M184 78 q14 -16 28 0" fill="var(--accent-strong)" opacity=".75"/>
+              <g transform="translate(214,18)">
+                <rect width="22" height="11" rx="3" fill="var(--warn)"/>
+                <text x="11" y="8" font-size="6" fill="white" font-weight="700" text-anchor="middle">No α</text>
+              </g>
+
+              <g font-size="8.5" fill="var(--text-dim)">
+                <text x="248" y="34">PNG: 透過 ✓</text>
+                <text x="248" y="48">色指定 (#RRGGBB)</text>
+                <text x="248" y="62">picker 双方向</text>
+                <text x="248" y="76">JPEG: 透過 ✗</text>
+              </g>
+            </svg>
+          </div>
+          <div class="diagram">
+            <h5>アス比ロック</h5>
+            <svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+              <text x="56" y="14" font-size="9" fill="var(--text)" font-weight="600" text-anchor="middle">プリセット押す</text>
+              <rect x="20" y="22" width="72" height="64" rx="4" fill="var(--panel)" stroke="var(--border)"/>
+              <rect x="32" y="34" width="48" height="34" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <text x="56" y="80" font-size="6.5" fill="var(--text-dim)" text-anchor="middle">自由比率</text>
+
+              <g transform="translate(98,52)">
+                <path d="M0 0 h28 m-4 -4 l4 4 -4 4" stroke="var(--accent-strong)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+
+              <text x="172" y="14" font-size="9" fill="var(--text)" font-weight="600" text-anchor="middle">中心保ったまま整形 + LOCK</text>
+              <rect x="136" y="22" width="72" height="64" rx="4" fill="var(--panel)" stroke="var(--border)"/>
+              <rect x="148" y="30" width="48" height="48" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-width="1.6"/>
+              <circle cx="172" cy="54" r="2" fill="var(--accent-strong)"/>
+              <line x1="148" y1="54" x2="196" y2="54" stroke="var(--accent-strong)" stroke-width=".7" stroke-dasharray="2 2" opacity=".6"/>
+              <line x1="172" y1="30" x2="172" y2="78" stroke="var(--accent-strong)" stroke-width=".7" stroke-dasharray="2 2" opacity=".6"/>
+              <g transform="translate(192,24)">
+                <rect width="14" height="14" rx="2.5" fill="var(--ok-bg)" stroke="var(--ok-border)"/>
+                <path d="M5 8 v-1.5 a2 2 0 0 1 4 0 v1.5 m-4.5 0 h5 v4 h-5 z" fill="none" stroke="var(--ok)" stroke-width="1.1"/>
+              </g>
+              <g font-size="8.5" fill="var(--text-dim)">
+                <text x="226" y="40">プリセット = 自動 LOCK</text>
+                <text x="226" y="54">ドラッグも比率維持</text>
+                <text x="226" y="68">「自由」で解除</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- THEME -->
+      <div class="modal-section">
+        <div class="section-head"><h3>テーマ切替</h3></div>
+        <div class="feat-row">
+          <div class="feat">
+            <div class="feat-ico" style="background:rgba(140,150,170,.12); color:var(--text-dim);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            </div>
+            <div><h4>auto</h4><p>OS の設定に追従。何も触らなければこれ。</p></div>
+          </div>
+          <div class="feat">
+            <div class="feat-ico" style="background:rgba(255,200,80,.14); color:#e8a02e;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            </div>
+            <div><h4>light</h4><p>明るい背景。屋外・プロジェクタ向き。</p></div>
+          </div>
+          <div class="feat">
+            <div class="feat-ico" style="background:rgba(122,162,255,.14); color:var(--accent);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+            <div><h4>dark</h4><p>暗い背景。立ち絵の色味を見るのに最適。</p></div>
+          </div>
+        </div>
+        <p class="hint" style="margin-top:10px;">右上「テーマ」ボタンで <kbd>auto</kbd> → <kbd>light</kbd> → <kbd>dark</kbd> を循環。設定はブラウザに保存。</p>
+      </div>
+
+      <!-- PRIVACY -->
+      <div class="modal-section">
+        <div class="section-head">
+          <h3>あなたの絵は外に出ません</h3>
+          <span class="badge" style="background:var(--ok-bg); color:var(--ok-text); border:1px solid var(--ok-border);">SECURE</span>
+        </div>
+        <div class="privacy-callout">
+          <div class="pc-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <div>
+            <h4>100% ブラウザ内処理 — Wi-Fi を切っても動きます</h4>
+            <ul>
+              <li>このページに渡した立ち絵は、<strong>あなたのブラウザの中だけ</strong>で処理されます。どこかのサーバに送られたり、保存されたりすることはありません。</li>
+              <li><strong>Wi-Fi を切っても</strong>すべての機能が動きます。試しに機内モードでも使えます。</li>
+              <li>誰かに見られたり、AI 学習に勝手に使われたりすることはありません。安心してオリジナルキャラの立ち絵を入れてください。</li>
+              <li>使ったあとはタブを閉じれば、画像はあなたの端末からも消えます (DL したものは残ります)。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <span class="esc-hint"><kbd>Esc</kbd> または背景クリックで閉じる</span>
+      <button id="helpClose" class="primary" type="button">閉じる</button>
     </div>
   </div>
 </div>
@@ -385,98 +1144,68 @@
 <script>
 (() => {
   'use strict';
+  const $ = (id) => document.getElementById(id);
+  const LS = { THEME: 'tachieasy.theme' };
 
-  // ====== State ======
   const state = {
-    images: [],     // {id, file, img, name, w, h, thumbUrl}
-    refId: null,
-    roi: { x: 0.1, y: 0.05, w: 0.8, h: 0.6 }, // ratio (0-1) when mode==='ratio'; px when mode==='abs'
+    images: [], refId: null,
+    roi: { x: 0.1, y: 0.05, w: 0.8, h: 0.6 },
     mode: 'ratio',
-    aspect: null,   // null = free, otherwise w/h target ratio (in image pixel space)
-    aspectLock: false,
-    crops: [],      // {id, canvas, url, srcId}
-    fmt: 'png',
-    fit: 'fit',
-    quality: 0.92,
+    aspect: null, aspectLock: false,
+    crops: [], fmt: 'png', fit: 'fit', quality: 0.92,
     nextId: 1,
   };
-  const LS = {
-    THEME: 'tachieasy.theme',
-    HELP_SEEN: 'tachieasy.helpSeen',
-  };
-
-  const $ = (id) => document.getElementById(id);
-
-  // ====== Utility ======
   const newId = () => 'i' + (state.nextId++);
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
   const isHex = (s) => /^#[0-9a-fA-F]{6}$/.test(s);
   const normalizeHex = (s) => {
-    s = s.trim();
+    s = (s || '').trim();
     if (!s.startsWith('#')) s = '#' + s;
-    if (/^#[0-9a-fA-F]{3}$/.test(s)) {
-      s = '#' + s.slice(1).split('').map(c => c + c).join('');
-    }
+    if (/^#[0-9a-fA-F]{3}$/.test(s)) s = '#' + s.slice(1).split('').map(c => c + c).join('');
     return isHex(s) ? s.toLowerCase() : null;
   };
 
-  // ====== Image loading ======
+  // ===== Image loading =====
   $('file').addEventListener('change', async (e) => {
     const files = Array.from(e.target.files || []);
     for (const f of files) await addFile(f);
-    e.target.value = ''; // allow re-select same file
+    e.target.value = '';
     renderImgList();
     if (!state.refId && state.images.length) setRef(state.images[0].id);
-    updateRoiUI();
+    drawStage(); updateRoiUI();
   });
-
   $('clearAll').addEventListener('click', () => {
     if (!state.images.length && !state.crops.length) return;
-    const msg = '全 ' + state.images.length + ' 枚の画像と '
-      + state.crops.length + ' 枚のクロップを破棄します。よろしいですか？';
-    if (!window.confirm(msg)) return;
+    if (!window.confirm('読み込み済み画像とトリミング結果を全消去します。よろしいですか？')) return;
     state.images.forEach(i => URL.revokeObjectURL(i.thumbUrl));
-    state.images = [];
-    state.refId = null;
+    state.images = []; state.refId = null;
     state.crops.forEach(c => { c.canvas.width = 0; c.canvas.height = 0; });
     state.crops = [];
     renderImgList(); renderCropList(); drawStage(); updateRoiUI();
   });
-
   function addFile(file) {
-    return new Promise((resolve) => {
-      if (!file.type.startsWith('image/')) return resolve();
+    return new Promise(res => {
+      if (!file.type.startsWith('image/')) return res();
       const url = URL.createObjectURL(file);
       const img = new Image();
       img.onload = () => {
-        state.images.push({
-          id: newId(), file, img, name: file.name,
-          w: img.naturalWidth, h: img.naturalHeight, thumbUrl: url,
-        });
-        resolve();
+        state.images.push({ id: newId(), file, img, name: file.name, w: img.naturalWidth, h: img.naturalHeight, thumbUrl: url });
+        res();
       };
-      img.onerror = () => { URL.revokeObjectURL(url); resolve(); };
+      img.onerror = () => { URL.revokeObjectURL(url); res(); };
       img.src = url;
     });
   }
-
-  function setRef(id) {
-    state.refId = id;
-    renderImgList();
-    drawStage();
-    updateRoiUI();
-  }
-
+  function setRef(id) { state.refId = id; renderImgList(); drawStage(); updateRoiUI(); }
   function renderImgList() {
-    const list = $('imgList');
-    list.replaceChildren();
-    state.images.forEach((it) => {
+    const list = $('imgList'); list.replaceChildren();
+    state.images.forEach(it => {
       const el = document.createElement('div');
       el.className = 'item' + (it.id === state.refId ? ' ref' : '');
       el.title = it.name + ' (' + it.w + '×' + it.h + ')';
       const img = document.createElement('img'); img.alt = ''; img.src = it.thumbUrl;
       const name = document.createElement('span'); name.className = 'name'; name.textContent = it.name;
-      const x = document.createElement('button'); x.className = 'x'; x.setAttribute('aria-label', '除外'); x.textContent = '×';
+      const x = document.createElement('button'); x.className = 'x'; x.textContent = '×'; x.setAttribute('aria-label', '除外');
       el.append(img, name, x);
       el.addEventListener('click', (ev) => {
         if (ev.target === x) {
@@ -492,294 +1221,201 @@
       list.appendChild(el);
     });
     const refName = state.images.find(i => i.id === state.refId)?.name ?? '-';
-    $('imgInfo').textContent = state.images.length
-      ? state.images.length + ' 枚 / 参照画像: ' + refName
-      : '';
+    $('imgInfo').textContent = state.images.length ? state.images.length + ' 枚 / 参照: ' + refName : '';
   }
 
-  // ====== ROI Stage ======
+  // ===== ROI Stage =====
   const stageEl = $('roiStage');
-  let stageImg = null, roiEl = null;
-
+  let roiEl = null;
   function drawStage() {
     stageEl.replaceChildren();
-    stageEl._dispMeta = null;
-    roiEl = null;
+    stageEl._dispMeta = null; roiEl = null;
     const ref = state.images.find(i => i.id === state.refId);
     if (!ref) {
       stageEl.classList.add('empty');
-      stageEl.textContent = '先に画像を読み込んでください';
+      stageEl.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span>先に画像を読み込んでください</span>';
       return;
     }
     stageEl.classList.remove('empty');
-
-    // fit ref image into stage with letterbox
-    const stageW = stageEl.clientWidth;
-    const stageH = stageEl.clientHeight;
-    const scale = Math.min(stageW / ref.w, stageH / ref.h);
-    const dispW = ref.w * scale;
-    const dispH = ref.h * scale;
-    const offX = (stageW - dispW) / 2;
-    const offY = (stageH - dispH) / 2;
-
-    stageImg = document.createElement('img');
-    stageImg.src = ref.thumbUrl;
-    stageImg.style.left = offX + 'px';
-    stageImg.style.top = offY + 'px';
-    stageImg.style.width = dispW + 'px';
-    stageImg.style.height = dispH + 'px';
-    stageEl.appendChild(stageImg);
-
-    // ROI rect
-    roiEl = document.createElement('div');
-    roiEl.className = 'roi-rect';
+    const sw = stageEl.clientWidth, sh = stageEl.clientHeight;
+    const scale = Math.min(sw / ref.w, sh / ref.h);
+    const dispW = ref.w * scale, dispH = ref.h * scale;
+    const offX = (sw - dispW) / 2, offY = (sh - dispH) / 2;
+    const img = document.createElement('img');
+    img.src = ref.thumbUrl;
+    img.style.left = offX + 'px'; img.style.top = offY + 'px';
+    img.style.width = dispW + 'px'; img.style.height = dispH + 'px';
+    stageEl.appendChild(img);
+    roiEl = document.createElement('div'); roiEl.className = 'roi-rect';
+    roiEl.appendChild(Object.assign(document.createElement('div'), { className: 'v1' }));
+    roiEl.appendChild(Object.assign(document.createElement('div'), { className: 'v2' }));
     ['nw','ne','sw','se','n','s','w','e'].forEach(p => {
       const h = document.createElement('div'); h.className = 'h ' + p; h.dataset.handle = p; roiEl.appendChild(h);
     });
     stageEl.appendChild(roiEl);
-    stageEl._dispMeta = { offX, offY, dispW, dispH, refW: ref.w, refH: ref.h, scale };
+    stageEl._dispMeta = { offX, offY, dispW, dispH, refW: ref.w, refH: ref.h };
     layoutRoi();
   }
-
   function layoutRoi() {
     if (!roiEl || !stageEl._dispMeta) return;
-    const { offX, offY, dispW, dispH, refW, refH } = stageEl._dispMeta;
+    const m = stageEl._dispMeta;
     let rx, ry, rw, rh;
     if (state.mode === 'ratio') {
-      rx = state.roi.x * dispW;
-      ry = state.roi.y * dispH;
-      rw = state.roi.w * dispW;
-      rh = state.roi.h * dispH;
+      rx = state.roi.x * m.dispW; ry = state.roi.y * m.dispH;
+      rw = state.roi.w * m.dispW; rh = state.roi.h * m.dispH;
     } else {
-      const sx = dispW / refW, sy = dispH / refH;
-      rx = state.roi.x * sx;
-      ry = state.roi.y * sy;
-      rw = state.roi.w * sx;
-      rh = state.roi.h * sy;
+      const sx = m.dispW / m.refW, sy = m.dispH / m.refH;
+      rx = state.roi.x * sx; ry = state.roi.y * sy;
+      rw = state.roi.w * sx; rh = state.roi.h * sy;
     }
-    roiEl.style.left = (offX + rx) + 'px';
-    roiEl.style.top = (offY + ry) + 'px';
-    roiEl.style.width = rw + 'px';
-    roiEl.style.height = rh + 'px';
+    roiEl.style.left = (m.offX + rx) + 'px';
+    roiEl.style.top = (m.offY + ry) + 'px';
+    roiEl.style.width = rw + 'px'; roiEl.style.height = rh + 'px';
   }
-
-  // returns {a, imgRatio} for current state. effective constraint: roi.w/roi.h (image-px) = a
-  // imgRatio is the conversion factor from "ratio-mode roi.w/roi.h" to "image-px ratio".
   function getAspect() {
     if (!state.aspect || !state.aspectLock) return null;
     const ref = state.images.find(i => i.id === state.refId);
-    let imgRatio = 1; // ratio-mode roi.w / roi.h to image-px w/h
-    if (state.mode === 'ratio' && ref) imgRatio = ref.w / ref.h; // since w_px = roi.w * ref.w
+    let imgRatio = 1;
+    if (state.mode === 'ratio' && ref) imgRatio = ref.w / ref.h;
     return { a: state.aspect, imgRatio };
   }
-
-  // In disp space, dispW/dispH preserves image aspect, so a (image-px) is also w/h in disp space.
   function applyAspectToDisp(handle, x, y, w, h, r0, meta) {
-    const ag = getAspect();
-    if (!ag) return { x, y, w, h };
+    const ag = getAspect(); if (!ag) return { x, y, w, h };
     const a = ag.a;
-    // anchor based on handle (uses r0 = original rect at drag start, in disp space)
     let fx, fy;
     switch (handle) {
       case 'nw': fx = r0.x + r0.w; fy = r0.y + r0.h; break;
-      case 'ne': fx = r0.x;        fy = r0.y + r0.h; break;
-      case 'sw': fx = r0.x + r0.w; fy = r0.y;        break;
-      case 'se': fx = r0.x;        fy = r0.y;        break;
+      case 'ne': fx = r0.x; fy = r0.y + r0.h; break;
+      case 'sw': fx = r0.x + r0.w; fy = r0.y; break;
+      case 'se': fx = r0.x; fy = r0.y; break;
       case 'n':  fx = r0.x + r0.w / 2; fy = r0.y + r0.h; break;
-      case 's':  fx = r0.x + r0.w / 2; fy = r0.y;        break;
+      case 's':  fx = r0.x + r0.w / 2; fy = r0.y; break;
       case 'w':  fx = r0.x + r0.w; fy = r0.y + r0.h / 2; break;
-      case 'e':  fx = r0.x;        fy = r0.y + r0.h / 2; break;
+      case 'e':  fx = r0.x; fy = r0.y + r0.h / 2; break;
       default: return { x, y, w, h };
     }
     if (handle === 'n' || handle === 's') w = h * a;
     else if (handle === 'w' || handle === 'e') h = w / a;
-    else { // corners — pick larger (more responsive)
-      const wFromH = h * a, hFromW = w / a;
-      if (wFromH >= w) w = wFromH; else h = hFromW;
-    }
-    // reposition
+    else { const wH = h * a; if (wH >= w) w = wH; else h = w / a; }
     switch (handle) {
       case 'nw': x = fx - w; y = fy - h; break;
-      case 'ne': x = fx;     y = fy - h; break;
-      case 'sw': x = fx - w; y = fy;     break;
-      case 'se': x = fx;     y = fy;     break;
+      case 'ne': x = fx; y = fy - h; break;
+      case 'sw': x = fx - w; y = fy; break;
+      case 'se': x = fx; y = fy; break;
       case 'n':  x = fx - w / 2; y = fy - h; break;
-      case 's':  x = fx - w / 2; y = fy;     break;
+      case 's':  x = fx - w / 2; y = fy; break;
       case 'w':  x = fx - w; y = fy - h / 2; break;
-      case 'e':  x = fx;     y = fy - h / 2; break;
+      case 'e':  x = fx; y = fy - h / 2; break;
     }
-    // bound: shrink keeping ratio if overflow
     if (w > meta.dispW) { w = meta.dispW; h = w / a; }
     if (h > meta.dispH) { h = meta.dispH; w = h * a; }
-    if (x < 0) x = 0;
-    if (y < 0) y = 0;
+    if (x < 0) x = 0; if (y < 0) y = 0;
     if (x + w > meta.dispW) x = meta.dispW - w;
     if (y + h > meta.dispH) y = meta.dispH - h;
     return { x, y, w, h };
   }
-
   function pointerToImageCoord(e) {
-    const rect = stageEl.getBoundingClientRect();
-    const meta = stageEl._dispMeta;
-    const px = e.clientX - rect.left - meta.offX;
-    const py = e.clientY - rect.top - meta.offY;
-    return { x: clamp(px, 0, meta.dispW), y: clamp(py, 0, meta.dispH) };
+    const r = stageEl.getBoundingClientRect(), m = stageEl._dispMeta;
+    return { x: clamp(e.clientX - r.left - m.offX, 0, m.dispW), y: clamp(e.clientY - r.top - m.offY, 0, m.dispH) };
   }
-
-  // Bound once at init; uses current roiEl/_dispMeta lazily
-  (function bindRoiPointersOnce() {
+  (function bindOnce() {
     let drag = null;
-    const onDown = (e) => {
+    stageEl.addEventListener('pointerdown', (e) => {
       if (!roiEl || !stageEl._dispMeta) return;
       e.preventDefault();
-      const meta = stageEl._dispMeta;
+      const m = stageEl._dispMeta;
       const handle = e.target.dataset?.handle;
       const start = pointerToImageCoord(e);
       const r0 = {
-        x: parseFloat(roiEl.style.left) - meta.offX,
-        y: parseFloat(roiEl.style.top) - meta.offY,
+        x: parseFloat(roiEl.style.left) - m.offX,
+        y: parseFloat(roiEl.style.top) - m.offY,
         w: parseFloat(roiEl.style.width),
         h: parseFloat(roiEl.style.height),
       };
       drag = { handle: handle || 'move', start, r0, pid: e.pointerId };
       stageEl.setPointerCapture(e.pointerId);
-    };
-    const onMove = (e) => {
+    });
+    stageEl.addEventListener('pointermove', (e) => {
       if (!drag) return;
-      const meta = stageEl._dispMeta;
+      const m = stageEl._dispMeta;
       const p = pointerToImageCoord(e);
       let { x, y, w, h } = drag.r0;
-      const dx = p.x - drag.start.x;
-      const dy = p.y - drag.start.y;
-      const minSize = 8;
+      const dx = p.x - drag.start.x, dy = p.y - drag.start.y, MIN = 8;
       switch (drag.handle) {
-        case 'move':
-          x = clamp(x + dx, 0, meta.dispW - w);
-          y = clamp(y + dy, 0, meta.dispH - h);
-          break;
-        case 'nw': { const nx = clamp(x + dx, 0, x + w - minSize); const ny = clamp(y + dy, 0, y + h - minSize); w += x - nx; h += y - ny; x = nx; y = ny; break; }
-        case 'ne': { const nw = clamp(w + dx, minSize, meta.dispW - x); const ny = clamp(y + dy, 0, y + h - minSize); h += y - ny; y = ny; w = nw; break; }
-        case 'sw': { const nx = clamp(x + dx, 0, x + w - minSize); const nh = clamp(h + dy, minSize, meta.dispH - y); w += x - nx; x = nx; h = nh; break; }
-        case 'se': { w = clamp(w + dx, minSize, meta.dispW - x); h = clamp(h + dy, minSize, meta.dispH - y); break; }
-        case 'n':  { const ny = clamp(y + dy, 0, y + h - minSize); h += y - ny; y = ny; break; }
-        case 's':  { h = clamp(h + dy, minSize, meta.dispH - y); break; }
-        case 'w':  { const nx = clamp(x + dx, 0, x + w - minSize); w += x - nx; x = nx; break; }
-        case 'e':  { w = clamp(w + dx, minSize, meta.dispW - x); break; }
+        case 'move': x = clamp(x + dx, 0, m.dispW - w); y = clamp(y + dy, 0, m.dispH - h); break;
+        case 'nw': { const nx = clamp(x + dx, 0, x + w - MIN); const ny = clamp(y + dy, 0, y + h - MIN); w += x - nx; h += y - ny; x = nx; y = ny; break; }
+        case 'ne': { const nw = clamp(w + dx, MIN, m.dispW - x); const ny = clamp(y + dy, 0, y + h - MIN); h += y - ny; y = ny; w = nw; break; }
+        case 'sw': { const nx = clamp(x + dx, 0, x + w - MIN); const nh = clamp(h + dy, MIN, m.dispH - y); w += x - nx; x = nx; h = nh; break; }
+        case 'se': { w = clamp(w + dx, MIN, m.dispW - x); h = clamp(h + dy, MIN, m.dispH - y); break; }
+        case 'n':  { const ny = clamp(y + dy, 0, y + h - MIN); h += y - ny; y = ny; break; }
+        case 's':  { h = clamp(h + dy, MIN, m.dispH - y); break; }
+        case 'w':  { const nx = clamp(x + dx, 0, x + w - MIN); w += x - nx; x = nx; break; }
+        case 'e':  { w = clamp(w + dx, MIN, m.dispW - x); break; }
       }
-      // apply aspect lock if active
-      const adj = applyAspectToDisp(drag.handle, x, y, w, h, drag.r0, meta);
-      x = adj.x; y = adj.y; w = adj.w; h = adj.h;
-      // write back to state
-      writeRoiFromDisp(x, y, w, h);
-      layoutRoi();
-      writeRoiInputs();
-    };
-    const onUp = (e) => {
-      if (drag) { try { stageEl.releasePointerCapture(drag.pid); } catch {} drag = null; }
-    };
-    stageEl.addEventListener('pointerdown', onDown);
-    stageEl.addEventListener('pointermove', onMove);
+      const adj = applyAspectToDisp(drag.handle, x, y, w, h, drag.r0, m);
+      writeRoiFromDisp(adj.x, adj.y, adj.w, adj.h);
+      layoutRoi(); writeRoiInputs();
+    });
+    const onUp = (e) => { if (drag) { try { stageEl.releasePointerCapture(drag.pid); } catch {} drag = null; } };
     stageEl.addEventListener('pointerup', onUp);
     stageEl.addEventListener('pointercancel', onUp);
   })();
-
   function writeRoiFromDisp(x, y, w, h) {
-    const { dispW, dispH, refW, refH } = stageEl._dispMeta;
-    if (state.mode === 'ratio') {
-      state.roi = { x: x / dispW, y: y / dispH, w: w / dispW, h: h / dispH };
-    } else {
-      const sx = refW / dispW, sy = refH / dispH;
+    const m = stageEl._dispMeta;
+    if (state.mode === 'ratio') state.roi = { x: x / m.dispW, y: y / m.dispH, w: w / m.dispW, h: h / m.dispH };
+    else {
+      const sx = m.refW / m.dispW, sy = m.refH / m.dispH;
       state.roi = { x: Math.round(x * sx), y: Math.round(y * sy), w: Math.round(w * sx), h: Math.round(h * sy) };
     }
   }
-
   function writeRoiInputs() {
     const r = state.roi;
     const fmt = state.mode === 'ratio' ? (v) => v.toFixed(3) : (v) => Math.round(v);
     $('roiX').value = fmt(r.x); $('roiY').value = fmt(r.y);
     $('roiW').value = fmt(r.w); $('roiH').value = fmt(r.h);
   }
-
   function updateRoiUI() {
-    const ref = state.images.find(i => i.id === state.refId);
-    if (state.mode === 'abs' && ref) {
-      ['roiX','roiY','roiW','roiH'].forEach(id => { $(id).step = '1'; });
-    } else {
-      ['roiX','roiY','roiW','roiH'].forEach(id => { $(id).step = '0.001'; });
-    }
+    if (state.mode === 'abs') ['roiX','roiY','roiW','roiH'].forEach(id => $(id).step = '1');
+    else ['roiX','roiY','roiW','roiH'].forEach(id => $(id).step = '0.001');
     writeRoiInputs();
   }
-
   function readRoiInputs(changedKey) {
-    const r = {
-      x: parseFloat($('roiX').value) || 0,
-      y: parseFloat($('roiY').value) || 0,
-      w: parseFloat($('roiW').value) || 0,
-      h: parseFloat($('roiH').value) || 0,
-    };
+    const r = { x: +$('roiX').value || 0, y: +$('roiY').value || 0, w: +$('roiW').value || 0, h: +$('roiH').value || 0 };
     const ag = getAspect();
     if (ag) {
-      // effective ratio in roi units: roiW/roiH = a / imgRatio_inv ... compute target
-      // image-px ratio = (r.w * imgW) / (r.h * imgH) = a
-      // -> r.w / r.h = a * imgH / imgW = a / imgRatio
       const target = ag.a / ag.imgRatio;
-      if (changedKey === 'h') r.w = r.h * target;
-      else r.h = r.w / target;
+      if (changedKey === 'h') r.w = r.h * target; else r.h = r.w / target;
     }
-    state.roi = r;
-    layoutRoi();
+    state.roi = r; layoutRoi();
     if (ag) writeRoiInputs();
   }
   ['roiX','roiY','roiW','roiH'].forEach(id => $(id).addEventListener('input', () => readRoiInputs(id.slice(3).toLowerCase())));
 
-  // mode toggle
   $('modeRatio').addEventListener('click', () => switchMode('ratio'));
   $('modeAbs').addEventListener('click', () => switchMode('abs'));
   function switchMode(m) {
     if (state.mode === m) return;
     const ref = state.images.find(i => i.id === state.refId);
-    // convert
     if (ref) {
-      if (m === 'abs') {
-        state.roi = {
-          x: Math.round(state.roi.x * ref.w),
-          y: Math.round(state.roi.y * ref.h),
-          w: Math.round(state.roi.w * ref.w),
-          h: Math.round(state.roi.h * ref.h),
-        };
-      } else {
-        state.roi = {
-          x: state.roi.x / ref.w,
-          y: state.roi.y / ref.h,
-          w: state.roi.w / ref.w,
-          h: state.roi.h / ref.h,
-        };
-      }
+      if (m === 'abs') state.roi = { x: Math.round(state.roi.x * ref.w), y: Math.round(state.roi.y * ref.h), w: Math.round(state.roi.w * ref.w), h: Math.round(state.roi.h * ref.h) };
+      else state.roi = { x: state.roi.x / ref.w, y: state.roi.y / ref.h, w: state.roi.w / ref.w, h: state.roi.h / ref.h };
     }
     state.mode = m;
     $('modeRatio').classList.toggle('on', m === 'ratio');
     $('modeAbs').classList.toggle('on', m === 'abs');
-    updateRoiUI();
-    layoutRoi();
+    updateRoiUI(); layoutRoi();
   }
 
   $('presetBust').addEventListener('click', () => {
-    // bust-up: 正方形 (1:1) を上端寄り中央に配置
     const ref = state.images.find(i => i.id === state.refId);
-    if (!ref) {
-      state.roi = { x: 0.2, y: 0.03, w: 0.6, h: 0.6 };
-    } else {
-      const sidePx = Math.min(ref.w * 0.7, ref.h * 0.5);
-      const xPx = (ref.w - sidePx) / 2;
-      const yPx = ref.h * 0.03;
-      if (state.mode === 'ratio') {
-        state.roi = { x: xPx / ref.w, y: yPx / ref.h, w: sidePx / ref.w, h: sidePx / ref.h };
-      } else {
-        state.roi = { x: Math.round(xPx), y: Math.round(yPx), w: Math.round(sidePx), h: Math.round(sidePx) };
-      }
+    if (!ref) state.roi = { x: 0.2, y: 0.03, w: 0.6, h: 0.6 };
+    else {
+      const side = Math.min(ref.w * 0.7, ref.h * 0.5);
+      const xPx = (ref.w - side) / 2, yPx = ref.h * 0.03;
+      if (state.mode === 'ratio') state.roi = { x: xPx / ref.w, y: yPx / ref.h, w: side / ref.w, h: side / ref.h };
+      else state.roi = { x: Math.round(xPx), y: Math.round(yPx), w: Math.round(side), h: Math.round(side) };
     }
-    setAspect('1', true);   // ロック ON + 1:1 に整形
-    layoutRoi(); writeRoiInputs();
+    setAspect('1', true); layoutRoi(); writeRoiInputs();
   });
   $('presetReset').addEventListener('click', () => {
     const ref = state.images.find(i => i.id === state.refId);
@@ -788,17 +1424,14 @@
     layoutRoi(); writeRoiInputs();
   });
 
-  window.addEventListener('resize', () => { drawStage(); });
+  window.addEventListener('resize', drawStage);
 
-  // ====== Crop all ======
+  // ===== Crops =====
   function setMsg(el, kind, text) {
     el.replaceChildren();
-    const span = document.createElement('span');
-    span.className = kind;
-    span.textContent = text;
+    const span = document.createElement('span'); span.className = kind; span.textContent = text;
     el.appendChild(span);
   }
-
   $('applyCrop').addEventListener('click', () => {
     if (!state.images.length) { setMsg($('cropMsg'), 'err', '画像がありません'); return; }
     state.crops.forEach(c => { c.canvas.width = 0; c.canvas.height = 0; });
@@ -806,45 +1439,26 @@
     let count = 0, skipped = 0;
     for (const it of state.images) {
       let sx, sy, sw, sh;
-      if (state.mode === 'ratio') {
-        sx = state.roi.x * it.w; sy = state.roi.y * it.h;
-        sw = state.roi.w * it.w; sh = state.roi.h * it.h;
-      } else {
-        sx = state.roi.x; sy = state.roi.y; sw = state.roi.w; sh = state.roi.h;
-      }
+      if (state.mode === 'ratio') { sx = state.roi.x * it.w; sy = state.roi.y * it.h; sw = state.roi.w * it.w; sh = state.roi.h * it.h; }
+      else { sx = state.roi.x; sy = state.roi.y; sw = state.roi.w; sh = state.roi.h; }
       sx = Math.max(0, Math.round(sx)); sy = Math.max(0, Math.round(sy));
-      sw = Math.min(it.w - sx, Math.round(sw));
-      sh = Math.min(it.h - sy, Math.round(sh));
+      sw = Math.min(it.w - sx, Math.round(sw)); sh = Math.min(it.h - sy, Math.round(sh));
       if (sw < 1 || sh < 1) { skipped++; continue; }
-      const c = document.createElement('canvas');
-      c.width = sw; c.height = sh;
-      const ctx = c.getContext('2d');
-      ctx.drawImage(it.img, sx, sy, sw, sh, 0, 0, sw, sh);
-      const blob = null; // generate URL via toBlob lazily? use toDataURL? Use blob for memory
-      // use createObjectURL via toBlob async — but keep order, so do sync via toDataURL fallback to blob
+      const c = document.createElement('canvas'); c.width = sw; c.height = sh;
+      c.getContext('2d').drawImage(it.img, sx, sy, sw, sh, 0, 0, sw, sh);
       state.crops.push({ id: newId(), canvas: c, url: c.toDataURL('image/png'), srcId: it.id, name: it.name });
       count++;
     }
     renderCropList();
-    const msg = count + ' 枚をトリミングしました' + (skipped ? '（' + skipped + ' 枚は範囲外でスキップ）' : '');
-    setMsg($('cropMsg'), 'ok', msg);
+    setMsg($('cropMsg'), 'ok-msg', count + ' 枚をトリミングしました' + (skipped ? '（' + skipped + ' 枚は範囲外でスキップ）' : ''));
   });
-
-  // ====== Crop list (drag reorder) ======
   function renderCropList() {
-    const list = $('cropList');
-    list.innerHTML = '';
+    const list = $('cropList'); list.innerHTML = '';
     state.crops.forEach((c, i) => {
       const el = document.createElement('div');
-      el.className = 'citem';
-      el.draggable = true;
-      el.dataset.id = c.id;
+      el.className = 'citem'; el.draggable = true; el.dataset.id = c.id;
       el.innerHTML = '<img alt="" src="' + c.url + '"><span class="idx">' + (i + 1) + '</span>';
-      el.addEventListener('dragstart', (e) => {
-        el.classList.add('dragging');
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', c.id);
-      });
+      el.addEventListener('dragstart', (e) => { el.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', c.id); });
       el.addEventListener('dragend', () => el.classList.remove('dragging'));
       el.addEventListener('dragover', (e) => { e.preventDefault(); el.classList.add('over'); });
       el.addEventListener('dragleave', () => el.classList.remove('over'));
@@ -861,39 +1475,30 @@
       });
       list.appendChild(el);
     });
-    $('cropCount').textContent = state.crops.length ? state.crops.length + ' 枚' : '';
+    $('cropCount').textContent = state.crops.length ? state.crops.length + ' 枚 · ドラッグで並び替え' : 'ドラッグで並び替え';
   }
-
   $('dlEach').addEventListener('click', async () => {
     if (!state.crops.length) return;
     for (let i = 0; i < state.crops.length; i++) {
       const c = state.crops[i];
-      const blob = await new Promise(res => c.canvas.toBlob(res, 'image/png'));
+      const blob = await new Promise(r => c.canvas.toBlob(r, 'image/png'));
       const base = (c.name || ('crop_' + (i + 1))).replace(/\.[^.]+$/, '');
       downloadBlob(blob, base + '_crop.png');
       await new Promise(r => setTimeout(r, 80));
     }
   });
 
-  // ====== Background color sync ======
+  // ===== BG =====
   const bgChk = $('bgTransparent'), bgCol = $('bgColor'), bgHex = $('bgHex');
-  function setBgEnabled(enabled) {
-    bgCol.disabled = !enabled; bgHex.disabled = !enabled;
-  }
+  function setBgEnabled(en) { bgCol.disabled = !en; bgHex.disabled = !en; }
   bgChk.addEventListener('change', () => {
     setBgEnabled(!bgChk.checked);
-    if (state.fmt === 'jpg' && bgChk.checked) {
-      // JPEG can't be transparent; auto-disable
-      bgChk.checked = false; setBgEnabled(true);
-    }
+    if (state.fmt === 'jpg' && bgChk.checked) { bgChk.checked = false; setBgEnabled(true); }
   });
-  bgCol.addEventListener('input', () => { bgHex.value = bgCol.value.toLowerCase(); });
-  bgHex.addEventListener('input', () => {
-    const v = normalizeHex(bgHex.value);
-    if (v) bgCol.value = v;
-  });
+  bgCol.addEventListener('input', () => bgHex.value = bgCol.value.toLowerCase());
+  bgHex.addEventListener('input', () => { const v = normalizeHex(bgHex.value); if (v) bgCol.value = v; });
 
-  // ====== Format / fit toggles ======
+  // ===== Format / Fit =====
   function applyFmt() {
     const isJpg = state.fmt === 'jpg';
     $('fmtPng').classList.toggle('on', !isJpg);
@@ -902,222 +1507,148 @@
     if (isJpg) {
       if (bgChk.checked) { bgChk.checked = false; setBgEnabled(true); }
       $('fmtNote').textContent = 'JPEG モード: 透過不可。背景色が必須のため自動で透過 OFF にしました。品質スライダ有効。';
-    } else {
-      $('fmtNote').textContent = 'PNG モード: 透過対応 / 品質パラメータは無視されます。';
-    }
+    } else $('fmtNote').textContent = 'PNG モード: 透過対応 / 品質パラメータは無視されます。';
   }
   $('fmtPng').addEventListener('click', () => { state.fmt = 'png'; applyFmt(); });
   $('fmtJpg').addEventListener('click', () => { state.fmt = 'jpg'; applyFmt(); });
   $('fitFit').addEventListener('click', () => { state.fit = 'fit'; $('fitFit').classList.add('on'); $('fitCover').classList.remove('on'); });
   $('fitCover').addEventListener('click', () => { state.fit = 'cover'; $('fitCover').classList.add('on'); $('fitFit').classList.remove('on'); });
-  $('quality').addEventListener('input', () => { state.quality = parseInt($('quality').value, 10) / 100; $('qualityVal').textContent = $('quality').value; });
+  $('quality').addEventListener('input', () => { state.quality = +$('quality').value / 100; $('qualityVal').textContent = $('quality').value; });
 
-  // ====== Tile render ======
+  // ===== Tile render =====
   let lastTileBlob = null;
   $('renderTile').addEventListener('click', async () => {
-    lastTileBlob = null;
-    $('dlTile').disabled = true;
+    lastTileBlob = null; $('dlTile').disabled = true;
     if (!state.crops.length) { setMsg($('tileInfo'), 'err', '先にトリミングしてください'); return; }
-    const cols = Math.max(1, parseInt($('cols').value, 10) || 1);
-    let rows = Math.max(0, parseInt($('rows').value, 10) || 0);
+    const cols = Math.max(1, +$('cols').value || 1);
+    let rows = Math.max(0, +$('rows').value || 0);
     const n = state.crops.length;
     if (rows === 0) rows = Math.ceil(n / cols);
-    const gap = Math.max(0, parseInt($('gap').value, 10) || 0);
-    const pad = Math.max(0, parseInt($('pad').value, 10) || 0);
-    // cell size = max crop dimensions (preserve max quality)
+    const gap = Math.max(0, +$('gap').value || 0), pad = Math.max(0, +$('pad').value || 0);
     let cellW = 0, cellH = 0;
     for (const c of state.crops) { cellW = Math.max(cellW, c.canvas.width); cellH = Math.max(cellH, c.canvas.height); }
     const W = pad * 2 + cols * cellW + (cols - 1) * gap;
     const H = pad * 2 + rows * cellH + (rows - 1) * gap;
     const MAX = 16384;
-    if (W > MAX || H > MAX) {
-      setMsg($('tileInfo'), 'err', '出力サイズ ' + W + '×' + H + ' が上限 ' + MAX + ' を超えます。列数を減らすか画像数を減らしてください。');
-      return;
-    }
-    const canvas = $('preview');
-    canvas.width = W; canvas.height = H;
+    if (W > MAX || H > MAX) { setMsg($('tileInfo'), 'err', '出力サイズ ' + W + '×' + H + ' が上限 ' + MAX + ' を超えます。'); return; }
+    const canvas = $('preview'); canvas.width = W; canvas.height = H;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, W, H);
-    if (!bgChk.checked) {
-      ctx.fillStyle = bgCol.value;
-      ctx.fillRect(0, 0, W, H);
-    }
+    if (!bgChk.checked) { ctx.fillStyle = bgCol.value; ctx.fillRect(0, 0, W, H); }
     for (let i = 0; i < n; i++) {
       const r = Math.floor(i / cols), c = i % cols;
-      const x0 = pad + c * (cellW + gap);
-      const y0 = pad + r * (cellH + gap);
-      const src = state.crops[i].canvas;
-      drawIntoCell(ctx, src, x0, y0, cellW, cellH, state.fit);
+      const x0 = pad + c * (cellW + gap), y0 = pad + r * (cellH + gap);
+      drawIntoCell(ctx, state.crops[i].canvas, x0, y0, cellW, cellH, state.fit);
     }
-    // export
     const mime = state.fmt === 'jpg' ? 'image/jpeg' : 'image/png';
     const q = state.fmt === 'jpg' ? state.quality : undefined;
     lastTileBlob = await new Promise(res => canvas.toBlob(res, mime, q));
     $('dlTile').disabled = !lastTileBlob;
     const kb = lastTileBlob ? Math.round(lastTileBlob.size / 102.4) / 10 : 0;
-    setMsg($('tileInfo'), 'ok', W + '×' + H + ' / ' + cols + '列×' + rows + '行 / ' + kb + 'KB');
+    setMsg($('tileInfo'), 'ok-msg', W + '×' + H + ' / ' + cols + '列×' + rows + '行 / ' + kb + ' KB');
   });
-
   function drawIntoCell(ctx, src, x, y, cellW, cellH, fit) {
-    const sw = src.width, sh = src.height;
-    const sRatio = sw / sh, cRatio = cellW / cellH;
+    const sw = src.width, sh = src.height, sR = sw / sh, cR = cellW / cellH;
     let dw, dh;
     if (fit === 'cover') {
-      // fill cell, crop overflow
-      if (sRatio > cRatio) { dh = cellH; dw = dh * sRatio; }
-      else { dw = cellW; dh = dw / sRatio; }
-      const dx = x + (cellW - dw) / 2;
-      const dy = y + (cellH - dh) / 2;
-      ctx.save();
-      ctx.beginPath(); ctx.rect(x, y, cellW, cellH); ctx.clip();
-      ctx.drawImage(src, dx, dy, dw, dh);
-      ctx.restore();
+      if (sR > cR) { dh = cellH; dw = dh * sR; } else { dw = cellW; dh = dw / sR; }
+      const dx = x + (cellW - dw) / 2, dy = y + (cellH - dh) / 2;
+      ctx.save(); ctx.beginPath(); ctx.rect(x, y, cellW, cellH); ctx.clip();
+      ctx.drawImage(src, dx, dy, dw, dh); ctx.restore();
     } else {
-      if (sRatio > cRatio) { dw = cellW; dh = dw / sRatio; }
-      else { dh = cellH; dw = dh * sRatio; }
-      const dx = x + (cellW - dw) / 2;
-      const dy = y + (cellH - dh) / 2;
+      if (sR > cR) { dw = cellW; dh = dw / sR; } else { dh = cellH; dw = dh * sR; }
+      const dx = x + (cellW - dw) / 2, dy = y + (cellH - dh) / 2;
       ctx.drawImage(src, dx, dy, dw, dh);
     }
   }
-
   $('dlTile').addEventListener('click', () => {
     if (!lastTileBlob) return;
     const ext = state.fmt === 'jpg' ? 'jpg' : 'png';
     const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
     downloadBlob(lastTileBlob, 'tachieasy_tile_' + ts + '.' + ext);
   });
-
   function downloadBlob(blob, filename) {
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename; a.rel = 'noopener';
+    const a = document.createElement('a'); a.href = url; a.download = filename;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
-  // ====== Aspect presets ======
+  // ===== Aspect =====
   function reshapeRoiToAspect() {
-    const ag = getAspect();
-    if (!ag) return;
-    const ref = state.images.find(i => i.id === state.refId);
-    // operate in image-px space, then convert back if needed
-    let wPx, hPx, xPx, yPx, imgW, imgH;
-    if (state.mode === 'ratio') {
-      if (!ref) return;
-      imgW = ref.w; imgH = ref.h;
-      xPx = state.roi.x * imgW; yPx = state.roi.y * imgH;
-      wPx = state.roi.w * imgW; hPx = state.roi.h * imgH;
-    } else {
-      if (!ref) return;
-      imgW = ref.w; imgH = ref.h;
-      xPx = state.roi.x; yPx = state.roi.y; wPx = state.roi.w; hPx = state.roi.h;
-    }
-    // keep center, set h from w (or shrink whichever exceeds bounds)
+    const ag = getAspect(); if (!ag) return;
+    const ref = state.images.find(i => i.id === state.refId); if (!ref) return;
+    const imgW = ref.w, imgH = ref.h;
+    let xPx, yPx, wPx, hPx;
+    if (state.mode === 'ratio') { xPx = state.roi.x * imgW; yPx = state.roi.y * imgH; wPx = state.roi.w * imgW; hPx = state.roi.h * imgH; }
+    else { xPx = state.roi.x; yPx = state.roi.y; wPx = state.roi.w; hPx = state.roi.h; }
     const cx = xPx + wPx / 2, cy = yPx + hPx / 2;
     let nw = wPx, nh = wPx / ag.a;
     if (nh > hPx) { nh = hPx; nw = nh * ag.a; }
     nw = Math.min(nw, imgW); nh = Math.min(nh, imgH);
     if (nw / nh > ag.a) nw = nh * ag.a; else nh = nw / ag.a;
     let nx = cx - nw / 2, ny = cy - nh / 2;
-    nx = Math.max(0, Math.min(imgW - nw, nx));
-    ny = Math.max(0, Math.min(imgH - nh, ny));
-    if (state.mode === 'ratio') {
-      state.roi = { x: nx / imgW, y: ny / imgH, w: nw / imgW, h: nh / imgH };
-    } else {
-      state.roi = { x: Math.round(nx), y: Math.round(ny), w: Math.round(nw), h: Math.round(nh) };
-    }
+    nx = Math.max(0, Math.min(imgW - nw, nx)); ny = Math.max(0, Math.min(imgH - nh, ny));
+    if (state.mode === 'ratio') state.roi = { x: nx / imgW, y: ny / imgH, w: nw / imgW, h: nh / imgH };
+    else state.roi = { x: Math.round(nx), y: Math.round(ny), w: Math.round(nw), h: Math.round(nh) };
     layoutRoi(); writeRoiInputs();
   }
-
   function setAspect(value, fromButton) {
-    if (value === '' || value == null) {
-      state.aspect = null;
-      if (fromButton) state.aspectLock = false;
-    } else {
-      state.aspect = parseFloat(value);
-      if (fromButton) state.aspectLock = true;
-    }
-    document.querySelectorAll('#aspectSeg button').forEach(b => {
-      b.classList.toggle('on', (b.dataset.aspect || '') === (value ?? ''));
-    });
+    if (value === '' || value == null) { state.aspect = null; if (fromButton) state.aspectLock = false; }
+    else { state.aspect = parseFloat(value); if (fromButton) state.aspectLock = true; }
+    document.querySelectorAll('#aspectSeg button').forEach(b => b.classList.toggle('on', (b.dataset.aspect || '') === (value ?? '')));
     $('aspectLock').checked = state.aspectLock;
     if (state.aspect && state.aspectLock) reshapeRoiToAspect();
   }
-  document.querySelectorAll('#aspectSeg button').forEach(b => {
-    b.addEventListener('click', () => setAspect(b.dataset.aspect || '', true));
-  });
-  $('aspectLock').addEventListener('change', () => {
-    state.aspectLock = $('aspectLock').checked;
-    if (state.aspect && state.aspectLock) reshapeRoiToAspect();
-  });
+  document.querySelectorAll('#aspectSeg button').forEach(b => b.addEventListener('click', () => setAspect(b.dataset.aspect || '', true)));
+  $('aspectLock').addEventListener('change', () => { state.aspectLock = $('aspectLock').checked; if (state.aspect && state.aspectLock) reshapeRoiToAspect(); });
 
-  // ====== Theme ======
+  // ===== Theme =====
   function applyTheme(t) {
     if (t === 'auto') document.documentElement.removeAttribute('data-theme');
     else document.documentElement.setAttribute('data-theme', t);
-    $('themeBtn').textContent = 'テーマ: ' + t;
+    $('themeLabel').textContent = t;
     try { localStorage.setItem(LS.THEME, t); } catch {}
   }
-  function nextTheme(cur) { return ({ auto: 'light', light: 'dark', dark: 'auto' })[cur] || 'auto'; }
   let curTheme = 'auto';
   try { curTheme = localStorage.getItem(LS.THEME) || 'auto'; } catch {}
   applyTheme(curTheme);
-  $('themeBtn').addEventListener('click', () => { curTheme = nextTheme(curTheme); applyTheme(curTheme); });
+  $('themeBtn').addEventListener('click', () => {
+    curTheme = ({ auto: 'light', light: 'dark', dark: 'auto' })[curTheme] || 'auto';
+    applyTheme(curTheme);
+  });
 
-  // ====== Tooltip (single floating element, viewport-clamped) ======
-  const tipEl = document.createElement('div');
-  tipEl.className = 'tip';
-  tipEl.setAttribute('role', 'tooltip');
-  document.body.appendChild(tipEl);
-  function showTip(target) {
-    const t = target.getAttribute('data-tip');
-    if (!t) return;
-    tipEl.textContent = t;
-    tipEl.setAttribute('data-show', '');
-    const r = target.getBoundingClientRect();
-    const tw = tipEl.offsetWidth;
-    const th = tipEl.offsetHeight;
-    const margin = 6, edge = 6;
-    let top = r.bottom + margin;
-    if (top + th > window.innerHeight - edge) top = Math.max(edge, r.top - th - margin);
-    let left = r.left + r.width / 2 - tw / 2;
-    left = Math.max(edge, Math.min(window.innerWidth - tw - edge, left));
-    tipEl.style.top = top + 'px';
-    tipEl.style.left = left + 'px';
-  }
-  function hideTip() { tipEl.removeAttribute('data-show'); }
-  document.addEventListener('mouseover', (e) => {
-    const t = e.target.closest && e.target.closest('[data-tip]');
-    if (t) showTip(t); else hideTip();
-  });
-  document.addEventListener('mouseout', (e) => {
-    const t = e.target.closest && e.target.closest('[data-tip]');
-    if (t) hideTip();
-  });
-  document.addEventListener('focusin', (e) => {
-    const t = e.target.closest && e.target.closest('[data-tip]');
-    if (t) showTip(t);
-  });
-  document.addEventListener('focusout', hideTip);
-  window.addEventListener('scroll', hideTip, { passive: true });
-  window.addEventListener('resize', hideTip);
-
-  // ====== Help modal ======
+  // ===== Help modal =====
   const helpModal = $('helpModal');
   function openHelp() { helpModal.setAttribute('open', ''); }
-  function closeHelp() { helpModal.removeAttribute('open'); try { localStorage.setItem(LS.HELP_SEEN, '1'); } catch {} }
+  function closeHelp() { helpModal.removeAttribute('open'); }
   $('helpBtn').addEventListener('click', openHelp);
   $('helpClose').addEventListener('click', closeHelp);
   helpModal.addEventListener('click', (e) => { if (e.target === helpModal) closeHelp(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && helpModal.hasAttribute('open')) closeHelp(); });
-  // first-visit auto-open
-  try { if (!localStorage.getItem(LS.HELP_SEEN)) openHelp(); } catch {}
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeHelp(); });
 
-  // ====== init ======
+  // ===== Tooltip =====
+  const tipEl = document.createElement('div'); tipEl.className = 'tip'; document.body.appendChild(tipEl);
+  function showTip(target) {
+    const t = target.getAttribute('data-tip'); if (!t) return;
+    tipEl.textContent = t; tipEl.setAttribute('data-show', '');
+    const r = target.getBoundingClientRect();
+    const tw = tipEl.offsetWidth, th = tipEl.offsetHeight, M = 6, E = 6;
+    let top = r.bottom + M;
+    if (top + th > window.innerHeight - E) top = Math.max(E, r.top - th - M);
+    let left = r.left + r.width / 2 - tw / 2;
+    left = Math.max(E, Math.min(window.innerWidth - tw - E, left));
+    tipEl.style.top = top + 'px'; tipEl.style.left = left + 'px';
+  }
+  function hideTip() { tipEl.removeAttribute('data-show'); }
+  document.addEventListener('mouseover', (e) => { const t = e.target.closest?.('[data-tip]'); if (t) showTip(t); });
+  document.addEventListener('mouseout', hideTip);
+  document.addEventListener('focusin', (e) => { if (e.target.matches?.('[data-tip]')) showTip(e.target); });
+  document.addEventListener('focusout', hideTip);
+
   updateRoiUI();
-  applyFmt();
 })();
 </script>
+
 </body>
 </html>
