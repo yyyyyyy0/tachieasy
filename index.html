@@ -103,15 +103,18 @@
     }
   }
   * { box-sizing: border-box; }
+  html {
+    overflow-x: hidden;
+  }
   html, body {
     margin: 0; padding: 0;
     background: var(--bg); color: var(--text);
     font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
     font-size: 14px; line-height: 1.55;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
   }
   img, svg, canvas, video { max-width: 100%; }
+  input[type=file] { max-width: 100%; }
   body {
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     min-height: 100vh;
@@ -214,6 +217,7 @@
     border-radius: var(--r-lg);
     padding: 16px 18px;
     box-shadow: var(--shadow-sm);
+    min-width: 0;
   }
   .panel-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
   .step-badge {
@@ -645,13 +649,16 @@
     .privacy-pill { padding: 4px 9px 4px 8px; font-size: 11px; }
     .ctrl { gap: 6px; }
     .ctrl button { padding: 6px 10px; font-size: 11.5px; }
-    .hero-strip { padding: 0 12px; gap: 10px; margin-top: 12px; }
-    .hero-card { padding: 12px; min-width: 0; }
+    .hero-strip { padding: 0 12px; gap: 8px; margin-top: 12px; flex-direction: column; }
+    .hero-card { padding: 10px 12px; min-width: 0; width: 100%; }
+    .hero-card h4 { font-size: 13px; }
+    .hero-card p { font-size: 11.5px; }
     main { padding: 12px; gap: 12px; }
     .panel { padding: 14px; }
     .panel-head { gap: 8px; }
     .panel-sub { width: 100%; margin-left: 0; }
     .row { gap: 6px; }
+    .row > input[type=file] { flex: 1 1 100%; min-width: 0; }
     .modal-backdrop { padding: 16px 8px; }
     .modal-hero { padding: 18px 18px; gap: 12px; }
     .modal-hero h2 { font-size: 17px; }
@@ -661,6 +668,14 @@
     .preview-wrap { padding: 8px; }
     input[type=number], input[type=text] { min-width: 0; }
     .roi-grid { grid-template-columns: 1fr 1fr; gap: 6px 8px; }
+    .steps { grid-template-columns: 1fr; gap: 10px; }
+    .step { padding: 12px; }
+    .step .illus { aspect-ratio: 16/7; margin-bottom: 8px; }
+    .feat-row { grid-template-columns: 1fr; }
+    .privacy-callout { padding: 14px; gap: 12px; }
+    .privacy-callout .pc-ico { width: 36px; height: 36px; }
+    .privacy-callout .pc-ico svg { width: 20px; height: 20px; }
+    .privacy-callout li { font-size: 12px; }
   }
   @media (max-width: 420px) {
     .privacy-pill { display: none; }
