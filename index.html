@@ -2,10 +2,11 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none';">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%234f7dff'/%3E%3Ctext x='50%25' y='56%25' font-family='system-ui,sans-serif' font-size='38' font-weight='700' text-anchor='middle' dominant-baseline='middle' fill='white'%3Et%3C/text%3E%3C/svg%3E">
 <title>tachieasy — TRPG 立ち絵 一括トリミング & タイリング</title>
 <style>
   :root {
@@ -19,6 +20,20 @@
     --accent-strong: #4f7dff;
     --danger: #ff6b6b;
     --ok: #4ade80;
+    /* surfaces */
+    --canvas-bg: #0a0a0a;
+    --checker-a: #222;
+    --checker-b: #1a1a1a;
+    --thumb-bg: rgba(0,0,0,.5);
+    /* success banner */
+    --ok-bg: #0f2417;
+    --ok-border: #1f5a36;
+    --ok-text: #b8f0c8;
+    /* control sizes */
+    --tap: 44px;
+    --tap-md: 40px;
+    --tap-sm: 36px;
+    --tap-xs: 28px;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
@@ -28,40 +43,47 @@
   header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   header h1 { font-size: 16px; margin: 0; font-weight: 600; }
   header .tag { font-size: 11px; color: var(--text-dim); border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; }
-  .privacy-banner { background: #0f2417; border: 1px solid #1f5a36; color: #b8f0c8; padding: 8px 12px; font-size: 12px; border-radius: 6px; margin: 8px 16px; }
+  .privacy-banner { background: var(--ok-bg); border: 1px solid var(--ok-border); color: var(--ok-text); padding: 8px 12px; font-size: 12px; border-radius: 6px; margin: 8px 16px; }
   main { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 12px; max-width: 1400px; margin: 0 auto; }
   @media (min-width: 980px) { main { grid-template-columns: 1fr 1fr; } .full { grid-column: 1 / -1; } }
   .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
   .panel h2 { font-size: 13px; margin: 0 0 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
   .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 6px 0; }
   .row label { font-size: 12px; color: var(--text-dim); min-width: 64px; }
+  .field { display: inline-flex; align-items: center; gap: 6px; }
+  .field label { min-width: 0; }
+  .field input { width: 90px; min-width: 60px; }
+  .roi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin: 6px 0; }
+  .roi-grid .field { width: 100%; }
+  .roi-grid .field input { flex: 1; width: auto; }
   button, input[type=file]::file-selector-button {
     background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
-    border-radius: 6px; padding: 8px 12px; font-size: 13px; cursor: pointer; min-height: 40px;
+    border-radius: 6px; padding: 8px 12px; font-size: 13px; cursor: pointer; min-height: var(--tap-md);
   }
   button.primary { background: var(--accent-strong); border-color: var(--accent-strong); color: white; font-weight: 600; }
   button.primary:hover { background: var(--accent); }
   button:disabled { opacity: .4; cursor: not-allowed; }
-  button.icon { padding: 4px 8px; min-height: 28px; font-size: 12px; }
+  button.icon { padding: 4px 8px; min-height: var(--tap-xs); font-size: 12px; }
   input[type=number], input[type=text] {
     background: var(--bg); color: var(--text); border: 1px solid var(--border);
-    border-radius: 6px; padding: 6px 8px; font-size: 13px; min-height: 36px; min-width: 60px;
+    border-radius: 6px; padding: 6px 8px; font-size: 13px; min-height: var(--tap-sm); min-width: 60px;
   }
-  input[type=color] { width: 44px; height: 36px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); padding: 2px; cursor: pointer; }
+  input[type=color] { width: var(--tap); height: var(--tap-sm); border: 1px solid var(--border); border-radius: 6px; background: var(--bg); padding: 2px; cursor: pointer; }
   input[type=checkbox] { width: 18px; height: 18px; }
   input[type=range] { flex: 1; min-width: 100px; }
   .img-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; max-height: 180px; overflow-y: auto; padding: 4px; background: var(--bg); border-radius: 6px; }
-  .img-list .item { position: relative; width: 64px; height: 64px; border: 2px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; flex-shrink: 0; background: #0008; }
+  .img-list .item { position: relative; width: 64px; height: 64px; border: 2px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; flex-shrink: 0; background: var(--thumb-bg); }
   .img-list .item.ref { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(122,162,255,.3); }
   .img-list .item img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .img-list .item .x { position: absolute; top: 1px; right: 1px; background: rgba(0,0,0,.7); color: white; border: none; width: 18px; height: 18px; border-radius: 50%; font-size: 12px; line-height: 1; padding: 0; cursor: pointer; }
-  .img-list .item .name { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,.6); color: white; font-size: 9px; padding: 1px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .img-list .item .name { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,.7); color: white; font-size: 11px; padding: 2px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
   .roi-stage {
-    position: relative; width: 100%; background: #0a0a0a repeating-conic-gradient(#222 0 25%, #1a1a1a 0 50%) 0 0 / 16px 16px;
+    position: relative; width: 100%; background: var(--canvas-bg) repeating-conic-gradient(var(--checker-a) 0 25%, var(--checker-b) 0 50%) 0 0 / 16px 16px;
     border-radius: 6px; overflow: hidden; touch-action: none; user-select: none;
     aspect-ratio: 4/3;
   }
-  .roi-stage.empty { display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 13px; }
+  .roi-stage.empty { display: flex; align-items: center; justify-content: center; color: var(--text); font-size: 13px;
+    background: var(--canvas-bg); }
   .roi-stage img { position: absolute; pointer-events: none; }
   .roi-rect { position: absolute; border: 2px solid var(--accent); background: rgba(122,162,255,.15); box-sizing: border-box; cursor: move; }
   .roi-rect .h { position: absolute; width: 16px; height: 16px; background: white; border: 2px solid var(--accent-strong); border-radius: 50%; }
@@ -74,12 +96,12 @@
   .roi-rect .h.w  { left: -10px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
   .roi-rect .h.e  { right: -10px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
   .crop-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; min-height: 80px; padding: 4px; background: var(--bg); border-radius: 6px; }
-  .crop-list .citem { width: 80px; height: 80px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; cursor: grab; position: relative; flex-shrink: 0; background: #0008; }
+  .crop-list .citem { width: 80px; height: 80px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; cursor: grab; position: relative; flex-shrink: 0; background: var(--thumb-bg); }
   .crop-list .citem.dragging { opacity: .4; }
   .crop-list .citem.over { box-shadow: inset 0 0 0 3px var(--accent); }
   .crop-list .citem img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .crop-list .citem .idx { position: absolute; top: 1px; left: 2px; color: white; font-size: 10px; background: rgba(0,0,0,.6); padding: 0 4px; border-radius: 3px; }
-  .preview-wrap { background: #0a0a0a repeating-conic-gradient(#222 0 25%, #1a1a1a 0 50%) 0 0 / 16px 16px; border-radius: 6px; padding: 8px; overflow: auto; max-height: 60vh; text-align: center; }
+  .preview-wrap { background: var(--canvas-bg) repeating-conic-gradient(var(--checker-a) 0 25%, var(--checker-b) 0 50%) 0 0 / 16px 16px; border-radius: 6px; padding: 8px; overflow: auto; max-height: 60vh; text-align: center; }
   .preview-wrap canvas { max-width: 100%; height: auto; display: inline-block; vertical-align: top; background: transparent; }
   .hint { font-size: 11px; color: var(--text-dim); }
   .err { color: var(--danger); font-size: 12px; }
@@ -126,13 +148,11 @@
       </div>
     </div>
     <div id="roiStage" class="roi-stage empty">先に画像を読み込んでください</div>
-    <div class="row">
-      <label>X</label><input type="number" id="roiX" step="0.001" min="0">
-      <label>Y</label><input type="number" id="roiY" step="0.001" min="0">
-    </div>
-    <div class="row">
-      <label>W</label><input type="number" id="roiW" step="0.001" min="0">
-      <label>H</label><input type="number" id="roiH" step="0.001" min="0">
+    <div class="roi-grid">
+      <div class="field"><label for="roiX">X</label><input type="number" id="roiX" step="0.001" min="0"></div>
+      <div class="field"><label for="roiY">Y</label><input type="number" id="roiY" step="0.001" min="0"></div>
+      <div class="field"><label for="roiW">W</label><input type="number" id="roiW" step="0.001" min="0"></div>
+      <div class="field"><label for="roiH">H</label><input type="number" id="roiH" step="0.001" min="0"></div>
     </div>
     <div class="row">
       <button id="presetBust" type="button">バストアップ プリセット</button>
@@ -156,21 +176,13 @@
   <section class="panel">
     <h2>4. タイリング設定</h2>
     <div class="row">
-      <label>列数</label>
-      <input type="number" id="cols" min="1" max="20" value="3" step="1">
-      <label>行数</label>
-      <input type="number" id="rows" min="0" max="20" value="0" step="1">
+      <div class="field"><label for="cols">列数</label><input type="number" id="cols" min="1" max="20" value="3" step="1"></div>
+      <div class="field"><label for="rows">行数</label><input type="number" id="rows" min="0" max="20" value="0" step="1"></div>
       <span class="hint">行数=0 で自動</span>
     </div>
     <div class="row">
-      <label>セル間隔</label>
-      <input type="number" id="gap" min="0" max="200" value="8" step="1">
-      <span class="hint">px</span>
-    </div>
-    <div class="row">
-      <label>外側余白</label>
-      <input type="number" id="pad" min="0" max="500" value="8" step="1">
-      <span class="hint">px</span>
+      <div class="field"><label for="gap">セル間隔</label><input type="number" id="gap" min="0" max="200" value="8" step="1"><span class="hint">px</span></div>
+      <div class="field"><label for="pad">外側余白</label><input type="number" id="pad" min="0" max="500" value="8" step="1"><span class="hint">px</span></div>
     </div>
     <div class="row">
       <label>収め方</label>
@@ -191,11 +203,12 @@
         <button id="fmtPng" class="on" type="button">PNG</button>
         <button id="fmtJpg" type="button">JPEG</button>
       </div>
-      <label>品質</label>
-      <input type="range" id="quality" min="50" max="100" value="92" step="1">
-      <span id="qualityVal" class="hint">92</span>
+      <div class="field"><label for="quality">品質</label>
+        <input type="range" id="quality" min="50" max="100" value="92" step="1" disabled>
+        <span id="qualityVal" class="hint">92</span>
+      </div>
     </div>
-    <p class="hint">PNG は透過対応。JPEG は透過不可（自動的に背景色で塗ります）。</p>
+    <p id="fmtNote" class="hint">PNG モード: 透過対応 / 品質パラメータは無視されます。</p>
   </section>
 
   <section class="panel">
@@ -257,12 +270,16 @@
   });
 
   $('clearAll').addEventListener('click', () => {
+    if (!state.images.length && !state.crops.length) return;
+    const msg = '全 ' + state.images.length + ' 枚の画像と '
+      + state.crops.length + ' 枚のクロップを破棄します。よろしいですか？';
+    if (!window.confirm(msg)) return;
     state.images.forEach(i => URL.revokeObjectURL(i.thumbUrl));
     state.images = [];
     state.refId = null;
-    state.crops.forEach(c => URL.revokeObjectURL(c.url));
+    state.crops.forEach(c => { c.canvas.width = 0; c.canvas.height = 0; });
     state.crops = [];
-    renderImgList(); renderCropList(); updateRoiUI();
+    renderImgList(); renderCropList(); drawStage(); updateRoiUI();
   });
 
   function addFile(file) {
@@ -640,11 +657,20 @@
   });
 
   // ====== Format / fit toggles ======
-  $('fmtPng').addEventListener('click', () => { state.fmt = 'png'; $('fmtPng').classList.add('on'); $('fmtJpg').classList.remove('on'); });
-  $('fmtJpg').addEventListener('click', () => {
-    state.fmt = 'jpg'; $('fmtJpg').classList.add('on'); $('fmtPng').classList.remove('on');
-    if (bgChk.checked) { bgChk.checked = false; setBgEnabled(true); }
-  });
+  function applyFmt() {
+    const isJpg = state.fmt === 'jpg';
+    $('fmtPng').classList.toggle('on', !isJpg);
+    $('fmtJpg').classList.toggle('on', isJpg);
+    $('quality').disabled = !isJpg;
+    if (isJpg) {
+      if (bgChk.checked) { bgChk.checked = false; setBgEnabled(true); }
+      $('fmtNote').textContent = 'JPEG モード: 透過不可。背景色が必須のため自動で透過 OFF にしました。品質スライダ有効。';
+    } else {
+      $('fmtNote').textContent = 'PNG モード: 透過対応 / 品質パラメータは無視されます。';
+    }
+  }
+  $('fmtPng').addEventListener('click', () => { state.fmt = 'png'; applyFmt(); });
+  $('fmtJpg').addEventListener('click', () => { state.fmt = 'jpg'; applyFmt(); });
   $('fitFit').addEventListener('click', () => { state.fit = 'fit'; $('fitFit').classList.add('on'); $('fitCover').classList.remove('on'); });
   $('fitCover').addEventListener('click', () => { state.fit = 'cover'; $('fitCover').classList.add('on'); $('fitFit').classList.remove('on'); });
   $('quality').addEventListener('input', () => { state.quality = parseInt($('quality').value, 10) / 100; $('qualityVal').textContent = $('quality').value; });
@@ -735,6 +761,7 @@
 
   // ====== init ======
   updateRoiUI();
+  applyFmt();
 })();
 </script>
 </body>
