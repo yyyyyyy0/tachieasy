@@ -196,7 +196,14 @@
     min-width: 0;
   }
   .hero-card > div { min-width: 0; flex: 1; }
-  .hero-card h4, .hero-card p { overflow-wrap: anywhere; }
+  .hero-card h4 { overflow-wrap: anywhere; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hero-card p { overflow-wrap: anywhere; }
+  @media (max-width: 719px) {
+    .hero-card p { display: none; }
+    .hero-card { padding: 10px 12px; gap: 10px; }
+    .hero-card .ico { width: 30px; height: 30px; flex-shrink: 0; }
+    .hero-card h4 { font-size: 13px; white-space: normal; }
+  }
   .hero-card .ico {
     width: 36px; height: 36px; flex-shrink: 0;
     border-radius: var(--r-md);
