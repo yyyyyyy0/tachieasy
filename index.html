@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none';">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark light">
+<title>tachieasy — TRPG 立ち絵 一括トリミング & タイリング</title>
+<style>
+  :root {
+    --bg: #14151a;
+    --panel: #1d1f27;
+    --panel-2: #262934;
+    --border: #2f3340;
+    --text: #e6e8ee;
+    --text-dim: #9aa0ad;
+    --accent: #7aa2ff;
+    --accent-strong: #4f7dff;
+    --danger: #ff6b6b;
+    --ok: #4ade80;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+    font-size: 14px; line-height: 1.5; }
+  body { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+  header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  header h1 { font-size: 16px; margin: 0; font-weight: 600; }
+  header .tag { font-size: 11px; color: var(--text-dim); border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; }
+  .privacy-banner { background: #0f2417; border: 1px solid #1f5a36; color: #b8f0c8; padding: 8px 12px; font-size: 12px; border-radius: 6px; margin: 8px 16px; }
+  main { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 12px; max-width: 1400px; margin: 0 auto; }
+  @media (min-width: 980px) { main { grid-template-columns: 1fr 1fr; } .full { grid-column: 1 / -1; } }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+  .panel h2 { font-size: 13px; margin: 0 0 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 6px 0; }
+  .row label { font-size: 12px; color: var(--text-dim); min-width: 64px; }
+  button, input[type=file]::file-selector-button {
+    background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 12px; font-size: 13px; cursor: pointer; min-height: 40px;
+  }
+  button.primary { background: var(--accent-strong); border-color: var(--accent-strong); color: white; font-weight: 600; }
+  button.primary:hover { background: var(--accent); }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  button.icon { padding: 4px 8px; min-height: 28px; font-size: 12px; }
+  input[type=number], input[type=text] {
+    background: var(--bg); color: var(--text); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 8px; font-size: 13px; min-height: 36px; min-width: 60px;
+  }
+  input[type=color] { width: 44px; height: 36px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); padding: 2px; cursor: pointer; }
+  input[type=checkbox] { width: 18px; height: 18px; }
+  input[type=range] { flex: 1; min-width: 100px; }
+  .img-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; max-height: 180px; overflow-y: auto; padding: 4px; background: var(--bg); border-radius: 6px; }
+  .img-list .item { position: relative; width: 64px; height: 64px; border: 2px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; flex-shrink: 0; background: #0008; }
+  .img-list .item.ref { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(122,162,255,.3); }
+  .img-list .item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .img-list .item .x { position: absolute; top: 1px; right: 1px; background: rgba(0,0,0,.7); color: white; border: none; width: 18px; height: 18px; border-radius: 50%; font-size: 12px; line-height: 1; padding: 0; cursor: pointer; }
+  .img-list .item .name { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,.6); color: white; font-size: 9px; padding: 1px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .roi-stage {
+    position: relative; width: 100%; background: #0a0a0a repeating-conic-gradient(#222 0 25%, #1a1a1a 0 50%) 0 0 / 16px 16px;
+    border-radius: 6px; overflow: hidden; touch-action: none; user-select: none;
+    aspect-ratio: 4/3;
+  }
+  .roi-stage.empty { display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 13px; }
+  .roi-stage img { position: absolute; pointer-events: none; }
+  .roi-rect { position: absolute; border: 2px solid var(--accent); background: rgba(122,162,255,.15); box-sizing: border-box; cursor: move; }
+  .roi-rect .h { position: absolute; width: 16px; height: 16px; background: white; border: 2px solid var(--accent-strong); border-radius: 50%; }
+  .roi-rect .h.nw { top: -10px; left: -10px; cursor: nwse-resize; }
+  .roi-rect .h.ne { top: -10px; right: -10px; cursor: nesw-resize; }
+  .roi-rect .h.sw { bottom: -10px; left: -10px; cursor: nesw-resize; }
+  .roi-rect .h.se { bottom: -10px; right: -10px; cursor: nwse-resize; }
+  .roi-rect .h.n  { top: -10px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+  .roi-rect .h.s  { bottom: -10px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+  .roi-rect .h.w  { left: -10px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+  .roi-rect .h.e  { right: -10px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+  .crop-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; min-height: 80px; padding: 4px; background: var(--bg); border-radius: 6px; }
+  .crop-list .citem { width: 80px; height: 80px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; cursor: grab; position: relative; flex-shrink: 0; background: #0008; }
+  .crop-list .citem.dragging { opacity: .4; }
+  .crop-list .citem.over { box-shadow: inset 0 0 0 3px var(--accent); }
+  .crop-list .citem img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .crop-list .citem .idx { position: absolute; top: 1px; left: 2px; color: white; font-size: 10px; background: rgba(0,0,0,.6); padding: 0 4px; border-radius: 3px; }
+  .preview-wrap { background: #0a0a0a repeating-conic-gradient(#222 0 25%, #1a1a1a 0 50%) 0 0 / 16px 16px; border-radius: 6px; padding: 8px; overflow: auto; max-height: 60vh; text-align: center; }
+  .preview-wrap canvas { max-width: 100%; height: auto; display: inline-block; vertical-align: top; background: transparent; }
+  .hint { font-size: 11px; color: var(--text-dim); }
+  .err { color: var(--danger); font-size: 12px; }
+  .ok { color: var(--ok); font-size: 12px; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .seg button { border: none; border-radius: 0; background: var(--panel-2); padding: 6px 10px; min-height: 36px; }
+  .seg button.on { background: var(--accent-strong); color: white; }
+  details { margin-top: 6px; }
+  summary { cursor: pointer; font-size: 12px; color: var(--text-dim); }
+  footer { padding: 16px; text-align: center; color: var(--text-dim); font-size: 11px; border-top: 1px solid var(--border); margin-top: 12px; }
+  footer a { color: var(--text-dim); }
+</style>
+</head>
+<body>
+<header>
+  <h1>tachieasy</h1>
+  <span class="tag">TRPG 立ち絵 一括加工</span>
+  <span class="tag">100% ブラウザ内処理</span>
+</header>
+
+<div class="privacy-banner">
+  このページは画像データを<strong>外部サーバへ一切送信しません</strong>。すべての処理はブラウザ内で完結します（CSP <code>connect-src 'none'</code> により技術的に保証）。
+</div>
+
+<main>
+  <section class="panel">
+    <h2>1. 画像を選ぶ</h2>
+    <div class="row">
+      <input type="file" id="file" accept="image/*" multiple>
+      <button id="clearAll" class="icon">全クリア</button>
+    </div>
+    <p class="hint">複数選択可。同じサイズの立ち絵を選ぶと「絶対座標モード」が便利です。サムネをクリックすると参照画像（ROI 設定対象）になります。</p>
+    <div id="imgList" class="img-list" aria-label="入力画像一覧"></div>
+    <p id="imgInfo" class="hint"></p>
+  </section>
+
+  <section class="panel">
+    <h2>2. トリミング範囲（ROI）を決める</h2>
+    <div class="row">
+      <span class="hint">座標モード：</span>
+      <div class="seg" role="group">
+        <button id="modeRatio" class="on" type="button">比率 (異サイズ可)</button>
+        <button id="modeAbs" type="button">絶対px (同寸前提)</button>
+      </div>
+    </div>
+    <div id="roiStage" class="roi-stage empty">先に画像を読み込んでください</div>
+    <div class="row">
+      <label>X</label><input type="number" id="roiX" step="0.001" min="0">
+      <label>Y</label><input type="number" id="roiY" step="0.001" min="0">
+    </div>
+    <div class="row">
+      <label>W</label><input type="number" id="roiW" step="0.001" min="0">
+      <label>H</label><input type="number" id="roiH" step="0.001" min="0">
+    </div>
+    <div class="row">
+      <button id="presetBust" type="button">バストアップ プリセット</button>
+      <button id="presetReset" type="button">全範囲</button>
+    </div>
+    <div class="row">
+      <button id="applyCrop" class="primary" type="button">この範囲で全画像をトリミング</button>
+    </div>
+    <p id="cropMsg" class="hint"></p>
+  </section>
+
+  <section class="panel full">
+    <h2>3. トリミング結果（ドラッグで並び替え）</h2>
+    <div id="cropList" class="crop-list" aria-label="トリミング後画像"></div>
+    <div class="row">
+      <button id="dlEach" type="button">1 枚ずつ DL</button>
+      <span id="cropCount" class="hint"></span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>4. タイリング設定</h2>
+    <div class="row">
+      <label>列数</label>
+      <input type="number" id="cols" min="1" max="20" value="3" step="1">
+      <label>行数</label>
+      <input type="number" id="rows" min="0" max="20" value="0" step="1">
+      <span class="hint">行数=0 で自動</span>
+    </div>
+    <div class="row">
+      <label>セル間隔</label>
+      <input type="number" id="gap" min="0" max="200" value="8" step="1">
+      <span class="hint">px</span>
+    </div>
+    <div class="row">
+      <label>外側余白</label>
+      <input type="number" id="pad" min="0" max="500" value="8" step="1">
+      <span class="hint">px</span>
+    </div>
+    <div class="row">
+      <label>収め方</label>
+      <div class="seg" role="group">
+        <button id="fitFit" class="on" type="button">fit</button>
+        <button id="fitCover" type="button">cover</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>背景</label>
+      <label style="min-width:auto"><input type="checkbox" id="bgTransparent" checked> 透過</label>
+      <input type="color" id="bgColor" value="#ffffff" disabled>
+      <input type="text" id="bgHex" value="#ffffff" maxlength="7" style="width:90px" disabled>
+    </div>
+    <div class="row">
+      <label>形式</label>
+      <div class="seg" role="group">
+        <button id="fmtPng" class="on" type="button">PNG</button>
+        <button id="fmtJpg" type="button">JPEG</button>
+      </div>
+      <label>品質</label>
+      <input type="range" id="quality" min="50" max="100" value="92" step="1">
+      <span id="qualityVal" class="hint">92</span>
+    </div>
+    <p class="hint">PNG は透過対応。JPEG は透過不可（自動的に背景色で塗ります）。</p>
+  </section>
+
+  <section class="panel">
+    <h2>5. プレビュー & ダウンロード</h2>
+    <div class="row">
+      <button id="renderTile" class="primary" type="button">プレビュー生成</button>
+      <button id="dlTile" type="button" disabled>タイル画像を DL</button>
+    </div>
+    <p id="tileInfo" class="hint"></p>
+    <div class="preview-wrap"><canvas id="preview"></canvas></div>
+  </section>
+</main>
+
+<footer>
+  tachieasy — 単一 HTML / GitHub Pages / 外部送信ゼロ ·
+  <a href="https://github.com/yyyyyyy0/tachieasy" rel="noopener">GitHub</a>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+
+  // ====== State ======
+  const state = {
+    images: [],     // {id, file, img, name, w, h, thumbUrl}
+    refId: null,
+    roi: { x: 0.1, y: 0.05, w: 0.8, h: 0.6 }, // ratio (0-1) when mode==='ratio'; px when mode==='abs'
+    mode: 'ratio',
+    crops: [],      // {id, canvas, url, srcId}
+    fmt: 'png',
+    fit: 'fit',
+    quality: 0.92,
+    nextId: 1,
+  };
+
+  const $ = (id) => document.getElementById(id);
+
+  // ====== Utility ======
+  const newId = () => 'i' + (state.nextId++);
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const isHex = (s) => /^#[0-9a-fA-F]{6}$/.test(s);
+  const normalizeHex = (s) => {
+    s = s.trim();
+    if (!s.startsWith('#')) s = '#' + s;
+    if (/^#[0-9a-fA-F]{3}$/.test(s)) {
+      s = '#' + s.slice(1).split('').map(c => c + c).join('');
+    }
+    return isHex(s) ? s.toLowerCase() : null;
+  };
+
+  // ====== Image loading ======
+  $('file').addEventListener('change', async (e) => {
+    const files = Array.from(e.target.files || []);
+    for (const f of files) await addFile(f);
+    e.target.value = ''; // allow re-select same file
+    renderImgList();
+    if (!state.refId && state.images.length) setRef(state.images[0].id);
+    updateRoiUI();
+  });
+
+  $('clearAll').addEventListener('click', () => {
+    state.images.forEach(i => URL.revokeObjectURL(i.thumbUrl));
+    state.images = [];
+    state.refId = null;
+    state.crops.forEach(c => URL.revokeObjectURL(c.url));
+    state.crops = [];
+    renderImgList(); renderCropList(); updateRoiUI();
+  });
+
+  function addFile(file) {
+    return new Promise((resolve) => {
+      if (!file.type.startsWith('image/')) return resolve();
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        state.images.push({
+          id: newId(), file, img, name: file.name,
+          w: img.naturalWidth, h: img.naturalHeight, thumbUrl: url,
+        });
+        resolve();
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); resolve(); };
+      img.src = url;
+    });
+  }
+
+  function setRef(id) {
+    state.refId = id;
+    renderImgList();
+    drawStage();
+    updateRoiUI();
+  }
+
+  function renderImgList() {
+    const list = $('imgList');
+    list.replaceChildren();
+    state.images.forEach((it) => {
+      const el = document.createElement('div');
+      el.className = 'item' + (it.id === state.refId ? ' ref' : '');
+      el.title = it.name + ' (' + it.w + '×' + it.h + ')';
+      const img = document.createElement('img'); img.alt = ''; img.src = it.thumbUrl;
+      const name = document.createElement('span'); name.className = 'name'; name.textContent = it.name;
+      const x = document.createElement('button'); x.className = 'x'; x.setAttribute('aria-label', '除外'); x.textContent = '×';
+      el.append(img, name, x);
+      el.addEventListener('click', (ev) => {
+        if (ev.target === x) {
+          ev.stopPropagation();
+          URL.revokeObjectURL(it.thumbUrl);
+          state.images = state.images.filter(i => i.id !== it.id);
+          if (state.refId === it.id) state.refId = state.images[0]?.id ?? null;
+          renderImgList(); drawStage(); updateRoiUI();
+          return;
+        }
+        setRef(it.id);
+      });
+      list.appendChild(el);
+    });
+    const refName = state.images.find(i => i.id === state.refId)?.name ?? '-';
+    $('imgInfo').textContent = state.images.length
+      ? state.images.length + ' 枚 / 参照画像: ' + refName
+      : '';
+  }
+
+  // ====== ROI Stage ======
+  const stageEl = $('roiStage');
+  let stageImg = null, roiEl = null;
+
+  function drawStage() {
+    stageEl.replaceChildren();
+    stageEl._dispMeta = null;
+    roiEl = null;
+    const ref = state.images.find(i => i.id === state.refId);
+    if (!ref) {
+      stageEl.classList.add('empty');
+      stageEl.textContent = '先に画像を読み込んでください';
+      return;
+    }
+    stageEl.classList.remove('empty');
+
+    // fit ref image into stage with letterbox
+    const stageW = stageEl.clientWidth;
+    const stageH = stageEl.clientHeight;
+    const scale = Math.min(stageW / ref.w, stageH / ref.h);
+    const dispW = ref.w * scale;
+    const dispH = ref.h * scale;
+    const offX = (stageW - dispW) / 2;
+    const offY = (stageH - dispH) / 2;
+
+    stageImg = document.createElement('img');
+    stageImg.src = ref.thumbUrl;
+    stageImg.style.left = offX + 'px';
+    stageImg.style.top = offY + 'px';
+    stageImg.style.width = dispW + 'px';
+    stageImg.style.height = dispH + 'px';
+    stageEl.appendChild(stageImg);
+
+    // ROI rect
+    roiEl = document.createElement('div');
+    roiEl.className = 'roi-rect';
+    ['nw','ne','sw','se','n','s','w','e'].forEach(p => {
+      const h = document.createElement('div'); h.className = 'h ' + p; h.dataset.handle = p; roiEl.appendChild(h);
+    });
+    stageEl.appendChild(roiEl);
+    stageEl._dispMeta = { offX, offY, dispW, dispH, refW: ref.w, refH: ref.h, scale };
+    layoutRoi();
+  }
+
+  function layoutRoi() {
+    if (!roiEl || !stageEl._dispMeta) return;
+    const { offX, offY, dispW, dispH, refW, refH } = stageEl._dispMeta;
+    let rx, ry, rw, rh;
+    if (state.mode === 'ratio') {
+      rx = state.roi.x * dispW;
+      ry = state.roi.y * dispH;
+      rw = state.roi.w * dispW;
+      rh = state.roi.h * dispH;
+    } else {
+      const sx = dispW / refW, sy = dispH / refH;
+      rx = state.roi.x * sx;
+      ry = state.roi.y * sy;
+      rw = state.roi.w * sx;
+      rh = state.roi.h * sy;
+    }
+    roiEl.style.left = (offX + rx) + 'px';
+    roiEl.style.top = (offY + ry) + 'px';
+    roiEl.style.width = rw + 'px';
+    roiEl.style.height = rh + 'px';
+  }
+
+  function pointerToImageCoord(e) {
+    const rect = stageEl.getBoundingClientRect();
+    const meta = stageEl._dispMeta;
+    const px = e.clientX - rect.left - meta.offX;
+    const py = e.clientY - rect.top - meta.offY;
+    return { x: clamp(px, 0, meta.dispW), y: clamp(py, 0, meta.dispH) };
+  }
+
+  // Bound once at init; uses current roiEl/_dispMeta lazily
+  (function bindRoiPointersOnce() {
+    let drag = null;
+    const onDown = (e) => {
+      if (!roiEl || !stageEl._dispMeta) return;
+      e.preventDefault();
+      const meta = stageEl._dispMeta;
+      const handle = e.target.dataset?.handle;
+      const start = pointerToImageCoord(e);
+      const r0 = {
+        x: parseFloat(roiEl.style.left) - meta.offX,
+        y: parseFloat(roiEl.style.top) - meta.offY,
+        w: parseFloat(roiEl.style.width),
+        h: parseFloat(roiEl.style.height),
+      };
+      drag = { handle: handle || 'move', start, r0, pid: e.pointerId };
+      stageEl.setPointerCapture(e.pointerId);
+    };
+    const onMove = (e) => {
+      if (!drag) return;
+      const meta = stageEl._dispMeta;
+      const p = pointerToImageCoord(e);
+      let { x, y, w, h } = drag.r0;
+      const dx = p.x - drag.start.x;
+      const dy = p.y - drag.start.y;
+      const minSize = 8;
+      switch (drag.handle) {
+        case 'move':
+          x = clamp(x + dx, 0, meta.dispW - w);
+          y = clamp(y + dy, 0, meta.dispH - h);
+          break;
+        case 'nw': { const nx = clamp(x + dx, 0, x + w - minSize); const ny = clamp(y + dy, 0, y + h - minSize); w += x - nx; h += y - ny; x = nx; y = ny; break; }
+        case 'ne': { const nw = clamp(w + dx, minSize, meta.dispW - x); const ny = clamp(y + dy, 0, y + h - minSize); h += y - ny; y = ny; w = nw; break; }
+        case 'sw': { const nx = clamp(x + dx, 0, x + w - minSize); const nh = clamp(h + dy, minSize, meta.dispH - y); w += x - nx; x = nx; h = nh; break; }
+        case 'se': { w = clamp(w + dx, minSize, meta.dispW - x); h = clamp(h + dy, minSize, meta.dispH - y); break; }
+        case 'n':  { const ny = clamp(y + dy, 0, y + h - minSize); h += y - ny; y = ny; break; }
+        case 's':  { h = clamp(h + dy, minSize, meta.dispH - y); break; }
+        case 'w':  { const nx = clamp(x + dx, 0, x + w - minSize); w += x - nx; x = nx; break; }
+        case 'e':  { w = clamp(w + dx, minSize, meta.dispW - x); break; }
+      }
+      // write back to state
+      writeRoiFromDisp(x, y, w, h);
+      layoutRoi();
+      writeRoiInputs();
+    };
+    const onUp = (e) => {
+      if (drag) { try { stageEl.releasePointerCapture(drag.pid); } catch {} drag = null; }
+    };
+    stageEl.addEventListener('pointerdown', onDown);
+    stageEl.addEventListener('pointermove', onMove);
+    stageEl.addEventListener('pointerup', onUp);
+    stageEl.addEventListener('pointercancel', onUp);
+  })();
+
+  function writeRoiFromDisp(x, y, w, h) {
+    const { dispW, dispH, refW, refH } = stageEl._dispMeta;
+    if (state.mode === 'ratio') {
+      state.roi = { x: x / dispW, y: y / dispH, w: w / dispW, h: h / dispH };
+    } else {
+      const sx = refW / dispW, sy = refH / dispH;
+      state.roi = { x: Math.round(x * sx), y: Math.round(y * sy), w: Math.round(w * sx), h: Math.round(h * sy) };
+    }
+  }
+
+  function writeRoiInputs() {
+    const r = state.roi;
+    const fmt = state.mode === 'ratio' ? (v) => v.toFixed(3) : (v) => Math.round(v);
+    $('roiX').value = fmt(r.x); $('roiY').value = fmt(r.y);
+    $('roiW').value = fmt(r.w); $('roiH').value = fmt(r.h);
+  }
+
+  function updateRoiUI() {
+    const ref = state.images.find(i => i.id === state.refId);
+    if (state.mode === 'abs' && ref) {
+      ['roiX','roiY','roiW','roiH'].forEach(id => { $(id).step = '1'; });
+    } else {
+      ['roiX','roiY','roiW','roiH'].forEach(id => { $(id).step = '0.001'; });
+    }
+    writeRoiInputs();
+  }
+
+  function readRoiInputs() {
+    const r = {
+      x: parseFloat($('roiX').value) || 0,
+      y: parseFloat($('roiY').value) || 0,
+      w: parseFloat($('roiW').value) || 0,
+      h: parseFloat($('roiH').value) || 0,
+    };
+    state.roi = r;
+    layoutRoi();
+  }
+  ['roiX','roiY','roiW','roiH'].forEach(id => $(id).addEventListener('input', readRoiInputs));
+
+  // mode toggle
+  $('modeRatio').addEventListener('click', () => switchMode('ratio'));
+  $('modeAbs').addEventListener('click', () => switchMode('abs'));
+  function switchMode(m) {
+    if (state.mode === m) return;
+    const ref = state.images.find(i => i.id === state.refId);
+    // convert
+    if (ref) {
+      if (m === 'abs') {
+        state.roi = {
+          x: Math.round(state.roi.x * ref.w),
+          y: Math.round(state.roi.y * ref.h),
+          w: Math.round(state.roi.w * ref.w),
+          h: Math.round(state.roi.h * ref.h),
+        };
+      } else {
+        state.roi = {
+          x: state.roi.x / ref.w,
+          y: state.roi.y / ref.h,
+          w: state.roi.w / ref.w,
+          h: state.roi.h / ref.h,
+        };
+      }
+    }
+    state.mode = m;
+    $('modeRatio').classList.toggle('on', m === 'ratio');
+    $('modeAbs').classList.toggle('on', m === 'abs');
+    updateRoiUI();
+    layoutRoi();
+  }
+
+  $('presetBust').addEventListener('click', () => {
+    // bust-up: top 50% of image, centered horizontally with mild margin
+    const ref = state.images.find(i => i.id === state.refId);
+    if (state.mode === 'ratio' || !ref) {
+      state.roi = { x: 0.15, y: 0.03, w: 0.7, h: 0.5 };
+    } else {
+      state.roi = { x: Math.round(ref.w * 0.15), y: Math.round(ref.h * 0.03), w: Math.round(ref.w * 0.7), h: Math.round(ref.h * 0.5) };
+    }
+    layoutRoi(); writeRoiInputs();
+  });
+  $('presetReset').addEventListener('click', () => {
+    const ref = state.images.find(i => i.id === state.refId);
+    if (state.mode === 'ratio' || !ref) state.roi = { x: 0, y: 0, w: 1, h: 1 };
+    else state.roi = { x: 0, y: 0, w: ref.w, h: ref.h };
+    layoutRoi(); writeRoiInputs();
+  });
+
+  window.addEventListener('resize', () => { drawStage(); });
+
+  // ====== Crop all ======
+  function setMsg(el, kind, text) {
+    el.replaceChildren();
+    const span = document.createElement('span');
+    span.className = kind;
+    span.textContent = text;
+    el.appendChild(span);
+  }
+
+  $('applyCrop').addEventListener('click', () => {
+    if (!state.images.length) { setMsg($('cropMsg'), 'err', '画像がありません'); return; }
+    state.crops.forEach(c => { c.canvas.width = 0; c.canvas.height = 0; });
+    state.crops = [];
+    let count = 0, skipped = 0;
+    for (const it of state.images) {
+      let sx, sy, sw, sh;
+      if (state.mode === 'ratio') {
+        sx = state.roi.x * it.w; sy = state.roi.y * it.h;
+        sw = state.roi.w * it.w; sh = state.roi.h * it.h;
+      } else {
+        sx = state.roi.x; sy = state.roi.y; sw = state.roi.w; sh = state.roi.h;
+      }
+      sx = Math.max(0, Math.round(sx)); sy = Math.max(0, Math.round(sy));
+      sw = Math.min(it.w - sx, Math.round(sw));
+      sh = Math.min(it.h - sy, Math.round(sh));
+      if (sw < 1 || sh < 1) { skipped++; continue; }
+      const c = document.createElement('canvas');
+      c.width = sw; c.height = sh;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(it.img, sx, sy, sw, sh, 0, 0, sw, sh);
+      const blob = null; // generate URL via toBlob lazily? use toDataURL? Use blob for memory
+      // use createObjectURL via toBlob async — but keep order, so do sync via toDataURL fallback to blob
+      state.crops.push({ id: newId(), canvas: c, url: c.toDataURL('image/png'), srcId: it.id, name: it.name });
+      count++;
+    }
+    renderCropList();
+    const msg = count + ' 枚をトリミングしました' + (skipped ? '（' + skipped + ' 枚は範囲外でスキップ）' : '');
+    setMsg($('cropMsg'), 'ok', msg);
+  });
+
+  // ====== Crop list (drag reorder) ======
+  function renderCropList() {
+    const list = $('cropList');
+    list.innerHTML = '';
+    state.crops.forEach((c, i) => {
+      const el = document.createElement('div');
+      el.className = 'citem';
+      el.draggable = true;
+      el.dataset.id = c.id;
+      el.innerHTML = '<img alt="" src="' + c.url + '"><span class="idx">' + (i + 1) + '</span>';
+      el.addEventListener('dragstart', (e) => {
+        el.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', c.id);
+      });
+      el.addEventListener('dragend', () => el.classList.remove('dragging'));
+      el.addEventListener('dragover', (e) => { e.preventDefault(); el.classList.add('over'); });
+      el.addEventListener('dragleave', () => el.classList.remove('over'));
+      el.addEventListener('drop', (e) => {
+        e.preventDefault(); el.classList.remove('over');
+        const fromId = e.dataTransfer.getData('text/plain');
+        if (fromId === c.id) return;
+        const fromIdx = state.crops.findIndex(x => x.id === fromId);
+        const toIdx = state.crops.findIndex(x => x.id === c.id);
+        if (fromIdx < 0 || toIdx < 0) return;
+        const [moved] = state.crops.splice(fromIdx, 1);
+        state.crops.splice(toIdx, 0, moved);
+        renderCropList();
+      });
+      list.appendChild(el);
+    });
+    $('cropCount').textContent = state.crops.length ? state.crops.length + ' 枚' : '';
+  }
+
+  $('dlEach').addEventListener('click', async () => {
+    if (!state.crops.length) return;
+    for (let i = 0; i < state.crops.length; i++) {
+      const c = state.crops[i];
+      const blob = await new Promise(res => c.canvas.toBlob(res, 'image/png'));
+      const base = (c.name || ('crop_' + (i + 1))).replace(/\.[^.]+$/, '');
+      downloadBlob(blob, base + '_crop.png');
+      await new Promise(r => setTimeout(r, 80));
+    }
+  });
+
+  // ====== Background color sync ======
+  const bgChk = $('bgTransparent'), bgCol = $('bgColor'), bgHex = $('bgHex');
+  function setBgEnabled(enabled) {
+    bgCol.disabled = !enabled; bgHex.disabled = !enabled;
+  }
+  bgChk.addEventListener('change', () => {
+    setBgEnabled(!bgChk.checked);
+    if (state.fmt === 'jpg' && bgChk.checked) {
+      // JPEG can't be transparent; auto-disable
+      bgChk.checked = false; setBgEnabled(true);
+    }
+  });
+  bgCol.addEventListener('input', () => { bgHex.value = bgCol.value.toLowerCase(); });
+  bgHex.addEventListener('input', () => {
+    const v = normalizeHex(bgHex.value);
+    if (v) bgCol.value = v;
+  });
+
+  // ====== Format / fit toggles ======
+  $('fmtPng').addEventListener('click', () => { state.fmt = 'png'; $('fmtPng').classList.add('on'); $('fmtJpg').classList.remove('on'); });
+  $('fmtJpg').addEventListener('click', () => {
+    state.fmt = 'jpg'; $('fmtJpg').classList.add('on'); $('fmtPng').classList.remove('on');
+    if (bgChk.checked) { bgChk.checked = false; setBgEnabled(true); }
+  });
+  $('fitFit').addEventListener('click', () => { state.fit = 'fit'; $('fitFit').classList.add('on'); $('fitCover').classList.remove('on'); });
+  $('fitCover').addEventListener('click', () => { state.fit = 'cover'; $('fitCover').classList.add('on'); $('fitFit').classList.remove('on'); });
+  $('quality').addEventListener('input', () => { state.quality = parseInt($('quality').value, 10) / 100; $('qualityVal').textContent = $('quality').value; });
+
+  // ====== Tile render ======
+  let lastTileBlob = null;
+  $('renderTile').addEventListener('click', async () => {
+    lastTileBlob = null;
+    $('dlTile').disabled = true;
+    if (!state.crops.length) { setMsg($('tileInfo'), 'err', '先にトリミングしてください'); return; }
+    const cols = Math.max(1, parseInt($('cols').value, 10) || 1);
+    let rows = Math.max(0, parseInt($('rows').value, 10) || 0);
+    const n = state.crops.length;
+    if (rows === 0) rows = Math.ceil(n / cols);
+    const gap = Math.max(0, parseInt($('gap').value, 10) || 0);
+    const pad = Math.max(0, parseInt($('pad').value, 10) || 0);
+    // cell size = max crop dimensions (preserve max quality)
+    let cellW = 0, cellH = 0;
+    for (const c of state.crops) { cellW = Math.max(cellW, c.canvas.width); cellH = Math.max(cellH, c.canvas.height); }
+    const W = pad * 2 + cols * cellW + (cols - 1) * gap;
+    const H = pad * 2 + rows * cellH + (rows - 1) * gap;
+    const MAX = 16384;
+    if (W > MAX || H > MAX) {
+      setMsg($('tileInfo'), 'err', '出力サイズ ' + W + '×' + H + ' が上限 ' + MAX + ' を超えます。列数を減らすか画像数を減らしてください。');
+      return;
+    }
+    const canvas = $('preview');
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, W, H);
+    if (!bgChk.checked) {
+      ctx.fillStyle = bgCol.value;
+      ctx.fillRect(0, 0, W, H);
+    }
+    for (let i = 0; i < n; i++) {
+      const r = Math.floor(i / cols), c = i % cols;
+      const x0 = pad + c * (cellW + gap);
+      const y0 = pad + r * (cellH + gap);
+      const src = state.crops[i].canvas;
+      drawIntoCell(ctx, src, x0, y0, cellW, cellH, state.fit);
+    }
+    // export
+    const mime = state.fmt === 'jpg' ? 'image/jpeg' : 'image/png';
+    const q = state.fmt === 'jpg' ? state.quality : undefined;
+    lastTileBlob = await new Promise(res => canvas.toBlob(res, mime, q));
+    $('dlTile').disabled = !lastTileBlob;
+    const kb = lastTileBlob ? Math.round(lastTileBlob.size / 102.4) / 10 : 0;
+    setMsg($('tileInfo'), 'ok', W + '×' + H + ' / ' + cols + '列×' + rows + '行 / ' + kb + 'KB');
+  });
+
+  function drawIntoCell(ctx, src, x, y, cellW, cellH, fit) {
+    const sw = src.width, sh = src.height;
+    const sRatio = sw / sh, cRatio = cellW / cellH;
+    let dw, dh;
+    if (fit === 'cover') {
+      // fill cell, crop overflow
+      if (sRatio > cRatio) { dh = cellH; dw = dh * sRatio; }
+      else { dw = cellW; dh = dw / sRatio; }
+      const dx = x + (cellW - dw) / 2;
+      const dy = y + (cellH - dh) / 2;
+      ctx.save();
+      ctx.beginPath(); ctx.rect(x, y, cellW, cellH); ctx.clip();
+      ctx.drawImage(src, dx, dy, dw, dh);
+      ctx.restore();
+    } else {
+      if (sRatio > cRatio) { dw = cellW; dh = dw / sRatio; }
+      else { dh = cellH; dw = dh * sRatio; }
+      const dx = x + (cellW - dw) / 2;
+      const dy = y + (cellH - dh) / 2;
+      ctx.drawImage(src, dx, dy, dw, dh);
+    }
+  }
+
+  $('dlTile').addEventListener('click', () => {
+    if (!lastTileBlob) return;
+    const ext = state.fmt === 'jpg' ? 'jpg' : 'png';
+    const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+    downloadBlob(lastTileBlob, 'tachieasy_tile_' + ts + '.' + ext);
+  });
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.rel = 'noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  // ====== init ======
+  updateRoiUI();
+})();
+</script>
+</body>
+</html>
