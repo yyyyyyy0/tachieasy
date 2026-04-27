@@ -109,7 +109,9 @@
     font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
     font-size: 14px; line-height: 1.55;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
+  img, svg, canvas, video { max-width: 100%; }
   body {
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     min-height: 100vh;
@@ -637,11 +639,32 @@
   .spacer { flex: 1; }
 
   @media (max-width: 720px) {
-    .modal-hero { padding: 18px 20px; }
-    .modal-hero h2 { font-size: 18px; }
-    .modal-body { padding: 20px; }
-    main { padding: 12px; }
+    header.app-header { padding: 10px 12px; gap: 8px; }
+    .brand .name { font-size: 14px; }
+    .brand .name span { display: none; }
+    .privacy-pill { padding: 4px 9px 4px 8px; font-size: 11px; }
+    .ctrl { gap: 6px; }
+    .ctrl button { padding: 6px 10px; font-size: 11.5px; }
+    .hero-strip { padding: 0 12px; gap: 10px; margin-top: 12px; }
+    .hero-card { padding: 12px; min-width: 0; }
+    main { padding: 12px; gap: 12px; }
     .panel { padding: 14px; }
+    .panel-head { gap: 8px; }
+    .panel-sub { width: 100%; margin-left: 0; }
+    .row { gap: 6px; }
+    .modal-backdrop { padding: 16px 8px; }
+    .modal-hero { padding: 18px 18px; gap: 12px; }
+    .modal-hero h2 { font-size: 17px; }
+    .modal-hero p { font-size: 12px; max-width: none; }
+    .modal-body { padding: 18px; }
+    .modal-foot { padding: 12px 16px; }
+    .preview-wrap { padding: 8px; }
+    input[type=number], input[type=text] { min-width: 0; }
+    .roi-grid { grid-template-columns: 1fr 1fr; gap: 6px 8px; }
+  }
+  @media (max-width: 420px) {
+    .privacy-pill { display: none; }
+    .ctrl button .swatch { display: none; }
   }
 </style>
 </head>
