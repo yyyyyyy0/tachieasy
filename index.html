@@ -10,7 +10,7 @@
 <meta name="description" content="TRPG 立ち絵を一括トリミング & タイリング。すべてブラウザ内で完結、外部送信ゼロ。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="tachieasy / たちいーじー — TRPG 立ち絵 一括加工">
-<meta property="og:description" content="同一 ROI で複数立ち絵をバストアップ一括トリミング → 任意グリッドでタイリング。すべてブラウザ内、外部送信ゼロ。">
+<meta property="og:description" content="同じ範囲で複数立ち絵をバストアップ一括トリミング → 任意グリッドでタイリング。すべてブラウザ内、外部送信ゼロ。">
 <meta property="og:url" content="https://yyyyyyy0.github.io/tachieasy/">
 <meta property="og:image" content="https://yyyyyyy0.github.io/tachieasy/og.png">
 <meta property="og:image:width" content="1200">
@@ -727,7 +727,7 @@
 <div class="hero-strip">
   <div class="hero-card">
     <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>
-    <div><h4>立ち絵を一括バストアップ</h4><p>同一 ROI で複数の立ち絵をまとめて切り抜き</p></div>
+    <div><h4>立ち絵を一括バストアップ</h4><p>同じ範囲で複数の立ち絵をまとめて切り抜き</p></div>
   </div>
   <div class="hero-card">
     <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
@@ -754,7 +754,7 @@
         全クリア
       </button>
     </div>
-    <p class="hint">複数選択可。同寸の立ち絵なら「絶対 px モード」が便利。サムネをクリックすると <strong>参照画像</strong>（ROI 設定対象）になります。</p>
+    <p class="hint">複数選択可。同じサイズの立ち絵なら「絶対 px モード」が便利。サムネをクリックすると <strong>参照画像</strong>（範囲を決めるための見本）になります。</p>
     <div id="imgList" class="img-list" aria-label="入力画像一覧"></div>
   </section>
 
@@ -762,12 +762,12 @@
   <section class="panel">
     <div class="panel-head">
       <div class="step-badge">2</div>
-      <h2>トリミング範囲（ROI）を決める</h2>
+      <h2>トリミング範囲を決める</h2>
     </div>
     <div class="row">
       <span class="label">座標モード</span>
       <div class="seg" role="group">
-        <button id="modeRatio" class="on" type="button" data-tip="比率で ROI を保持。異サイズ画像でも一括適用可">比率（異サイズ可）</button>
+        <button id="modeRatio" class="on" type="button" data-tip="比率で範囲を保持。異サイズ画像でも一括適用可">比率（異サイズ可）</button>
         <button id="modeAbs" type="button" data-tip="参照画像の絶対 px 座標を全画像にそのまま適用。同寸前提">絶対 px（同寸前提）</button>
       </div>
     </div>
@@ -800,7 +800,7 @@
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0 1 16 0"/></svg>
         バストアップ
       </button>
-      <button id="presetReset" type="button" data-tip="ROI を画像全体にリセット">
+      <button id="presetReset" type="button" data-tip="範囲を画像全体にリセット">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
         全範囲
       </button>
@@ -983,7 +983,7 @@
                 </g>
               </svg>
             </div>
-            <h4>ROI を決める</h4>
+            <h4>範囲を決める</h4>
             <p>アス比プリセット → 矩形をドラッグ。「ロック」で比率維持。</p>
           </div>
 
@@ -1010,7 +1010,7 @@
                 <circle cx="160" cy="34" r="4" fill="var(--accent-strong)"/>
                 <rect x="146" y="58" width="28" height="28" rx="3" fill="var(--accent-soft)" stroke="var(--accent-strong)" stroke-width="1.5"/>
                 <circle cx="160" cy="70" r="4" fill="var(--accent-strong)"/>
-                <text x="120" y="100" font-size="7" fill="var(--text-dim)" text-anchor="middle">同一 ROI で一括</text>
+                <text x="120" y="100" font-size="7" fill="var(--text-dim)" text-anchor="middle">同じ範囲で一括</text>
               </svg>
             </div>
             <h4>一括トリミング</h4>
