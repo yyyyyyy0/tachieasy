@@ -8,6 +8,8 @@ import { initTile } from './tile';
 import { initTheme } from './theme';
 import { initHelpModal } from './help-modal';
 import { initTip } from './tip';
+import { initPropAssets } from './props/prop-assets';
+import { initPropEditModal } from './props/prop-edit-modal';
 
 const setRef = (id: string): void => {
   roiSetRef(id);
@@ -27,6 +29,8 @@ initTheme();
 initImageLoading(deps);
 initRoi();
 initCrops();
+initPropAssets({ onRecomposed: renderCropList });
+initPropEditModal({ onAfterChange: renderCropList });
 initFormat();
 initTile();
 initHelpModal();

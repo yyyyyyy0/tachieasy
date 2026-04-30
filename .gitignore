@@ -8,3 +8,4 @@ tsconfig.tsbuildinfo
 .serena/
 .playwright-mcp/
 phase1-migration-smoke.png
+phase2-*.png

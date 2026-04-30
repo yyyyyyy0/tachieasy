@@ -1,4 +1,4 @@
-import type { ImageItem, Roi, Mode, Crop, Fmt, Fit } from './types';
+import type { ImageItem, Roi, Mode, Crop, Fmt, Fit, PropAsset } from './types';
 
 export interface AppState {
   images: ImageItem[];
@@ -8,6 +8,7 @@ export interface AppState {
   aspect: number | null;
   aspectLock: boolean;
   crops: Crop[];
+  props: PropAsset[];
   fmt: Fmt;
   fit: Fit;
   quality: number;
@@ -22,6 +23,7 @@ export const state: AppState = {
   aspect: null,
   aspectLock: false,
   crops: [],
+  props: [],
   fmt: 'png',
   fit: 'fit',
   quality: 0.92,

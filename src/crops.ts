@@ -2,6 +2,8 @@ import { $, setMsg } from './dom';
 import { state, newId } from './state';
 import { downloadBlob } from './util/download';
 import { computeCropSourceRect } from './crops/crop-math';
+import { recomposeCrop } from './props/prop-compose';
+import { openPropEditor } from './props/prop-edit-modal';
 import type { Crop } from './types';
 
 export const applyCropToAll = (): void => {
@@ -12,6 +14,8 @@ export const applyCropToAll = (): void => {
   state.crops.forEach((c) => {
     c.canvas.width = 0;
     c.canvas.height = 0;
+    c.baseCanvas.width = 0;
+    c.baseCanvas.height = 0;
   });
   state.crops = [];
   let count = 0;
@@ -22,22 +26,28 @@ export const applyCropToAll = (): void => {
       skipped++;
       continue;
     }
-    const c = document.createElement('canvas');
-    c.width = r.sw;
-    c.height = r.sh;
-    const ctx = c.getContext('2d');
-    if (!ctx) {
+    const baseCanvas = document.createElement('canvas');
+    baseCanvas.width = r.sw;
+    baseCanvas.height = r.sh;
+    const baseCtx = baseCanvas.getContext('2d');
+    if (!baseCtx) {
       skipped++;
       continue;
     }
-    ctx.drawImage(it.img, r.sx, r.sy, r.sw, r.sh, 0, 0, r.sw, r.sh);
+    baseCtx.drawImage(it.img, r.sx, r.sy, r.sw, r.sh, 0, 0, r.sw, r.sh);
+    const canvas = document.createElement('canvas');
+    canvas.width = r.sw;
+    canvas.height = r.sh;
     const crop: Crop = {
       id: newId(),
-      canvas: c,
-      url: c.toDataURL('image/png'),
+      canvas,
+      baseCanvas,
+      url: '',
       srcId: it.id,
       name: it.name,
+      placements: [],
     };
+    recomposeCrop(crop, state.props);
     state.crops.push(crop);
     count++;
   }
@@ -57,7 +67,17 @@ export const renderCropList = (): void => {
     el.className = 'citem';
     el.draggable = true;
     el.dataset.id = c.id;
-    el.innerHTML = `<img alt="" src="${c.url}"><span class="idx">${i + 1}</span>`;
+    el.innerHTML =
+      `<img alt="" src="${c.url}">` +
+      `<span class="idx">${i + 1}</span>` +
+      `<button class="edit-props" type="button" data-tip="この画像に小物を配置" aria-label="小物編集">` +
+      `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>` +
+      `</button>`;
+    const editBtn = el.querySelector<HTMLButtonElement>('.edit-props');
+    editBtn?.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      openPropEditor(c.id);
+    });
     el.addEventListener('dragstart', (e) => {
       el.classList.add('dragging');
       if (e.dataTransfer) {
