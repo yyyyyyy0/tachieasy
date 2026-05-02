@@ -153,10 +153,28 @@
     </div>
   </section>
 
-  <!-- 4 -->
-  <section class="panel">
+  <!-- 4: PROPS -->
+  <section class="panel full">
     <div class="panel-head">
       <div class="step-badge">4</div>
+      <h2>小物（透過 PNG）差分</h2>
+      <span class="panel-sub" id="propCount">PNG をアップロード</span>
+    </div>
+    <div class="row">
+      <input type="file" id="propFile" accept="image/png,image/*" multiple data-tip="透過 PNG を複数選択可">
+      <button id="clearProps" class="ghost" data-tip="小物アセットを全削除">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+        小物クリア
+      </button>
+    </div>
+    <p class="hint">アセット行の「全クロップへ」で全画像にデフォルト位置で追加。各クロップの <strong>鉛筆ボタン</strong> から個別に位置・サイズ・重なり順を編集できます。</p>
+    <div id="propList" class="prop-list" aria-label="小物アセット一覧"></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="panel">
+    <div class="panel-head">
+      <div class="step-badge">5</div>
       <h2>タイリング設定</h2>
     </div>
     <div class="row">
@@ -195,10 +213,10 @@
     <p id="fmtNote" class="hint" style="margin-top:6px;">PNG モード: 透過対応 / 品質パラメータは無視されます。</p>
   </section>
 
-  <!-- 5 -->
+  <!-- 6 -->
   <section class="panel">
     <div class="panel-head">
-      <div class="step-badge">5</div>
+      <div class="step-badge">6</div>
       <h2>プレビュー & ダウンロード</h2>
     </div>
     <div class="row">
@@ -220,6 +238,37 @@
   tachieasy / たちいーじー — / 立ち絵編集ツール / 外部送信ゼロ ·
   <a href="https://github.com/yyyyyyy0/tachieasy" rel="noopener">GitHub</a>
 </footer>
+
+<!-- PROP EDIT MODAL -->
+<div id="propEditModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="propEditTitle">
+  <div class="modal modal-prop">
+    <div class="modal-hero">
+      <div class="logo" aria-hidden="true">+</div>
+      <div>
+        <h2 id="propEditTitle">小物の配置を編集</h2>
+        <p>キャンバス上で小物をドラッグ移動、四隅でリサイズ。レイヤーリストはドラッグで重なり順を変更。</p>
+      </div>
+    </div>
+    <div class="modal-body prop-edit-body">
+      <div class="prop-stage-wrap">
+        <canvas id="propStage" class="prop-stage" width="0" height="0"></canvas>
+      </div>
+      <div class="prop-side">
+        <div class="row" style="margin:0 0 8px;">
+          <select id="propPicker" class="prop-picker" aria-label="追加する小物を選ぶ"></select>
+        </div>
+        <div id="propLayers" class="prop-layers" aria-label="レイヤー（上が前面）"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button id="propApplyAll" type="button" data-tip="現在の配置を全クロップへコピー">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        全クロップに同じ配置を適用
+      </button>
+      <button id="propEditClose" class="primary" type="button">閉じる</button>
+    </div>
+  </div>
+</div>
 
 <!-- HELP MODAL -->
 <div id="helpModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
