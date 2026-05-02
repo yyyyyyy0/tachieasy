@@ -1,11 +1,24 @@
 import type { Crop, PropAsset } from '../types';
 import { orderForRender, placementToRect } from './prop-math';
 
+export interface RecomposeOptions {
+  /**
+   * When true (default), refresh `crop.url` via `toDataURL` so the thumbnail
+   * reflects the new pixels. PNG encoding per frame is expensive — pass false
+   * during interactive drag/resize and re-run with the default on commit.
+   */
+  updateUrl?: boolean;
+}
+
 /**
  * Recompose `crop.canvas` from `crop.baseCanvas` plus enabled placements.
- * Updates `crop.url` for thumbnail rendering.
  */
-export const recomposeCrop = (crop: Crop, props: ReadonlyArray<PropAsset>): void => {
+export const recomposeCrop = (
+  crop: Crop,
+  props: ReadonlyArray<PropAsset>,
+  options: RecomposeOptions = {},
+): void => {
+  const { updateUrl = true } = options;
   const w = crop.baseCanvas.width;
   const h = crop.baseCanvas.height;
   if (crop.canvas.width !== w) crop.canvas.width = w;
@@ -21,12 +34,13 @@ export const recomposeCrop = (crop: Crop, props: ReadonlyArray<PropAsset>): void
     const r = placementToRect(placement, prop, w, h);
     ctx.drawImage(prop.img, r.x, r.y, r.w, r.h);
   }
-  crop.url = crop.canvas.toDataURL('image/png');
+  if (updateUrl) crop.url = crop.canvas.toDataURL('image/png');
 };
 
 export const recomposeAll = (
   crops: ReadonlyArray<Crop>,
   props: ReadonlyArray<PropAsset>,
+  options: RecomposeOptions = {},
 ): void => {
-  for (const c of crops) recomposeCrop(c, props);
+  for (const c of crops) recomposeCrop(c, props, options);
 };

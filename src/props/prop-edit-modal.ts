@@ -362,7 +362,9 @@ const bindStage = (): void => {
       );
       Object.assign(placement, updated);
     }
-    recomposeCrop(crop, state.props);
+    // Skip toDataURL during drag — it's a heavy PNG encode per frame.
+    // The thumbnail is refreshed once on pointerup.
+    recomposeCrop(crop, state.props, { updateUrl: false });
     draw();
   });
 
@@ -374,6 +376,8 @@ const bindStage = (): void => {
         /* noop */
       }
       drag = null;
+      const crop = getCrop();
+      if (crop) recomposeCrop(crop, state.props);
       onAfterChange();
     }
   };
