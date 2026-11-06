@@ -1,9 +1,10 @@
 # tachieasy
 
-TRPG 立ち絵を **一括トリミング & タイリング** するブラウザ完結ツール。
-単一 HTML ファイル / 外部送信ゼロ / GitHub Pages 配信。
+> **移転しました。** tachieasy は https://tools.takushura.app/tachieasy/ で公開しています。
+> このリポジトリはアーカイブ済みで、更新はありません。旧 URL（https://yyyyyyy0.github.io/tachieasy/）は新しい URL への転送ページです。
 
-公開: https://yyyyyyy0.github.io/tachieasy/
+TRPG 立ち絵を **一括トリミング & タイリング** するブラウザ完結ツール。
+単一 HTML ファイル / 外部送信ゼロ。
 
 ## できること
 
